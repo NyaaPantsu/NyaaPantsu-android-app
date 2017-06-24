@@ -1,0 +1,187 @@
+<resources>
+    <string name="app_name">NyaaPantsu</string>
+    <string name="nyaapantsu">NyaaPantsu</string>
+    <string name="title_activity_home">Torrents - NyaaPantsu</string>
+    <string name="title_activity_results">Results for</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="renchon">れんちょん</string>
+    <string name="upload">Upload</string>
+    <string name="search">Search</string>
+    <string name="torrents">Torrents</string>
+    <string name="settings">Settings</string>
+    <string name="about">About Us</string>
+    <string name="title_activity_search">Search - NyaaPantsu</string>
+    <string name="category">Category</string>
+    <string name="status">Status</string>
+    <string name="max">Max</string>
+    <string name="other">Other</string>
+    <string name="loading">Loading data...</string>
+    <string name="uploaded_by">Uploaded by</string>
+    <string name="date">Date</string>
+    <string name="size">Size</string>
+    <string name="download">Download</string>
+    <string name="copy">Copy</string>
+    <string name="show_more">Show More</string>
+    <string name="website">Website</string>
+    <string name="hash">Hash</string>
+    <string name="Files">Files</string>
+    <string name="last_scraped">Last Scraped</string>
+    <string name="downloads">Downloads</string>
+    <string-array name="cat_array">
+        <item>All Categories</item>
+        <item>Anime</item>
+        <item>Anime - Anime Music Video</item>
+        <item>Anime - English-translated</item>
+        <item>Anime - Non-English-translated</item>
+        <item>Anime - Raw</item>
+        <item>Audio</item>
+        <item>Audio - Lossless</item>
+        <item>Audio - Lossy</item>
+        <item>Literature</item>
+        <item>Literature - English-translated</item>
+        <item>Literature - Non-English-translated</item>
+        <item>Literature - Raw</item>
+        <item>Live Action</item>
+        <item>Live Action - English-translated</item>
+        <item>Live Action - Idol/Promotional Video</item>
+        <item>Live Action - Non-English-translated</item>
+        <item>Live Action - Raw</item>
+        <item>Pictures</item>
+        <item>Pictures - Graphics</item>
+        <item>Pictures - Photos</item>
+        <item>Software</item>
+        <item>Software - Applications</item>
+        <item>Software - Games</item>
+    </string-array>
+    <string-array name="status_array">
+        <item>Show All</item>
+        <item>Filter Remakes</item>
+        <item>Trusted</item>
+        <item>A+</item>
+    </string-array>
+    <string-array name="language_array">
+        <item>Select a Torrent Language</item>
+        <item>Multiple Languages</item>
+        <item>Other</item>
+        <item>Catalan</item>
+        <item>Simplified Chinese</item>
+        <item>Traditional Chinese</item>
+        <item>Dutch</item>
+        <item>English</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Hungarian</item>
+        <item>Icelandic</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Norwegian</item>
+        <item>Portuguese (Brazil)</item>
+        <item>Portuguese (Portugal)</item>
+        <item>Romanian</item>
+        <item>Russian</item>
+        <item>Spanish</item>
+        <item>Spanish (LATAM)</item>
+        <item>Swedish</item>
+        <item>Thai</item>
+    </string-array>
+
+    <string name="network_error">Network error</string>
+    <string name="token_expired">You\'ve been logged out, your token credentials have expired.</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_about">"About - NyaaPantsu"</string>
+    <string name="torrent_not_available">The torrent doesn\'t seem to be available</string>
+    <string name="external_storage_not_available">External Storage doesn\'t seem to be available</string>
+    <string name="magnet_copied">Magnet Link copied!</string>
+
+    <!-- Upload Messages -->
+    <string name="upload_progress">Uploading at [[UPLOAD_RATE]] ([[PROGRESS]])</string>
+    <string name="upload_done">Upload completed successfully in [[ELAPSED_TIME]]</string>
+    <string name="try_error">The torrent couldn\'t be created due to an error, please try again!</string>
+
+    <!-- Upload Errors -->
+    <string name="upload_error">Error while uploading</string>
+    <string name="name_required">Torrent name is required!</string>
+    <string name="file_required">A torrent file is needed!</string>
+    <string name="category_required">A category must be selected!</string>
+    <string name="lang_next_time">No language selected! You should select one next time!</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_username">This username is too short</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="log_in">Log In</string>
+    <string name="log_out">Log out</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="close">Close</string>
+    <string name="torrent_file">Torrent File</string>
+    <string name="choose">Choose...</string>
+    <string name="name">Name</string>
+    <string name="language">Language</string>
+    <string name="description">Description</string>
+    <string name="mark_as_remake">Mark as Remake</string>
+    <string name="mark_as_anon">Upload as Anonymous</string>
+    <string name="congrats">Congratulation!</string>
+    <string name="welcome_mess">You just have downloaded the NyaaPantsu App. You can now try to *mofu* *mofu* (click) Megumin to have full access!</string>
+    <string name="about_mess">This app is distributed under MIT License. This is purely an educational proof of concept.</string>
+    <string name="megumin">Megumin</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Account</string>
+
+    <string name="pref_title_keep_login">Remember my account</string>
+    <string name="pref_description_keep_login">Log you in every time you start the app (does not store your password)
+    </string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_enable_notifications">Enable notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+</resources>

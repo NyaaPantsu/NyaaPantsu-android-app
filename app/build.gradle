@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "cat.pantsu.nyaapantsu"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:design:25.4.0'
+    compile "org.jetbrains.anko:anko:$anko_version"
+    compile 'com.github.kittinunf.result:result:1.1.0'
+    compile 'com.github.kittinunf.fuel:fuel-android:1.7.0' //for Android
+    compile "com.chibatching.kotpref:kotpref:2.1.1"
+    compile "com.chibatching.kotpref:initializer:2.1.1"
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    compile 'com.android.support:support-v4:25.3.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
+    implementation 'com.android.support:support-v4:25.4.0'
+    compile 'com.nononsenseapps:filepicker:4.1.0'
+    compile 'net.gotev:uploadservice:3.2.4'
+    compile 'net.gotev:uploadservice-okhttp:3.2.4'
+    implementation 'com.android.support:support-vector-drawable:25.4.0'
+}

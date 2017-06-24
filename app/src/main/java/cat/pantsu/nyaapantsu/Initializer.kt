@@ -28,7 +28,7 @@ class Initializer : Application() {
         UploadService.HTTP_STACK = OkHttpStack() // a new client will be automatically created
 
         // Fuel Manager init
-        FuelManager.instance.basePath = "http://dev.pantsu.cat/api"
+        FuelManager.instance.basePath = "https://nyaa.pantsu.cat/api"
 
         val keepLogin = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("keep_login_switch", true)
         if (!keepLogin) {

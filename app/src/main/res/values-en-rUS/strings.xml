@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">NyaaPantsu</string>
-    <string name="nyaapantsu" translatable="false">NyaaPantsu</string>
     <string name="title_activity_home">Torrents - NyaaPantsu</string>
     <string name="title_activity_results">Results for</string>
 
@@ -8,7 +6,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="renchon" translatable="false">れんちょん</string>
     <string name="upload">Upload</string>
     <string name="search">Search</string>
     <string name="torrents">Torrents</string>

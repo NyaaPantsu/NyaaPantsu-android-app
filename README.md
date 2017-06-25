@@ -7,7 +7,7 @@ Clone the git repo
 `git clone https://github.com/NyaaPantsu/NyaaPantsu-android-app.git`
 
 Build with gradle:
-`cd NyaaPantsu-android-app && ./gradlew clean build`
+`cd NyaaPantsu-android-app & ./gradlew clean build`
 
 You'll find the unsigned apk in /app/build/outputs/apk/releases/
 

@@ -28,3 +28,6 @@ To edit, go to ___/app/src/main/res/values-___{androidLanguageCode} and download
 To add a new language, you have to download ___/app/src/main/res/values/strings.xml___, translate every piece of text inside xml tag and you mustn't touch to the attribute __name__! When you have done that, create a new folder in ___/app/src/main/res/___ named `values-{androidLanguageCode}` and upload your translated strings.xml in that folder.
 
 As you can see, there is already a translation for en-rUS. You can see how it works.
+
+## Disclaimer
+We take no legal responsibility for anything this code is used for. This is purely an educational proof of concept.

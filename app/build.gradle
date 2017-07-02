@@ -23,12 +23,9 @@ android {
     lintOptions {
         abortOnError false
     }
+
 }
 
-repositories {
-    jcenter()
-    mavenCentral()
-}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -52,4 +49,5 @@ dependencies {
     implementation 'net.gotev:uploadservice:3.2.4'
     implementation 'net.gotev:uploadservice-okhttp:3.2.4'
     implementation 'com.android.support:support-vector-drawable:25.4.0'
+    implementation "com.github.se-bastiaan:TorrentStream-Android:2.3.0"
 }

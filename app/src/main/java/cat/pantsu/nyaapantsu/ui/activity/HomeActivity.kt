@@ -25,6 +25,7 @@ import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
 import cat.pantsu.nyaapantsu.ui.fragment.SearchFragment
 import cat.pantsu.nyaapantsu.ui.fragment.UploadFragment
+import cat.pantsu.nyaapantsu.ui.fragment.WatchFragment
 import com.bumptech.glide.Glide
 
 
@@ -99,6 +100,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         .addToBackStack(null)
                         .commit()
             }
+            R.id.nav_watch -> {
+                var watchFragment = WatchFragment.newInstance()
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment, watchFragment as Fragment)
+                        .addToBackStack(null)
+                        .commit()
+            }
             R.id.nav_search -> {
                 var searchFragment = SearchFragment()
                 fragmentManager.beginTransaction()
@@ -106,7 +114,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         .addToBackStack(null)
                         .commit()
             }
-
             R.id.nav_settings -> {
                 startActivity<SettingsActivity>()
             }

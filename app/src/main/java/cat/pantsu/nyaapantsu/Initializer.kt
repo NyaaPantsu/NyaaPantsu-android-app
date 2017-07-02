@@ -7,10 +7,6 @@ import com.github.kittinunf.fuel.core.FuelManager
 import net.gotev.uploadservice.UploadService
 import net.gotev.uploadservice.okhttp.OkHttpStack
 
-
-
-
-
 /**
  * Created by akuma06 on 24/06/2017.
  */

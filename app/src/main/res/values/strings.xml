@@ -183,4 +183,6 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="watch">Watch</string>
+    <string name="title_activity_watch">Watch Anime!</string>
 </resources>

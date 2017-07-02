@@ -5,18 +5,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.app.Fragment
-import android.app.ListFragment
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
+import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -26,9 +24,7 @@ import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
-import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.startActivity
 import org.json.JSONArray
 import java.util.*
 

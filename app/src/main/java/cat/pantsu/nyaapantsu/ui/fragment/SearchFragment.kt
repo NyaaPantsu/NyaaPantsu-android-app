@@ -1,25 +1,20 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import android.widget.ImageButton
-import com.chibatching.kotpref.Kotpref.init
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.TorrentList
 
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_search.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.sdk25.coroutines.onItemSelectedListener
-import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit

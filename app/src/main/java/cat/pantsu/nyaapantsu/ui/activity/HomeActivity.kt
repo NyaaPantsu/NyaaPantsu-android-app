@@ -20,12 +20,12 @@ import org.jetbrains.anko.*
 import android.net.Uri
 import android.support.v4.content.ContextCompat
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.TorrentList
+import cat.pantsu.nyaapantsu.ui.fragment.TorrentList
 import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
 import cat.pantsu.nyaapantsu.ui.fragment.SearchFragment
 import cat.pantsu.nyaapantsu.ui.fragment.UploadFragment
-import cat.pantsu.nyaapantsu.ui.fragment.WatchFragment
+import cat.pantsu.nyaapantsu.ui.fragment.RecentFragment
 import com.bumptech.glide.Glide
 
 
@@ -100,10 +100,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         .addToBackStack(null)
                         .commit()
             }
-            R.id.nav_watch -> {
-                var watchFragment = WatchFragment.newInstance()
+            R.id.nav_recent -> {
+                var recentFragment = RecentFragment.newInstance()
                 fragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment, watchFragment as Fragment)
+                        .replace(R.id.main_fragment, recentFragment as Fragment)
                         .addToBackStack(null)
                         .commit()
             }

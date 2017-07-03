@@ -12,9 +12,9 @@
             android:icon="@drawable/ic_action_upload"
             android:title="@string/upload" />
         <item
-            android:id="@+id/nav_watch"
-            android:icon="@drawable/ic_play_circle_filled"
-            android:title="@string/watch" />
+            android:id="@+id/nav_recent"
+            android:icon="@drawable/ic_replay_black"
+            android:title="@string/recent" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_action_search"

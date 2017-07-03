@@ -10,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.TorrentList
 
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_search.*

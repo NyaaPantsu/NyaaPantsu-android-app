@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.app_bar_home.*
 import org.jetbrains.anko.find
 
 
-class WatchFragment : Fragment() {
+class RecentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +24,8 @@ class WatchFragment : Fragment() {
         var closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.GONE
-        activity.title = getString(R.string.title_activity_watch)
-        return inflater!!.inflate(R.layout.fragment_watch, container, false)
+        activity.title = getString(R.string.recent)
+        return inflater!!.inflate(R.layout.fragment_recent, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -33,8 +33,8 @@ class WatchFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): WatchFragment {
-            val fragment = WatchFragment()
+        fun newInstance(): RecentFragment {
+            val fragment = RecentFragment()
             return fragment
         }
     }

@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.content.Context
 import android.net.Uri
@@ -14,6 +14,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.Torrent
 import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -53,7 +55,7 @@ class TorrentList : Fragment() {
     private var myHandler = Handler()
     var timeUpdateInterval:Int? = null
 
-    private var mListener: TorrentList.OnFragmentInteractionListener? = null
+    private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -214,7 +216,7 @@ class TorrentList : Fragment() {
         for (i in 0..length) {
             torrentList.add(Torrent(torrents.getJSONObject(i)))
         }
-        torrentlist.adapter = TorrentList.ListAdapter(activity, torrentList)
+        torrentlist.adapter = ListAdapter(activity, torrentList)
     }
 
     fun resetTorrents() {

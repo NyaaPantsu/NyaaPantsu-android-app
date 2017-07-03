@@ -29,6 +29,13 @@ import android.content.pm.PackageManager
 import android.view.MenuItem
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.Torrent
+import com.github.se_bastiaan.torrentstream.TorrentStream
+import com.github.se_bastiaan.torrentstream.TorrentOptions
+import android.content.Intent
+
+
+
+
 
 
 class ViewActivity : AppCompatActivity() {
@@ -141,6 +148,25 @@ class ViewActivity : AppCompatActivity() {
             var clipData = ClipData.newPlainText(torrent.name, torrent.magnet)
             clipboard.primaryClip = clipData
             toast(getString(R.string.magnet_copied))
+        }
+
+        streamButton.setOnClickListener { _ ->
+            /*val torrentOptions = TorrentOptions.Builder()
+                    .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
+                    .removeFilesAfterStop(true)
+                    .build()
+
+            val torrentStream = TorrentStream.init(torrentOptions)
+            torrentStream.startStream("https://butterpoject.org/test.torrent")
+            Log.d("TORRENT", "onStreamReady: " + torrentStream.currentTorrent.videoFile.name)
+
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(torrentStream.currentTorrent.videoFile.toString()))
+            intent.setDataAndType(Uri.parse(torrentStream.currentTorrent.videoFile.toString()), "video/mp4")
+            startActivity(intent)
+
+            toast("Stream! " + torrentStream.currentTorrent.videoFile.toString())
+            */
+
         }
 
         showMoreToggle.setOnClickListener { _ ->

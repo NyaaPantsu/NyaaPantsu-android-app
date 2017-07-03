@@ -181,4 +181,6 @@
     <string name="to">Do</string>
     <string name="watch">Oglądaj</string>
     <string name="title_activity_watch">Oglądaj Anime!</string>
+    <string name="recent">Ostatnie</string>
+    <string name="stream">Stream</string>
 </resources>

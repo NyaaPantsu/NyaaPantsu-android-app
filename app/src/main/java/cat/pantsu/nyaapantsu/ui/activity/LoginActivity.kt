@@ -258,7 +258,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
         override fun doInBackground(vararg params: Void): Boolean? {
             // TODO: attempt authentication against a network service.
-            var jsonResponse: JSONObject
+            val jsonResponse: JSONObject
             try {
                 val (request, response, result) = Fuel.post("/login", listOf("username" to mUsername, "password" to mPassword)).responseJson()
                 when (result) {
@@ -285,7 +285,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                 return false
             }
             if (jsonResponse.getBoolean("ok")) {
-                var data = jsonResponse.optJSONObject("data")
+                val data = jsonResponse.optJSONObject("data")
                 if (data.optString("token") !== null) {
                     User.token = data.optString("token")
                     User.name = data.optString("username")

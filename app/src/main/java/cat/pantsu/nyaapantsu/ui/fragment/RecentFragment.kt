@@ -21,7 +21,7 @@ class RecentFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
+        val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.GONE
         activity.title = getString(R.string.recent)

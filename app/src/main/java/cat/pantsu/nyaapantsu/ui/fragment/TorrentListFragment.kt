@@ -1,5 +1,6 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -34,12 +35,12 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [TorrentList.OnFragmentInteractionListener] interface
+ * [TorrentListFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [TorrentList.newInstance] factory method to
+ * Use the [TorrentListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TorrentList : Fragment() {
+class TorrentListFragment : Fragment() {
 
     private var q: String? = null
     private var c: String? = null
@@ -75,7 +76,7 @@ class TorrentList : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
+        val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.VISIBLE
 
@@ -120,7 +121,7 @@ class TorrentList : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
-            mListener = context as OnFragmentInteractionListener?
+            mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
@@ -168,10 +169,10 @@ class TorrentList : Fragment() {
          * *
          * @param param2 Parameter 2.
          * *
-         * @return A new instance of fragment TorrentList.
+         * @return A new instance of fragment TorrentListFragment.
          */
-        fun newInstance(param1: String, param2: String, param3: String, param4: String, param5: String, param6: String, param7: String, param8: String, param9: String): TorrentList {
-            val fragment = TorrentList()
+        fun newInstance(param1: String, param2: String, param3: String, param4: String, param5: String, param6: String, param7: String, param8: String, param9: String): TorrentListFragment {
+            val fragment = TorrentListFragment()
             val args = Bundle()
             args.putString(ARG_PARAM1, param1)
             args.putString(ARG_PARAM2, param2)
@@ -206,17 +207,14 @@ class TorrentList : Fragment() {
                     parseTorrents()
                 }
             }
-            myHandler.postDelayed(Runnable { getData() }, (timeUpdateInterval!!.toLong()*60*1000))
+            myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
         }
     }
 
     fun parseTorrents() {
-        var torrentList = LinkedList<Torrent>()
         val length = (torrents.length()-1)
-        for (i in 0..length) {
-            torrentList.add(Torrent(torrents.getJSONObject(i)))
-        }
-        torrentlist.adapter = ListAdapter(activity, torrentList)
+        val torrentList = (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
+        torrentlist.adapter = ListAdapter(activity, torrentList = torrentList)
     }
 
     fun resetTorrents() {
@@ -226,10 +224,10 @@ class TorrentList : Fragment() {
         getData()
     }
 
-    private class ListAdapter(context: Context, torrentList: LinkedList<Torrent>) : BaseAdapter() {
+    private class ListAdapter(private val context: Context, torrentList: LinkedList<Torrent>) : BaseAdapter() {
         private val mInflator: LayoutInflater = LayoutInflater.from(context)
         private var torrentList = LinkedList<Torrent>()
-        private val context = context
+
         init {
             this.torrentList = torrentList
         }
@@ -246,6 +244,7 @@ class TorrentList : Fragment() {
             return position.toLong()
         }
 
+        @SuppressLint("SetTextI18n")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
             val view: View?
             val vh: ListRowHolder

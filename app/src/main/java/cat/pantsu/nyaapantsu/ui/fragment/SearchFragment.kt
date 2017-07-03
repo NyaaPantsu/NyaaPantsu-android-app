@@ -112,7 +112,7 @@ class SearchFragment : Fragment() {
         }
 
         searchButton.setOnClickListener { _ ->
-            var torrentListFragment = TorrentList.newInstance(queryText.text.toString(), c, s, maxNumber.text.toString(), fromSize.text.toString(), toSize.text.toString(), selectedSize, formatDate(fromDate.text.toString()), formatDate(toDate.text.toString()))
+            var torrentListFragment = TorrentListFragment.newInstance(queryText.text.toString(), c, s, maxNumber.text.toString(), fromSize.text.toString(), toSize.text.toString(), selectedSize, formatDate(fromDate.text.toString()), formatDate(toDate.text.toString()))
             fragmentManager.beginTransaction().replace(R.id.main_fragment, torrentListFragment as Fragment).addToBackStack(null).commit()
         }
     }

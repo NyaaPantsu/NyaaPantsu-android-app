@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_view.*
 import org.jetbrains.anko.backgroundColor
 import org.json.JSONObject
 import android.app.DownloadManager
+import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.net.Uri
@@ -32,16 +33,20 @@ import cat.pantsu.nyaapantsu.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentStream
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import com.github.se_bastiaan.torrentstream.StreamStatus
+import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
+import java.lang.Exception
 
+class ViewActivity : AppCompatActivity(),  TorrentListener {
 
-
-
-
-
-class ViewActivity : AppCompatActivity() {
     var torrent = Torrent(JSONObject())
     var id = 0
     var showDet = false
+    val TORRENT = "TORRENT"
+    var torrentStream: TorrentStream? = null
+    var progressdialog: ProgressDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view)
@@ -58,11 +63,24 @@ class ViewActivity : AppCompatActivity() {
             finish()
         }
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        progressdialog = ProgressDialog(this)
+
+
+        val torrentOptions = TorrentOptions.Builder()
+                .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
+                .removeFilesAfterStop(true)
+                .build()
+        torrentStream = TorrentStream.init(torrentOptions)
+        (torrentStream)!!.addListener(this)
+        progressdialog!!.max = 100
+
     }
 
+
     fun getData() {
-        ("/view/"+id).httpGet().responseJson {request, response, result ->
-            when (result)  {
+        ("/view/" + id).httpGet().responseJson { request, response, result ->
+            when (result) {
                 is Result.Failure -> {
                     Log.d("Network", "Big Fail :/")
                     Log.d("Network", response.toString())
@@ -82,9 +100,10 @@ class ViewActivity : AppCompatActivity() {
             }
         }
     }
+
     fun genView() {
         torrentName.text = torrent.name
-        title = torrent.name + " - "+ getString(R.string.nyaapantsu)
+        title = torrent.name + " - " + getString(R.string.nyaapantsu)
         torrentCategory.text = resources.getStringArray(R.array.cat_array)[torrent.category]
         torrentUser.text = torrent.username
         torrentHash.text = torrent.hash
@@ -120,10 +139,10 @@ class ViewActivity : AppCompatActivity() {
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     if (isExternalStorageWritable()) {
-                        Log.d("download", "URL: " +url)
+                        Log.d("download", "URL: " + url)
                         val request = DownloadManager.Request(Uri.parse(url))
                         request.setDescription("Download a torrent file")
-                        request.setTitle( torrent.name+" - NyaaPantsu")
+                        request.setTitle(torrent.name + " - NyaaPantsu")
                         // in order for this if to run, you must use the android 3.2 to compile your app
                         request.allowScanningByMediaScanner()
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
@@ -145,27 +164,39 @@ class ViewActivity : AppCompatActivity() {
 
         copyButton.setOnClickListener { _ ->
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            var clipData = ClipData.newPlainText(torrent.name, torrent.magnet)
+            val clipData = ClipData.newPlainText(torrent.name, torrent.magnet)
             clipboard.primaryClip = clipData
             toast(getString(R.string.magnet_copied))
         }
 
         streamButton.setOnClickListener { _ ->
-            /*val torrentOptions = TorrentOptions.Builder()
-                    .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
-                    .removeFilesAfterStop(true)
-                    .build()
-
-            val torrentStream = TorrentStream.init(torrentOptions)
-            torrentStream.startStream("https://butterpoject.org/test.torrent")
-            Log.d("TORRENT", "onStreamReady: " + torrentStream.currentTorrent.videoFile.name)
-
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(torrentStream.currentTorrent.videoFile.toString()))
-            intent.setDataAndType(Uri.parse(torrentStream.currentTorrent.videoFile.toString()), "video/mp4")
-            startActivity(intent)
-
-            toast("Stream! " + torrentStream.currentTorrent.videoFile.toString())
-            */
+            val magnet = torrent.magnet
+            if (magnet != "") {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    if (isExternalStorageWritable()) {
+                        Log.d("stream", "Magnet: " + magnet)
+                        progressdialog!!.progress = 0
+                        if(torrentStream!!.isStreaming) {
+                            torrentStream!!.stopStream()
+                            progressdialog!!.dismiss()
+                        }
+                        progressdialog!!.setTitle("Preparing streaming...")
+                        progressdialog!!.setMessage(getString(R.string.loading))
+                        progressdialog!!.isIndeterminate = false
+                        progressdialog!!.setCancelable(false) //i dunno why this shit don't woking
+                        progressdialog!!.show()
+                        torrentStream!!.startStream(magnet)
+                        
+                    } else {
+                        toast(getString(R.string.external_storage_not_available))
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 10)
+                }
+            } else {
+                toast(getString(R.string.torrent_not_available))
+            }
 
         }
 
@@ -187,6 +218,7 @@ class ViewActivity : AppCompatActivity() {
         }
         return false
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {
@@ -195,4 +227,41 @@ class ViewActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+
+    override fun onStreamStarted(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
+        Log.d(TORRENT, "onStreamStarted");
+    }
+
+    override fun onStreamReady(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
+        progressdialog!!.progress = 100
+        progressdialog!!.dismiss()
+        Log.d(TORRENT, "onStreamReady: " + p0!!.videoFile)
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(p0.videoFile.toString()))
+        intent.setDataAndType(Uri.parse(p0.videoFile.toString()), "video/*")
+        startActivity(intent)
+    }
+
+    override fun onStreamPrepared(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
+        Log.d(TORRENT, "OnStreamPrepared")
+        p0!!.startDownload()
+    }
+
+    override fun onStreamStopped() {
+        Log.d(TORRENT, "onStreamStopped")
+    }
+
+    override fun onStreamProgress(p0: com.github.se_bastiaan.torrentstream.Torrent?, status: StreamStatus?) {
+        if(status?.bufferProgress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != status.bufferProgress) {
+            Log.d(TORRENT, "Progress: " + status.bufferProgress)
+            progressdialog!!.progress = status.bufferProgress
+        }
+    }
+
+    override fun onStreamError(p0: com.github.se_bastiaan.torrentstream.Torrent?, exception: Exception?) {
+        Log.e(TORRENT, "onStreamError", exception)
+        toast("Stream error: " + exception)
+    }
 }
+

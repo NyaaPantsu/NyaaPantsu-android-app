@@ -100,6 +100,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         .addToBackStack(null)
                         .commit()
             }
+            /*
             R.id.nav_recent -> {
                 val recentFragment = RecentFragment.newInstance()
                 fragmentManager.beginTransaction()
@@ -107,6 +108,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         .addToBackStack(null)
                         .commit()
             }
+            */
+            //TODO: RecentFragment not complected
             R.id.nav_search -> {
                 val searchFragment = SearchFragment()
                 fragmentManager.beginTransaction()

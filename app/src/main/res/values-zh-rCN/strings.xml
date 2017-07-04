@@ -1,0 +1,182 @@
+<resources>
+    <string name="title_activity_home">种子列表 - NyaaPantsu</string>
+    <string name="title_activity_results">搜索结果</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+    <string name="upload">上传</string>
+    <string name="search">搜索</string>
+    <string name="torrents">种子</string>
+    <string name="settings">设置</string>
+    <string name="about">关于我们</string>
+    <string name="title_activity_search">搜索 - NyaaPantsu</string>
+    <string name="category">分类</string>
+    <string name="status">状态</string>
+    <string name="max">最多</string>
+    <string name="other">其它</string>
+    <string name="loading">数据装填中...</string>
+    <string name="uploaded_by">上传者</string>
+    <string name="date">日期</string>
+    <string name="size">大小</string>
+    <string name="download">下载</string>
+    <string name="copy">复制</string>
+    <string name="show_more">查看更多</string>
+    <string name="website">网站</string>
+    <string name="hash">哈希</string>
+    <string name="Files">文件列表</string>
+    <string name="last_scraped">最后完成时间:</string>
+    <string name="downloads">下载量</string>
+    <string-array name="cat_array">
+        <item>所有分类</item>
+        <item>动画</item>
+        <item>动画 - 动画MV</item>
+        <item>动画 - 已翻译为英文</item>
+        <item>动画 - 未翻译为英文</item>
+        <item>动画 - 生肉</item>
+        <item>音乐</item>
+        <item>音乐 - 无损</item>
+        <item>音乐 - 有损</item>
+        <item>书籍</item>
+        <item>书籍 - 已翻译为英文</item>
+        <item>书籍 - 未翻译为英文</item>
+        <item>书籍 - 生肉</item>
+        <item>真人电影</item>
+        <item>真人电影 - 已翻译为英文</item>
+        <item>真人电影 - 偶像/PV</item>
+        <item>真人电影 - 未翻译为英文</item>
+        <item>真人电影 - 生肉</item>
+        <item>图片</item>
+        <item>图片 - 图像</item>
+        <item>图片 - 照片</item>
+        <item>软件</item>
+        <item>软件 - 应用程序</item>
+        <item>软件 - 游戏</item>
+    </string-array>
+    <string-array name="status_array">
+        <item>显示所有</item>
+        <item>过滤再发行版</item>
+        <item>受信任的资源</item>
+        <item>A+</item>
+    </string-array>
+    <string-array name="language_array">
+        <item>选择一个种子语言</item>
+        <item>多种语言</item>
+        <item>其它</item>
+        <item>加泰罗尼亚语</item>
+        <item>简体中文</item>
+        <item>繁体中文</item>
+        <item>菏兰语</item>
+        <item>英语</item>
+        <item>法语</item>
+        <item>德语</item>
+        <item>匈牙利语</item>
+        <item>冰岛语</item>
+        <item>意大利语</item>
+        <item>日语</item>
+        <item>韩语</item>
+        <item>挪威语</item>
+        <item>葡萄牙语（巴西）</item>
+        <item>葡萄牙语（葡萄牙）</item>
+        <item>罗马尼亚语</item>
+        <item>俄语</item>
+        <item>西班牙语</item>
+        <item>西班牙语 (LATAM)</item>
+        <item>瑞典语</item>
+        <item>泰语</item>
+    </string-array>
+
+    <string name="network_error">网络错误</string>
+    <string name="token_expired">你已经登出, 因为你的登录口令已过期!</string>
+    <string name="title_activity_login">登录</string>
+    <string name="title_activity_about">关于 - NyaaPantsu</string>
+    <string name="torrent_not_available">这个种子看起来无法使用</string>
+    <string name="external_storage_not_available">磁盘空间不足</string>
+    <string name="magnet_copied">磁力链接已复制!</string>
+
+    <!-- Upload Messages -->
+    <string name="upload_progress">上传中: [[UPLOAD_RATE]] ([[PROGRESS]])</string>
+    <string name="upload_done">上传成功使用时间: [[ELAPSED_TIME]]</string>
+    <string name="try_error">因未知错误无法创建种子,请重试!</string>
+
+    <!-- Upload Errors -->
+    <string name="upload_error">上传时发生了错误</string>
+    <string name="name_required">种子名字不能为空!</string>
+    <string name="file_required">缺少种子文件!</string>
+    <string name="category_required">必须指定一个分类!</string>
+    <string name="lang_next_time">未选择语言!你应该在下次指定一个!</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">用户名</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_username">用户名过短</string>
+    <string name="error_invalid_password">密码过短</string>
+    <string name="error_incorrect_password">密码错误</string>
+    <string name="error_field_required">此项不能为空</string>
+    <string name="permission_rationale">"需要获取通讯录权限以自动补完邮箱地址."
+    </string>
+    <string name="log_in">登录</string>
+    <string name="log_out">登出</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="close">关闭</string>
+    <string name="torrent_file">种子文件</string>
+    <string name="choose">选择...</string>
+    <string name="name">名称</string>
+    <string name="language">语言</string>
+    <string name="description">描述</string>
+    <string name="mark_as_remake">标为再发行版(重制版)</string>
+    <string name="mark_as_anon">匿名上传</string>
+    <string name="congrats">恭喜!</string>
+    <string name="welcome_mess">你已经下载NyaaPantsu App.你可以试着蹭蹭(点击)Megumin, 然后打开新世界!</string>
+    <string name="about_mess">以教育学习为目的, 这个应用使用了MIT许可进行发布.</string>
+    <string name="megumin">Megumin</string>
+    <string name="title_activity_settings">设置</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">账号</string>
+
+    <string name="pref_title_keep_login">记住我的账号</string>
+    <string name="pref_description_keep_login">每次启动应用都将进行登录(不会存储你的密码)
+    </string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">数据 &amp; 同步</string>
+
+    <string name="pref_title_sync_frequency">同步频率</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 分钟</item>
+        <item>30 分钟</item>
+        <item>1 小时</item>
+        <item>3 小时</item>
+        <item>6 小时</item>
+        <item>从不</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">系统同步设置</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">通知</string>
+
+    <string name="pref_title_enable_notifications">启用通知</string>
+
+    <string name="pref_title_ringtone">铃声</string>
+    <string name="pref_ringtone_silent">静音</string>
+
+    <string name="pref_title_vibrate">震动</string>
+    <string name="from">从</string>
+    <string name="to">至</string>
+</resources>

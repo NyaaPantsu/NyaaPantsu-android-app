@@ -30,21 +30,23 @@ import android.content.pm.PackageManager
 import android.view.MenuItem
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.Torrent
-import com.github.se_bastiaan.torrentstream.TorrentStream
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import cat.pantsu.nyaapantsu.helpers.addTorrentToRecentPlaylist
+import cat.pantsu.nyaapantsu.helpers.getRecentPlaylistAsArray
 import com.github.se_bastiaan.torrentstream.StreamStatus
-import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
+import com.github.se_bastiaan.torrentstreamserver.TorrentServerListener
+import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib
+import com.github.se_bastiaan.torrentstreamserver.TorrentStreamServer
 import java.lang.Exception
 
-class ViewActivity : AppCompatActivity(),  TorrentListener {
+class ViewActivity : AppCompatActivity(), TorrentServerListener {
 
     var torrent = Torrent(JSONObject())
     var id = 0
     var showDet = false
     val TORRENT = "TORRENT"
-    var torrentStream: TorrentStream? = null
+    var torrentStreamServer : TorrentStreamServer? = null
     var progressdialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,8 +73,12 @@ class ViewActivity : AppCompatActivity(),  TorrentListener {
                 .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
                 .removeFilesAfterStop(true)
                 .build()
-        torrentStream = TorrentStream.init(torrentOptions)
-        (torrentStream)!!.addListener(this)
+        torrentStreamServer = TorrentStreamServer.getInstance();
+        torrentStreamServer!!.setTorrentOptions(torrentOptions);
+        torrentStreamServer!!.setServerHost("127.0.0.1");
+        torrentStreamServer!!.setServerPort(8090);
+        torrentStreamServer!!.startTorrentStream();
+        torrentStreamServer!!.addListener(this);
         progressdialog!!.max = 100
 
     }
@@ -177,16 +183,17 @@ class ViewActivity : AppCompatActivity(),  TorrentListener {
                     if (isExternalStorageWritable()) {
                         Log.d("stream", "Magnet: " + magnet)
                         progressdialog!!.progress = 0
-                        if(torrentStream!!.isStreaming) {
-                            torrentStream!!.stopStream()
+                        if(torrentStreamServer!!.isStreaming) {
+                            torrentStreamServer!!.stopStream()
                             progressdialog!!.dismiss()
                         }
-                        progressdialog!!.setTitle("Preparing streaming...")
+                        progressdialog!!.setTitle(getString(R.string.preparing))
                         progressdialog!!.setMessage(getString(R.string.loading))
                         progressdialog!!.isIndeterminate = false
                         progressdialog!!.setCancelable(false) //i dunno why this shit don't woking
                         progressdialog!!.show()
-                        torrentStream!!.startStream(magnet)
+                        addTorrentToRecentPlaylist(torrent)
+                        torrentStreamServer!!.startStream(magnet)
                         
                     } else {
                         toast(getString(R.string.external_storage_not_available))
@@ -228,23 +235,24 @@ class ViewActivity : AppCompatActivity(),  TorrentListener {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
 
-    override fun onStreamStarted(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
+        torrentStreamServer!!.stopTorrentStream()
+    }
+    override fun onStreamStarted(p0: TorrentLib?) {
         Log.d(TORRENT, "onStreamStarted");
     }
 
-    override fun onStreamReady(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
+    override fun onStreamReady(p0: TorrentLib?) {
         progressdialog!!.progress = 100
         progressdialog!!.dismiss()
         Log.d(TORRENT, "onStreamReady: " + p0!!.videoFile)
-
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(p0.videoFile.toString()))
-        intent.setDataAndType(Uri.parse(p0.videoFile.toString()), "video/*")
-        startActivity(intent)
     }
 
-    override fun onStreamPrepared(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
+    override fun onStreamPrepared(p0: TorrentLib?) {
         Log.d(TORRENT, "OnStreamPrepared")
+        progressdialog!!.setTitle(getString(R.string.downloading))
         p0!!.startDownload()
     }
 
@@ -252,16 +260,24 @@ class ViewActivity : AppCompatActivity(),  TorrentListener {
         Log.d(TORRENT, "onStreamStopped")
     }
 
-    override fun onStreamProgress(p0: com.github.se_bastiaan.torrentstream.Torrent?, status: StreamStatus?) {
+    override fun onStreamProgress(p0: TorrentLib?, status: StreamStatus?) {
         if(status?.bufferProgress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != status.bufferProgress) {
             Log.d(TORRENT, "Progress: " + status.bufferProgress)
             progressdialog!!.progress = status.bufferProgress
         }
     }
 
-    override fun onStreamError(p0: com.github.se_bastiaan.torrentstream.Torrent?, exception: Exception?) {
+    override fun onStreamError(p0: TorrentLib?, exception: Exception?) {
         Log.e(TORRENT, "onStreamError", exception)
         toast("Stream error: " + exception)
+    }
+
+    override fun onServerReady(url: String) {
+        Log.d(TORRENT, "onServerReady: " + url)
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.setDataAndType(Uri.parse(url), "video/mp4")
+        startActivity(intent)
     }
 }
 

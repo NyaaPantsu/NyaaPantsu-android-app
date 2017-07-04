@@ -16,7 +16,9 @@
     <string name="status">Status</string>
     <string name="max">Max</string>
     <string name="other">Other</string>
-    <string name="loading">Loading data...</string>
+    <string name="loading">Loading data…</string>
+    <string name="preparing">Preparing streaming…</string>
+    <string name="downloading">Downloading…</string>
     <string name="uploaded_by">Uploaded by</string>
     <string name="date">Date</string>
     <string name="size">Size</string>

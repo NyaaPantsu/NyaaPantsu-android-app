@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBluePastelLight"
-    tools:context="cat.pantsu.nyaapantsu.LoginActivity"
+    tools:context="cat.pantsu.nyaapantsu.ui.activity.LoginActivity"
     tools:showIn="@layout/activity_login">
 
     <ImageView

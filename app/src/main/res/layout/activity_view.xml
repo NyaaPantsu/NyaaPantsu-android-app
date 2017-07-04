@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBluePastelLight"
-    tools:context="cat.pantsu.nyaapantsu.ViewActivity">
+    tools:context="cat.pantsu.nyaapantsu.ui.activity.ViewActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -214,6 +214,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/copy" />
+
+                        <Button
+                            android:id="@+id/streamButton"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/stream" />
+
                     </LinearLayout>
 
                     <RelativeLayout

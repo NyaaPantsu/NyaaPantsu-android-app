@@ -1,16 +1,11 @@
 package cat.pantsu.nyaapantsu
 
 import android.app.Application
-import android.preference.Preference
 import android.preference.PreferenceManager
-import android.util.Log
+import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.core.FuelManager
 import net.gotev.uploadservice.UploadService
 import net.gotev.uploadservice.okhttp.OkHttpStack
-
-
-
-
 
 /**
  * Created by akuma06 on 24/06/2017.

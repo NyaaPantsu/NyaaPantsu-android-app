@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -25,6 +25,8 @@ import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.util.Log
 import android.view.MenuItem
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -256,7 +258,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
         override fun doInBackground(vararg params: Void): Boolean? {
             // TODO: attempt authentication against a network service.
-            var jsonResponse: JSONObject
+            val jsonResponse: JSONObject
             try {
                 val (request, response, result) = Fuel.post("/login", listOf("username" to mUsername, "password" to mPassword)).responseJson()
                 when (result) {
@@ -283,7 +285,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
                 return false
             }
             if (jsonResponse.getBoolean("ok")) {
-                var data = jsonResponse.optJSONObject("data")
+                val data = jsonResponse.optJSONObject("data")
                 if (data.optString("token") !== null) {
                     User.token = data.optString("token")
                     User.name = data.optString("username")

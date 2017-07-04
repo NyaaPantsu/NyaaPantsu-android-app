@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.model
 
 import com.chibatching.kotpref.KotprefModel
 

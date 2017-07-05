@@ -1,7 +1,6 @@
 package cat.pantsu.nyaapantsu.ui.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
@@ -33,14 +32,11 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import android.content.Intent
-import android.os.PowerManager
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import com.github.se_bastiaan.torrentstream.StreamStatus
 import com.github.se_bastiaan.torrentstreamserver.TorrentServerListener
 import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib
 import com.github.se_bastiaan.torrentstreamserver.TorrentStreamServer
-import org.jetbrains.anko.horizontalProgressBar
-import org.jetbrains.anko.powerManager
 import java.lang.Exception
 
 class ViewActivity : AppCompatActivity(), TorrentServerListener {
@@ -111,7 +107,6 @@ class ViewActivity : AppCompatActivity(), TorrentServerListener {
         }
     }
 
-    @SuppressLint("WakelockTimeout")
     fun genView() {
         torrentName.text = torrent.name
         title = torrent.name + " - " + getString(R.string.nyaapantsu)

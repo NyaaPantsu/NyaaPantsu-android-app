@@ -4,11 +4,10 @@ package cat.pantsu.nyaapantsu.ui.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.app.Fragment
+import android.app.FragmentTransaction
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
@@ -16,6 +15,7 @@ import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.Torrent
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
+import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_recent.*
@@ -31,6 +31,7 @@ class RecentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -111,6 +112,23 @@ class RecentFragment : Fragment() {
         val stats: TextView = row?.findViewById(R.id.stats) as TextView
         val uploader: TextView = row?.findViewById(R.id.uploader) as TextView
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.recent_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.clear_recent -> {
+                RecentlyPlayed.torrents = ""
+                val recentFragment = RecentFragment.newInstance() // refresh placeholder if we switch to recycler view I will use better solution
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment, recentFragment as Fragment)
+                        .commit()
+            }
+        }
+        return false
     }
 }
 

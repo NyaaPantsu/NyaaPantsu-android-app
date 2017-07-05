@@ -189,4 +189,5 @@
     <string name="title_activity_watch">Watch Anime!</string>
     <string name="recent">Recent</string>
     <string name="stream">Stream</string>
+    <string name="clear">Clear</string>
 </resources>

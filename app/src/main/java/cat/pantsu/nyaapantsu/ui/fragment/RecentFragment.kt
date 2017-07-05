@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.app.Fragment
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,7 @@ import android.widget.TextView
 
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.Torrent
-import cat.pantsu.nyaapantsu.helpers.getRecentPlaylistAsArray
-import cat.pantsu.nyaapantsu.model.RecentlyPlayed
+import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_recent.*

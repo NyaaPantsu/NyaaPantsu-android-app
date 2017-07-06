@@ -1,9 +1,9 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.application
 
 import android.app.Application
-import android.preference.Preference
 import android.preference.PreferenceManager
-import android.util.Log
+import cat.pantsu.nyaapantsu.BuildConfig
+import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.core.FuelManager
 import net.gotev.uploadservice.UploadService
 import net.gotev.uploadservice.okhttp.OkHttpStack
@@ -33,9 +33,9 @@ class Initializer : Application() {
         val keepLogin = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("keep_login_switch", true)
         if (!keepLogin) {
             User.id =0
-            User.name=""
-            User.token=""
-            User.status=0
+            User.name =""
+            User.token =""
+            User.status =0
             User.md5 = ""
         }
     }

@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui
 
 import android.content.Context
 import android.net.Uri
@@ -7,6 +7,7 @@ import android.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cat.pantsu.nyaapantsu.R
 import kotlinx.android.synthetic.main.app_bar_home.*
 
 

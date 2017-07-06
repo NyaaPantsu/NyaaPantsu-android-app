@@ -1,25 +1,22 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui
 
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
+import android.os.Handler
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import android.widget.ImageButton
-import com.chibatching.kotpref.Kotpref.init
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.Query
 
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_search.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.sdk25.coroutines.onItemSelectedListener
-import org.jetbrains.anko.startActivity
+import org.json.JSONArray
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -118,7 +115,31 @@ class SearchFragment : Fragment() {
         }
 
         searchButton.setOnClickListener { _ ->
-            var torrentListFragment = TorrentList.newInstance(queryText.text.toString(), c, s, maxNumber.text.toString(), fromSize.text.toString(), toSize.text.toString(), selectedSize, formatDate(fromDate.text.toString()), formatDate(toDate.text.toString()))
+//            var q: String? = null
+//            var c: String? = null
+//            var s: String? = null
+//            var max: String? = null
+//            var fromSize: String? = null
+//            var toSize: String? = null
+//            var fromDate: String? = null
+//            var toDate: String? = null
+//            var sizeType: String? = null
+//            var searchParams: String? = null
+//            var torrents: JSONArray = JSONArray()
+//            var myHandler = Handler()
+//            var timeUpdateInterval:Int? = null
+            var query = Query()
+            query.q = queryText.text.toString()
+            query.c = c
+            query.s = s
+            query.max = maxNumber.text.toString()
+            query.fromSize = fromSize.text.toString()
+            query.toSize = toSize.text.toString()
+            query.sizeType = selectedSize
+            query.fromDate = formatDate(fromDate.text.toString())
+            query.toDate = formatDate(toDate.text.toString())
+//            var torrentListFragment = TorrentListFragment.newInstance(queryText.text.toString(), c, s, maxNumber.text.toString(), fromSize.text.toString(), toSize.text.toString(), selectedSize, formatDate(fromDate.text.toString()), formatDate(toDate.text.toString()))
+            var torrentListFragment = TorrentListFragment.newInstance(query)
             fragmentManager.beginTransaction().replace(R.id.main_fragment, torrentListFragment as Fragment).addToBackStack(null).commit()
         }
     }

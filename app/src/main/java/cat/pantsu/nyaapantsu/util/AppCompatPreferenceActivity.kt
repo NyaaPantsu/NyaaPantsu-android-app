@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.util
 
 import android.content.res.Configuration
 import android.os.Bundle

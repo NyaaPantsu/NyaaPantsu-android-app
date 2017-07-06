@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cat.pantsu.nyaapantsu.TorrentList">
+    tools:context="cat.pantsu.nyaapantsu.ui.TorrentListFragment">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,7 +17,6 @@
             android:id="@+id/imageView3"
             android:layout_width="224dp"
             android:layout_height="341dp"
-            android:layout_marginEnd="0dp"
             android:contentDescription="@string/renchon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

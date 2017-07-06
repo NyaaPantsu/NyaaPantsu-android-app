@@ -1,6 +1,5 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.model
 
-import cat.pantsu.nyaapantsu.R.array.cat_array
 import org.json.JSONArray
 import org.json.JSONObject
 

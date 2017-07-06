@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui
 
 import android.Manifest
 import android.content.Context
@@ -14,20 +14,18 @@ import android.widget.ImageButton
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_upload.*
 import org.jetbrains.anko.find
-import android.R.attr.data
 import android.app.Activity
-import com.nononsenseapps.filepicker.Utils.getFileForUri
-import android.R.attr.data
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.widget.AdapterView
 import android.widget.TextView
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.core.FuelManager
 import com.nononsenseapps.filepicker.FilePickerActivity
 import com.nononsenseapps.filepicker.Utils
-import com.nononsenseapps.filepicker.Utils.getSelectedFilesFromResult
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import java.io.File

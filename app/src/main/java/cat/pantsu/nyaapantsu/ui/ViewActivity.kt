@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui
 
 import android.Manifest
 import android.content.Context
@@ -23,11 +23,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.net.Uri
 import android.os.Environment
-import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.support.v4.app.ActivityCompat
 import org.jetbrains.anko.toast
 import android.content.pm.PackageManager
 import android.view.MenuItem
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.Torrent
 
 
 class ViewActivity : AppCompatActivity() {

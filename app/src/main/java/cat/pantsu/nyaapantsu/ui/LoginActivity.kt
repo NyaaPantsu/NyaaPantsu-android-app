@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -25,6 +25,8 @@ import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.util.Log
 import android.view.MenuItem
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson

@@ -1,7 +1,6 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -10,7 +9,6 @@ import android.util.Log
 import android.view.*
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
@@ -21,10 +19,13 @@ import android.widget.*
 import org.jetbrains.anko.*
 import android.net.Uri
 import android.support.v4.content.ContextCompat
+import cat.pantsu.nyaapantsu.*
+import cat.pantsu.nyaapantsu.model.Query
+import cat.pantsu.nyaapantsu.model.User
 import com.bumptech.glide.Glide
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentList.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener{
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentListFragment.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -50,7 +51,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var usernameBadge = header.find<TextView>(R.id.usernameBadge)
         if (User.token !== "") {
             memberButton.text = getString(R.string.log_out)
-            Glide.with(this).load("https://www.gravatar.com/avatar/"+User.md5+"?s=130").into(avatarUser)
+            Glide.with(this).load("https://www.gravatar.com/avatar/"+ User.md5 +"?s=130").into(avatarUser)
             usernameBadge?.text = User.name
         }
         memberButton.setOnClickListener { _ ->
@@ -61,7 +62,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         if (savedInstanceState == null) {
-            var torrentListFragment = TorrentList.newInstance("", "", "", "","", "", "", "", "")
+            var torrentListFragment = TorrentListFragment.newInstance(Query())
             fragmentManager.beginTransaction()
                     .add(R.id.main_fragment, torrentListFragment as Fragment)
                     .addToBackStack(null)
@@ -82,7 +83,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_torrents -> {
-                var torrentListFragment = TorrentList.newInstance("","","","","", "", "", "", "")
+            var torrentListFragment = TorrentListFragment.newInstance(Query())
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, torrentListFragment as Fragment)
                         .addToBackStack(null)

@@ -16,7 +16,9 @@
     <string name="status">Status</string>
     <string name="max">Max</string>
     <string name="other">Other</string>
-    <string name="loading">Loading data...</string>
+    <string name="loading">Loading data…</string>
+    <string name="preparing">Preparing streaming…</string>
+    <string name="downloading">Downloading…</string>
     <string name="uploaded_by">Uploaded by</string>
     <string name="date">Date</string>
     <string name="size">Size</string>
@@ -180,4 +182,9 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="watch">Watch</string>
+    <string name="title_activity_watch">Watch Anime!</string>
+    <string name="recent">Recent</string>
+    <string name="stream">Stream</string>
+    <string name="clear">Clear</string>
 </resources>

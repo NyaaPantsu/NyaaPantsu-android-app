@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.content.Context
 import android.net.Uri
@@ -7,6 +7,7 @@ import android.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cat.pantsu.nyaapantsu.R
 import kotlinx.android.synthetic.main.app_bar_home.*
 
 
@@ -42,7 +43,7 @@ class AboutFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
-            mListener = context as OnFragmentInteractionListener?
+            mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }

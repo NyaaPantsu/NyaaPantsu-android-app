@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Translucent">
             <intent-filter>
@@ -31,15 +31,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.activity.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
+
         <activity
-            android:name=".ViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+            android:name=".ui.activity.ViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
+
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
@@ -65,7 +75,7 @@
         </provider>
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation|screenSize">

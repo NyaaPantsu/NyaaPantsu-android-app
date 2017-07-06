@@ -1,7 +1,6 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.ui.activity
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -10,7 +9,6 @@ import android.util.Log
 import android.view.*
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
@@ -21,10 +19,17 @@ import android.widget.*
 import org.jetbrains.anko.*
 import android.net.Uri
 import android.support.v4.content.ContextCompat
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
+import cat.pantsu.nyaapantsu.model.User
+import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
+import cat.pantsu.nyaapantsu.ui.fragment.SearchFragment
+import cat.pantsu.nyaapantsu.ui.fragment.UploadFragment
+import cat.pantsu.nyaapantsu.ui.fragment.RecentFragment
 import com.bumptech.glide.Glide
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentList.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener{
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentListFragment.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -44,14 +49,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         checkUser()
-        var header = nav_view.getHeaderView(0)
-        var memberButton = header.find<Button>(R.id.memberButton)
-        var avatarUser = header.find<ImageView>(R.id.avatarUser)
-        var usernameBadge = header.find<TextView>(R.id.usernameBadge)
+        val header = nav_view.getHeaderView(0)
+        val memberButton = header.find<Button>(R.id.memberButton)
+        val avatarUser = header.find<ImageView>(R.id.avatarUser)
+        val usernameBadge = header.find<TextView>(R.id.usernameBadge)
         if (User.token !== "") {
             memberButton.text = getString(R.string.log_out)
-            Glide.with(this).load("https://www.gravatar.com/avatar/"+User.md5+"?s=130").into(avatarUser)
-            usernameBadge?.text = User.name
+            Glide.with(this).load("https://www.gravatar.com/avatar/"+ User.md5 +"?s=130").into(avatarUser)
+            usernameBadge.text = User.name
         }
         memberButton.setOnClickListener { _ ->
             if (User.token == "") {
@@ -61,7 +66,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         if (savedInstanceState == null) {
-            var torrentListFragment = TorrentList.newInstance("", "", "", "","", "", "", "", "")
+            val torrentListFragment = TorrentListFragment.newInstance("", "", "", "", "", "", "", "", "")
             fragmentManager.beginTransaction()
                     .add(R.id.main_fragment, torrentListFragment as Fragment)
                     .addToBackStack(null)
@@ -82,32 +87,38 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_torrents -> {
-                var torrentListFragment = TorrentList.newInstance("","","","","", "", "", "", "")
+                val torrentListFragment = TorrentListFragment.newInstance("", "", "", "", "", "", "", "", "")
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, torrentListFragment as Fragment)
                         .addToBackStack(null)
                         .commit()
             }
             R.id.nav_upload -> {
-                var uploadFragment = UploadFragment.newInstance()
+                val uploadFragment = UploadFragment.newInstance()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, uploadFragment as Fragment)
                         .addToBackStack(null)
                         .commit()
             }
+            R.id.nav_recent -> {
+                val recentFragment = RecentFragment.newInstance()
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_fragment, recentFragment as Fragment)
+                        .addToBackStack(null)
+                        .commit()
+            }
             R.id.nav_search -> {
-                var searchFragment = SearchFragment()
+                val searchFragment = SearchFragment()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, searchFragment as Fragment)
                         .addToBackStack(null)
                         .commit()
             }
-
             R.id.nav_settings -> {
                 startActivity<SettingsActivity>()
             }
             R.id.nav_about -> {
-                var aboutFragment = AboutFragment.newInstance()
+                val aboutFragment = AboutFragment.newInstance()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, aboutFragment as Fragment)
                         .addToBackStack(null)
@@ -124,10 +135,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun resetUser() {
-        var header = nav_view.getHeaderView(0)
-        var memberButton = header.find<Button>(R.id.memberButton)
-        var avatarUser = header.find<ImageView>(R.id.avatarUser)
-        var usernameBadge = header.find<TextView>(R.id.usernameBadge)
+        val header = nav_view.getHeaderView(0)
+        val memberButton = header.find<Button>(R.id.memberButton)
+        val avatarUser = header.find<ImageView>(R.id.avatarUser)
+        val usernameBadge = header.find<TextView>(R.id.usernameBadge)
         User.id = 0
         User.status = 0
         User.token = ""

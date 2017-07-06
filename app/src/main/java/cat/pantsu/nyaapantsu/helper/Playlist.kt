@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.helpers
+package cat.pantsu.nyaapantsu.helper
 
 import cat.pantsu.nyaapantsu.Torrent
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed

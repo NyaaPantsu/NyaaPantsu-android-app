@@ -32,8 +32,7 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import android.content.Intent
-import cat.pantsu.nyaapantsu.helpers.addTorrentToRecentPlaylist
-import cat.pantsu.nyaapantsu.helpers.getRecentPlaylistAsArray
+import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import com.github.se_bastiaan.torrentstream.StreamStatus
 import com.github.se_bastiaan.torrentstreamserver.TorrentServerListener
 import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib
@@ -66,8 +65,9 @@ class ViewActivity : AppCompatActivity(), TorrentServerListener {
         }
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        progressdialog = ProgressDialog(this)
 
+
+        progressdialog = ProgressDialog(this)
 
         val torrentOptions = TorrentOptions.Builder()
                 .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
@@ -189,12 +189,13 @@ class ViewActivity : AppCompatActivity(), TorrentServerListener {
                         }
                         progressdialog!!.setTitle(getString(R.string.preparing))
                         progressdialog!!.setMessage(getString(R.string.loading))
+                        progressdialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
                         progressdialog!!.isIndeterminate = false
-                        progressdialog!!.setCancelable(false) //i dunno why this shit don't woking
+                        progressdialog!!.setCanceledOnTouchOutside(false)
+                        progressdialog!!.setCancelable(false)
                         progressdialog!!.show()
                         addTorrentToRecentPlaylist(torrent)
                         torrentStreamServer!!.startStream(magnet)
-                        
                     } else {
                         toast(getString(R.string.external_storage_not_available))
                     }
@@ -237,7 +238,6 @@ class ViewActivity : AppCompatActivity(), TorrentServerListener {
 
     override fun onDestroy() {
         super.onDestroy()
-
         torrentStreamServer!!.stopTorrentStream()
     }
     override fun onStreamStarted(p0: TorrentLib?) {
@@ -276,7 +276,7 @@ class ViewActivity : AppCompatActivity(), TorrentServerListener {
         Log.d(TORRENT, "onServerReady: " + url)
 
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        intent.setDataAndType(Uri.parse(url), "video/mp4")
+        intent.setDataAndType(Uri.parse(url), "video/*")
         startActivity(intent)
     }
 }

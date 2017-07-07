@@ -100,6 +100,10 @@ class TorrentListFragment : Fragment() {
         torrentlist.setOnItemClickListener { _, _, i, _ ->
             startActivity<ViewActivity>("torrent" to torrents.getString(i))
         }
+
+        swiperefresh.setOnRefreshListener {
+            this.getData()
+        }
     }
 
 
@@ -172,6 +176,7 @@ class TorrentListFragment : Fragment() {
                     parseTorrents()
                 }
             }
+            swiperefresh.isRefreshing = false
             myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
         }
     }

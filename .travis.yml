@@ -61,7 +61,7 @@ before_deploy:
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/keystore.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk key0
 # Verification
 - jarsigner -verify app-release-unsigned.apk
-- "${ANDROID_HOME}/build-tools/25.0.2/zipalign -v 4 app-release-unsigned.apk nyaapantsu.apk"
+- "${ANDROID_HOME}build-tools/$ANDROID_BUILD_TOOLS/zipalign -v 4 app-release-unsigned.apk nyaapantsu.apk"
 
 deploy:
   provider: releases

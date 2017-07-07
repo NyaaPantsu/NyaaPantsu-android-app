@@ -29,10 +29,10 @@ import org.jetbrains.anko.toast
 import android.content.pm.PackageManager
 import android.view.MenuItem
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import android.content.Intent
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
+import cat.pantsu.nyaapantsu.model.Torrent
 import com.github.se_bastiaan.torrentstream.StreamStatus
 import com.github.se_bastiaan.torrentstreamserver.TorrentServerListener
 import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib

@@ -16,7 +16,8 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.Torrent
+import cat.pantsu.nyaapantsu.model.Query
+import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -42,15 +43,7 @@ import java.util.*
  */
 class TorrentListFragment : Fragment() {
 
-    private var q: String? = null
-    private var c: String? = null
-    private var s: String? = null
-    private var max: String? = null
-    private var fromSize: String? = null
-    private var toSize: String? = null
-    private var fromDate: String? = null
-    private var toDate: String? = null
-    private var sizeType: String? = null
+    private var mQuery: Query? = null
     private var searchParams: String? = null
     var torrents: JSONArray = JSONArray()
     private var myHandler = Handler()
@@ -61,15 +54,7 @@ class TorrentListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            q = arguments.getString(ARG_PARAM1)
-            c = arguments.getString(ARG_PARAM2)
-            s = arguments.getString(ARG_PARAM3)
-            max = arguments.getString(ARG_PARAM4)
-            fromSize = arguments.getString(ARG_PARAM5)
-            toSize = arguments.getString(ARG_PARAM6)
-            sizeType = arguments.getString(ARG_PARAM7)
-            fromDate = arguments.getString(ARG_PARAM8)
-            toDate = arguments.getString(ARG_PARAM9)
+            mQuery = arguments.getParcelable("query")
         }
         timeUpdateInterval = PreferenceManager.getDefaultSharedPreferences(activity).getString("sync_frequency", "15").toInt()
     }
@@ -81,13 +66,13 @@ class TorrentListFragment : Fragment() {
         activity.fab.visibility = View.VISIBLE
 
         searchParams = ""
-        if (q != "" || c != "" || s != "" || max != "") {
-            if (q != "") {
-                activity.title = getString(R.string.title_activity_results)+" \'"+q+"\' - NyaaPantsu"
+        if (mQuery?.isQueryable() == true) {
+            if (mQuery?.q != "") {
+                activity.title = getString(R.string.title_activity_results)+" \'" + mQuery?.q + "\' - NyaaPantsu"
             } else {
                 activity.title = getString(R.string.title_activity_search)
             }
-            searchParams = "?q=$q&c=$c&s=$s&limit=$max&fromDate=$fromDate&toDate=$toDate&minSize=$fromSize&maxSize=$toSize&sizeType=$sizeType&dateType=d"
+            searchParams = mQuery.toString()
             closeButton.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_clear_search))
 
             closeButton.setOnClickListener { _ ->
@@ -151,38 +136,18 @@ class TorrentListFragment : Fragment() {
     }
 
     companion object {
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private val ARG_PARAM1 = "q"
-        private val ARG_PARAM2 = "c"
-        private val ARG_PARAM3 = "s"
-        private val ARG_PARAM4 = "max"
-        private val ARG_PARAM5 = "fromSize"
-        private val ARG_PARAM6 = "toSize"
-        private val ARG_PARAM7 = "sizeType"
-        private val ARG_PARAM8 = "fromDate"
-        private val ARG_PARAM9 = "toDate"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
 
-         * @param param1 Parameter 1.
-         * *
-         * @param param2 Parameter 2.
+         * @param query Query.
          * *
          * @return A new instance of fragment TorrentListFragment.
          */
-        fun newInstance(param1: String, param2: String, param3: String, param4: String, param5: String, param6: String, param7: String, param8: String, param9: String): TorrentListFragment {
+        fun newInstance(query: Query): TorrentListFragment {
             val fragment = TorrentListFragment()
             val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            args.putString(ARG_PARAM3, param3)
-            args.putString(ARG_PARAM4, param4)
-            args.putString(ARG_PARAM5, param5)
-            args.putString(ARG_PARAM6, param6)
-            args.putString(ARG_PARAM7, param7)
-            args.putString(ARG_PARAM8, param8)
-            args.putString(ARG_PARAM9, param9)
+            args.putParcelable("query", query)
             fragment.arguments = args
             return fragment
         }

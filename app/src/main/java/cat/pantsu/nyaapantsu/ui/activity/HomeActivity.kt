@@ -20,6 +20,7 @@ import org.jetbrains.anko.*
 import android.net.Uri
 import android.support.v4.content.ContextCompat
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.Query
 import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
 import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
@@ -36,7 +37,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { _ ->
-            var uploadFragment = UploadFragment.newInstance()
+            val uploadFragment = UploadFragment.newInstance()
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment, uploadFragment as Fragment)
                     .addToBackStack(null)
@@ -66,7 +67,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
         if (savedInstanceState == null) {
-            val torrentListFragment = TorrentListFragment.newInstance("", "", "", "", "", "", "", "", "")
+            val torrentListFragment = TorrentListFragment.newInstance(Query())
             fragmentManager.beginTransaction()
                     .add(R.id.main_fragment, torrentListFragment as Fragment)
                     .addToBackStack(null)
@@ -87,7 +88,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_torrents -> {
-                val torrentListFragment = TorrentListFragment.newInstance("", "", "", "", "", "", "", "", "")
+            val torrentListFragment = TorrentListFragment.newInstance(Query())
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, torrentListFragment as Fragment)
                         .addToBackStack(null)

@@ -13,9 +13,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.Torrent
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
+import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_recent.*

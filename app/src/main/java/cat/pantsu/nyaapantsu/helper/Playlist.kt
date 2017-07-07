@@ -1,7 +1,7 @@
 package cat.pantsu.nyaapantsu.helper
 
-import cat.pantsu.nyaapantsu.Torrent
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
+import cat.pantsu.nyaapantsu.model.Torrent
 import org.json.JSONArray
 import org.json.JSONException
 

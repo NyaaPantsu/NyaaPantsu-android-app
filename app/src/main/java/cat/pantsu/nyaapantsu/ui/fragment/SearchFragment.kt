@@ -1,9 +1,8 @@
-package cat.pantsu.nyaapantsu.ui
+package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.app.DatePickerDialog
 import android.app.Fragment
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import cat.pantsu.nyaapantsu.model.Query
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_search.*
 import org.jetbrains.anko.find
-import org.json.JSONArray
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -38,7 +36,7 @@ class SearchFragment : Fragment() {
     }
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
+        val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.VISIBLE
 
@@ -50,7 +48,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var catAdapter = ArrayAdapter.createFromResource(activity, R.array.cat_array, R.layout.spinner_layout)
+        val catAdapter = ArrayAdapter.createFromResource(activity, R.array.cat_array, R.layout.spinner_layout)
         catSpinner.adapter = catAdapter
         catSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -61,7 +59,7 @@ class SearchFragment : Fragment() {
                 c = "_"
             }
         }
-        var sizeAdapter = ArrayAdapter(activity, R.layout.spinner_layout, sizes)
+        val sizeAdapter = ArrayAdapter(activity, R.layout.spinner_layout, sizes)
         sizeFormat.adapter = sizeAdapter
         sizeFormat.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -73,7 +71,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        var statusAdapter = ArrayAdapter.createFromResource(activity, R.array.status_array, R.layout.spinner_layout)
+        val statusAdapter = ArrayAdapter.createFromResource(activity, R.array.status_array, R.layout.spinner_layout)
         statSpinner.adapter = statusAdapter
         statSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -115,20 +113,7 @@ class SearchFragment : Fragment() {
         }
 
         searchButton.setOnClickListener { _ ->
-//            var q: String? = null
-//            var c: String? = null
-//            var s: String? = null
-//            var max: String? = null
-//            var fromSize: String? = null
-//            var toSize: String? = null
-//            var fromDate: String? = null
-//            var toDate: String? = null
-//            var sizeType: String? = null
-//            var searchParams: String? = null
-//            var torrents: JSONArray = JSONArray()
-//            var myHandler = Handler()
-//            var timeUpdateInterval:Int? = null
-            var query = Query()
+            val query = Query()
             query.q = queryText.text.toString()
             query.c = c
             query.s = s
@@ -138,8 +123,7 @@ class SearchFragment : Fragment() {
             query.sizeType = selectedSize
             query.fromDate = formatDate(fromDate.text.toString())
             query.toDate = formatDate(toDate.text.toString())
-//            var torrentListFragment = TorrentListFragment.newInstance(queryText.text.toString(), c, s, maxNumber.text.toString(), fromSize.text.toString(), toSize.text.toString(), selectedSize, formatDate(fromDate.text.toString()), formatDate(toDate.text.toString()))
-            var torrentListFragment = TorrentListFragment.newInstance(query)
+            val torrentListFragment = TorrentListFragment.newInstance(query)
             fragmentManager.beginTransaction().replace(R.id.main_fragment, torrentListFragment as Fragment).addToBackStack(null).commit()
         }
     }

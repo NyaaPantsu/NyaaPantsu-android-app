@@ -15,7 +15,7 @@ class Torrent(torrent: JSONObject) {
     internal var user_id = 0
     internal var status = 0
     internal var website = ""
-    internal var language = ""
+    internal var languages = JSONArray()
     internal var category = 0
     internal var magnet = ""
     internal var download = ""
@@ -34,7 +34,7 @@ class Torrent(torrent: JSONObject) {
         description = if (torrent.optString("description") !== null)  torrent.optString("description") else ""
         username = if (torrent.optString("uploader_name") !== null)  torrent.optString("uploader_name") else ""
         website = if (torrent.optString("website_link") !== null)  torrent.optString("website_link") else ""
-        language = if (torrent.optString("language") !== null)  torrent.optString("language") else ""
+        languages = if (torrent.optJSONArray("languages") !== null)  torrent.optJSONArray("languages") else JSONArray()
         magnet = if (torrent.optString("magnet") !== null)  torrent.optString("magnet") else ""
         download = if (torrent.optString("torrent") !== null)  torrent.optString("torrent") else ""
         hash = if (torrent.optString("hash") !== null)  torrent.optString("hash") else ""
@@ -60,5 +60,27 @@ class Torrent(torrent: JSONObject) {
         val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
         val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
         return String.format("%.1f %sB", bytes / Math.pow(unit.toDouble(), exp.toDouble()), pre)
+    }
+
+    fun toJson(): JSONObject {
+        return JSONObject().putOpt("name", name)
+                .putOpt("description", description)
+                .putOpt("uploader_name", username)
+                .putOpt("website_link", website)
+                .putOpt("languages", languages)
+                .putOpt("magnet", magnet)
+                .putOpt("torrent", download)
+                .putOpt("hash", hash)
+                .putOpt("date", date)
+                .putOpt("filesize", size)
+                .putOpt("id", id)
+                .putOpt("status", status)
+                .putOpt("uploader_id", user_id)
+                .putOpt("seeders", seeders)
+                .putOpt("leechers", leechers)
+                .putOpt("completed", completed)
+                .putOpt("last_scrape", last_scrape)
+                .putOpt("file_list", fileList)
+                .putOpt("category", category)
     }
 }

@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.ui
+package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.content.Context
 import android.net.Uri
@@ -43,7 +43,7 @@ class AboutFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
-            mListener = context as OnFragmentInteractionListener?
+            mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }

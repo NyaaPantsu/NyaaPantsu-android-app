@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.ui
+package cat.pantsu.nyaapantsu.ui.activity
 
 
 import android.annotation.TargetApi
@@ -17,7 +17,6 @@ import android.preference.PreferenceManager
 import android.preference.RingtonePreference
 import android.text.TextUtils
 import android.view.MenuItem
-import cat.pantsu.nyaapantsu.util.AppCompatPreferenceActivity
 import cat.pantsu.nyaapantsu.R
 
 /**

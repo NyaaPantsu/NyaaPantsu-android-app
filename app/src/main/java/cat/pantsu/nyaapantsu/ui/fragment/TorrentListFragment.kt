@@ -1,5 +1,6 @@
-package cat.pantsu.nyaapantsu.ui
+package cat.pantsu.nyaapantsu.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.model.Query
 import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -46,6 +48,7 @@ class TorrentListFragment : Fragment() {
     var torrents: JSONArray = JSONArray()
     private var myHandler = Handler()
     var timeUpdateInterval:Int? = null
+
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +61,7 @@ class TorrentListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
+        val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.VISIBLE
 
@@ -103,7 +106,7 @@ class TorrentListFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
-            mListener = context as OnFragmentInteractionListener?
+            mListener = context
         } else {
             throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
         }
@@ -169,17 +172,14 @@ class TorrentListFragment : Fragment() {
                     parseTorrents()
                 }
             }
-            myHandler.postDelayed(Runnable { getData() }, (timeUpdateInterval!!.toLong()*60*1000))
+            myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
         }
     }
 
     fun parseTorrents() {
-        var torrentList = LinkedList<Torrent>()
         val length = (torrents.length()-1)
-        for (i in 0..length) {
-            torrentList.add(Torrent(torrents.getJSONObject(i)))
-        }
-        torrentlist.adapter = ListAdapter(activity, torrentList)
+        val torrentList = (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
+        torrentlist.adapter = ListAdapter(activity, torrentList = torrentList)
     }
 
     fun resetTorrents() {
@@ -189,10 +189,10 @@ class TorrentListFragment : Fragment() {
         getData()
     }
 
-    private class ListAdapter(context: Context, torrentList: LinkedList<Torrent>) : BaseAdapter() {
+    private class ListAdapter(private val context: Context, torrentList: LinkedList<Torrent>) : BaseAdapter() {
         private val mInflator: LayoutInflater = LayoutInflater.from(context)
         private var torrentList = LinkedList<Torrent>()
-        private val context = context
+
         init {
             this.torrentList = torrentList
         }
@@ -209,6 +209,7 @@ class TorrentListFragment : Fragment() {
             return position.toLong()
         }
 
+        @SuppressLint("SetTextI18n")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
             val view: View?
             val vh: ListRowHolder

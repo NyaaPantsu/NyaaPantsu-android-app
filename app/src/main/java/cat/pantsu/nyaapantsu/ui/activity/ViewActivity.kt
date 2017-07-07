@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.ui
+package cat.pantsu.nyaapantsu.ui.activity
 
 import android.Manifest
 import android.content.Context
@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_view.*
 import org.jetbrains.anko.backgroundColor
 import org.json.JSONObject
 import android.app.DownloadManager
+import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.net.Uri
@@ -28,13 +29,25 @@ import org.jetbrains.anko.toast
 import android.content.pm.PackageManager
 import android.view.MenuItem
 import cat.pantsu.nyaapantsu.R
+import com.github.se_bastiaan.torrentstream.TorrentOptions
+import android.content.Intent
+import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
+import com.github.se_bastiaan.torrentstream.StreamStatus
+import com.github.se_bastiaan.torrentstreamserver.TorrentServerListener
+import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib
+import com.github.se_bastiaan.torrentstreamserver.TorrentStreamServer
+import java.lang.Exception
 
+class ViewActivity : AppCompatActivity(), TorrentServerListener {
 
-class ViewActivity : AppCompatActivity() {
     var torrent = Torrent(JSONObject())
     var id = 0
     var showDet = false
+    val TORRENT = "TORRENT"
+    var torrentStreamServer : TorrentStreamServer? = null
+    var progressdialog: ProgressDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view)
@@ -51,11 +64,29 @@ class ViewActivity : AppCompatActivity() {
             finish()
         }
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+
+
+        progressdialog = ProgressDialog(this)
+
+        val torrentOptions = TorrentOptions.Builder()
+                .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
+                .removeFilesAfterStop(true)
+                .build()
+        torrentStreamServer = TorrentStreamServer.getInstance();
+        torrentStreamServer!!.setTorrentOptions(torrentOptions);
+        torrentStreamServer!!.setServerHost("127.0.0.1");
+        torrentStreamServer!!.setServerPort(8090);
+        torrentStreamServer!!.startTorrentStream();
+        torrentStreamServer!!.addListener(this);
+        progressdialog!!.max = 100
+
     }
 
+
     fun getData() {
-        ("/view/"+id).httpGet().responseJson {request, response, result ->
-            when (result)  {
+        ("/view/" + id).httpGet().responseJson { request, response, result ->
+            when (result) {
                 is Result.Failure -> {
                     Log.d("Network", "Big Fail :/")
                     Log.d("Network", response.toString())
@@ -75,9 +106,10 @@ class ViewActivity : AppCompatActivity() {
             }
         }
     }
+
     fun genView() {
         torrentName.text = torrent.name
-        title = torrent.name + " - "+ getString(R.string.nyaapantsu)
+        title = torrent.name + " - " + getString(R.string.nyaapantsu)
         torrentCategory.text = resources.getStringArray(R.array.cat_array)[torrent.category]
         torrentUser.text = torrent.username
         torrentHash.text = torrent.hash
@@ -113,10 +145,10 @@ class ViewActivity : AppCompatActivity() {
                 if (ContextCompat.checkSelfPermission(this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     if (isExternalStorageWritable()) {
-                        Log.d("download", "URL: " +url)
+                        Log.d("download", "URL: " + url)
                         val request = DownloadManager.Request(Uri.parse(url))
                         request.setDescription("Download a torrent file")
-                        request.setTitle( torrent.name+" - NyaaPantsu")
+                        request.setTitle(torrent.name + " - NyaaPantsu")
                         // in order for this if to run, you must use the android 3.2 to compile your app
                         request.allowScanningByMediaScanner()
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
@@ -138,9 +170,42 @@ class ViewActivity : AppCompatActivity() {
 
         copyButton.setOnClickListener { _ ->
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            var clipData = ClipData.newPlainText(torrent.name, torrent.magnet)
+            val clipData = ClipData.newPlainText(torrent.name, torrent.magnet)
             clipboard.primaryClip = clipData
             toast(getString(R.string.magnet_copied))
+        }
+
+        streamButton.setOnClickListener { _ ->
+            val magnet = torrent.magnet
+            if (magnet != "") {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    if (isExternalStorageWritable()) {
+                        Log.d("stream", "Magnet: " + magnet)
+                        progressdialog!!.progress = 0
+                        if(torrentStreamServer!!.isStreaming) {
+                            torrentStreamServer!!.stopStream()
+                            progressdialog!!.dismiss()
+                        }
+                        progressdialog!!.setTitle(getString(R.string.preparing))
+                        progressdialog!!.setMessage(getString(R.string.loading))
+                        progressdialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+                        progressdialog!!.isIndeterminate = false
+                        progressdialog!!.setCanceledOnTouchOutside(false)
+                        progressdialog!!.setCancelable(false)
+                        progressdialog!!.show()
+                        addTorrentToRecentPlaylist(torrent)
+                        torrentStreamServer!!.startStream(magnet)
+                    } else {
+                        toast(getString(R.string.external_storage_not_available))
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 10)
+                }
+            } else {
+                toast(getString(R.string.torrent_not_available))
+            }
+
         }
 
         showMoreToggle.setOnClickListener { _ ->
@@ -161,6 +226,7 @@ class ViewActivity : AppCompatActivity() {
         }
         return false
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {
@@ -169,4 +235,49 @@ class ViewActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        torrentStreamServer!!.stopTorrentStream()
+    }
+    override fun onStreamStarted(p0: TorrentLib?) {
+        Log.d(TORRENT, "onStreamStarted");
+    }
+
+    override fun onStreamReady(p0: TorrentLib?) {
+        progressdialog!!.progress = 100
+        progressdialog!!.dismiss()
+        Log.d(TORRENT, "onStreamReady: " + p0!!.videoFile)
+    }
+
+    override fun onStreamPrepared(p0: TorrentLib?) {
+        Log.d(TORRENT, "OnStreamPrepared")
+        progressdialog!!.setTitle(getString(R.string.downloading))
+        p0!!.startDownload()
+    }
+
+    override fun onStreamStopped() {
+        Log.d(TORRENT, "onStreamStopped")
+    }
+
+    override fun onStreamProgress(p0: TorrentLib?, status: StreamStatus?) {
+        if(status?.bufferProgress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != status.bufferProgress) {
+            Log.d(TORRENT, "Progress: " + status.bufferProgress)
+            progressdialog!!.progress = status.bufferProgress
+        }
+    }
+
+    override fun onStreamError(p0: TorrentLib?, exception: Exception?) {
+        Log.e(TORRENT, "onStreamError", exception)
+        toast("Stream error: " + exception)
+    }
+
+    override fun onServerReady(url: String) {
+        Log.d(TORRENT, "onServerReady: " + url)
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.setDataAndType(Uri.parse(url), "video/*")
+        startActivity(intent)
+    }
 }
+

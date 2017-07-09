@@ -37,7 +37,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
-            android:name=".ui.activity.ViewActivity"
+            android:name=".ui.activity.TorrentActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

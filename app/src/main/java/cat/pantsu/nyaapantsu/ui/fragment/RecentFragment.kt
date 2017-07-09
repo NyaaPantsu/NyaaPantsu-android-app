@@ -4,7 +4,6 @@ package cat.pantsu.nyaapantsu.ui.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.app.Fragment
-import android.app.FragmentTransaction
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.view.*
@@ -16,7 +15,7 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.Torrent
-import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
+import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_recent.*
 import org.jetbrains.anko.backgroundColor
@@ -54,7 +53,7 @@ class RecentFragment : Fragment() {
             parseTorrents()
         }
         torrentlist.setOnItemClickListener { _, _, i, _ ->
-            startActivity<ViewActivity>("torrent" to torrents.getString(i))
+            startActivity<TorrentActivity>("position" to i, "type" to "recent")
         }
     }
     companion object {

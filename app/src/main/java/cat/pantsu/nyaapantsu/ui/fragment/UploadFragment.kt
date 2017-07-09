@@ -23,7 +23,7 @@ import android.widget.AdapterView
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.model.User
-import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
+import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import com.github.kittinunf.fuel.core.FuelManager
 import com.nononsenseapps.filepicker.FilePickerActivity
 import com.nononsenseapps.filepicker.Utils
@@ -182,7 +182,7 @@ class UploadFragment : Fragment() {
                             // YourClass obj = new Gson().fromJson(serverResponse.getBodyAsString(), YourClass.class);
                             var json = JSONObject(serverResponse.bodyAsString)
                             if (json.getBoolean("ok")) {
-                                startActivity<ViewActivity>("torrent" to json.getJSONObject("data").toString())
+                                startActivity<TorrentActivity>("torrent" to json.getJSONObject("data").toString(), "type" to "upload")
                             } else {
                                 var allErrors = json.optJSONObject("all_errors")
                                 var errors = allErrors?.optJSONArray("errors")

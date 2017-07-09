@@ -8,7 +8,6 @@ import android.os.Handler
 import android.app.Fragment
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,20 +15,15 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.model.Query
 import cat.pantsu.nyaapantsu.model.Torrent
-import cat.pantsu.nyaapantsu.ui.activity.ViewActivity
-import com.github.kittinunf.fuel.android.core.Json
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
-import com.github.kittinunf.result.getAs
+import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
-import org.json.JSONArray
 import java.util.*
 
 
@@ -43,9 +37,8 @@ import java.util.*
  */
 class TorrentListFragment : Fragment() {
 
-    private var mQuery: Query? = null
+    private var query: Query? = null
     private var searchParams: String? = null
-    var torrents: JSONArray = JSONArray()
     private var myHandler = Handler()
     var timeUpdateInterval:Int? = null
 
@@ -54,7 +47,7 @@ class TorrentListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            mQuery = arguments.getParcelable("query")
+            query = arguments.getParcelable("query")
         }
         timeUpdateInterval = PreferenceManager.getDefaultSharedPreferences(activity).getString("sync_frequency", "15").toInt()
     }
@@ -66,13 +59,13 @@ class TorrentListFragment : Fragment() {
         activity.fab.visibility = View.VISIBLE
 
         searchParams = ""
-        if (mQuery?.isQueryable() == true) {
-            if (mQuery?.q != "") {
-                activity.title = getString(R.string.title_activity_results)+" \'" + mQuery?.q + "\' - NyaaPantsu"
+        if (query?.isQueryable() == true) {
+            if (query?.q != "") {
+                activity.title = getString(R.string.title_activity_results)+" \'" + query?.q + "\' - NyaaPantsu"
             } else {
                 activity.title = getString(R.string.title_activity_search)
             }
-            searchParams = mQuery.toString()
+            searchParams = query.toString()
             closeButton.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_clear_search))
 
             closeButton.setOnClickListener { _ ->
@@ -98,7 +91,7 @@ class TorrentListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         torrentlist.setOnItemClickListener { _, _, i, _ ->
-            startActivity<ViewActivity>("torrent" to torrents.getString(i))
+            startActivity<TorrentActivity>("position" to i, "type" to "search")
         }
 
         swiperefresh.setOnRefreshListener {
@@ -158,33 +151,18 @@ class TorrentListFragment : Fragment() {
     }
     fun getData() {
         myHandler.removeCallbacksAndMessages(null)
-        ("/search"+searchParams).httpGet().responseJson {request, response, result ->
-            when (result)  {
-                is Result.Failure -> {
-                    Log.d("Network", "Big Fail :/")
-                    Log.d("Network", response.toString())
-                    Log.d("Network", request.toString())
-                }
-                is Result.Success -> {
-                    Log.d("Network", result.toString())
-                    Log.d("Network", request.toString())
-                    Log.d("Network", response.toString())
-
-                    val json = result.getAs<Json>()
-                    if (json !== null)
-                        this.torrents = json.array()
-                    parseTorrents()
-                }
+        QueryHelper.instance.query = query
+        QueryHelper.instance.search(object : QueryHelper.CallBack {
+            override fun failure() {
+                swiperefresh.isRefreshing = false
             }
-            swiperefresh.isRefreshing = false
-            myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
-        }
-    }
 
-    fun parseTorrents() {
-        val length = (torrents.length()-1)
-        val torrentList = (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
-        torrentlist.adapter = ListAdapter(activity, torrentList = torrentList)
+            override fun success(torrentList: LinkedList<Torrent>) {
+                swiperefresh.isRefreshing = false
+                torrentlist.adapter = ListAdapter(activity, torrentList = torrentList)
+            }
+        })
+        myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
     }
 
     fun resetTorrents() {

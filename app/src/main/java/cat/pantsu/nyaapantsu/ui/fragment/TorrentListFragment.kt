@@ -1,27 +1,24 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
-import android.annotation.SuppressLint
+import android.app.Fragment
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.app.Fragment
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageButton
-import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.model.Query
 import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
-import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import java.util.*
@@ -159,7 +156,7 @@ class TorrentListFragment : Fragment() {
 
             override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
-                torrentlist.adapter = ListAdapter(activity, torrentList = torrentList)
+                torrentlist.adapter = TorrentListAdapter(activity, torrentList = torrentList)
             }
         })
         myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
@@ -172,55 +169,6 @@ class TorrentListFragment : Fragment() {
         getData()
     }
 
-    private class ListAdapter(private val context: Context, torrentList: LinkedList<Torrent>) : BaseAdapter() {
-        private val mInflator: LayoutInflater = LayoutInflater.from(context)
-        private var torrentList = LinkedList<Torrent>()
 
-        init {
-            this.torrentList = torrentList
-        }
-
-        override fun getCount(): Int {
-            return torrentList.size
-        }
-
-        override fun getItem(position: Int): Any {
-            return torrentList[position]
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        @SuppressLint("SetTextI18n")
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-            val view: View?
-            val vh: ListRowHolder
-            if (convertView == null) {
-                view = this.mInflator.inflate(R.layout.list_row, parent, false)
-                vh = ListRowHolder(view)
-                view.tag = vh
-            } else {
-                view = convertView
-                vh = view.tag as ListRowHolder
-            }
-            vh.label.text = torrentList[position].name
-            vh.uploader.text = torrentList[position].username
-            vh.stats.text = "S: "+torrentList[position].seeders+" L: "+torrentList[position].leechers
-            view?.backgroundColor = ContextCompat.getColor(context, android.R.color.transparent)
-            when (torrentList[position].status) {
-                2 -> view?.backgroundColor = ContextCompat.getColor(context, R.color.colorRemake)
-                3 -> view?.backgroundColor = ContextCompat.getColor(context, R.color.colorTrusted)
-                4 -> view?.backgroundColor = ContextCompat.getColor(context, R.color.colorAPlus)
-            }
-            return view
-        }
-    }
-    private class ListRowHolder(row: View?) {
-        val label: TextView = row?.findViewById(R.id.label) as TextView
-        val stats: TextView = row?.findViewById(R.id.stats) as TextView
-        val uploader: TextView = row?.findViewById(R.id.uploader) as TextView
-
-    }
 
 }// Required empty public constructor

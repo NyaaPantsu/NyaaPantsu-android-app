@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.adapter.RecentListAdapter
+import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.Torrent
@@ -46,7 +46,7 @@ class RecentFragment : Fragment() {
     fun parseTorrents() {
         val length = (torrents.length()-1)
         val torrentList = (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
-        torrentlist.adapter = RecentListAdapter(activity, torrentList = torrentList)
+        torrentlist.adapter = TorrentListAdapter(activity, torrentList = torrentList)
     }
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

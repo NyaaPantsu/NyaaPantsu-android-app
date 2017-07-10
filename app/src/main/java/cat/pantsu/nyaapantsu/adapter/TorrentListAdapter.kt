@@ -40,18 +40,18 @@ class TorrentListAdapter(var context: Context, torrentList: LinkedList<Torrent>)
     @SuppressLint("SetTextI18n")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val view: View?
-        val vh: TorrentListRowHolder
+        val holder: TorrentListRowHolder
         if (convertView == null) {
             view = this.mInflator.inflate(R.layout.list_row, parent, false)
-            vh = TorrentListRowHolder(view)
-            view.tag = vh
+            holder = TorrentListRowHolder(view)
+            view.tag = holder
         } else {
             view = convertView
-            vh = view.tag as TorrentListRowHolder
+            holder = view.tag as TorrentListRowHolder
         }
-        vh.label.text = torrentList[position].name
-        vh.uploader.text = torrentList[position].username
-        vh.stats.text = "S: "+torrentList[position].seeders+" L: "+torrentList[position].leechers
+        holder.label.text = torrentList[position].name
+        holder.uploader.text = torrentList[position].username
+        holder.stats.text = "S: "+torrentList[position].seeders+" L: "+torrentList[position].leechers
         view?.backgroundColor = ContextCompat.getColor(context, android.R.color.transparent)
         when (torrentList[position].status) {
             2 -> view?.backgroundColor = ContextCompat.getColor(context, R.color.colorRemake)
@@ -60,10 +60,12 @@ class TorrentListAdapter(var context: Context, torrentList: LinkedList<Torrent>)
         }
         return view
     }
-}
-private class TorrentListRowHolder(row: View?) {
-    val label: TextView = row?.findViewById(R.id.label) as TextView
-    val stats: TextView = row?.findViewById(R.id.stats) as TextView
-    val uploader: TextView = row?.findViewById(R.id.uploader) as TextView
 
+    class TorrentListRowHolder(row: View?) {
+        val label: TextView = row?.findViewById(R.id.label) as TextView
+        val stats: TextView = row?.findViewById(R.id.stats) as TextView
+        val uploader: TextView = row?.findViewById(R.id.uploader) as TextView
+
+    }
 }
+

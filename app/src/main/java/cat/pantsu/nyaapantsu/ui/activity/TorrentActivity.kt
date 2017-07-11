@@ -1,6 +1,5 @@
 package cat.pantsu.nyaapantsu.ui.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import cat.pantsu.nyaapantsu.R
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_torrent.*
 import org.json.JSONArray
 import java.util.*
 
-class TorrentActivity : AppCompatActivity() {
+class TorrentActivity : BaseActivity() {
     private var list:LinkedList<Torrent> = LinkedList()
 
     override fun onCreate(savedInstanceState: Bundle?) {

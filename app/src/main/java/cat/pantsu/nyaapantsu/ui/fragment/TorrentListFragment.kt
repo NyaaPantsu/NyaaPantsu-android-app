@@ -150,7 +150,7 @@ class TorrentListFragment : Fragment() {
     fun getData() {
         myHandler.removeCallbacksAndMessages(null)
         QueryHelper.instance.query = query
-        QueryHelper.instance.search(object : QueryHelper.CallBack {
+        QueryHelper.instance.search(object : QueryHelper.Callback {
             override fun failure() {
                 swiperefresh.isRefreshing = false
             }

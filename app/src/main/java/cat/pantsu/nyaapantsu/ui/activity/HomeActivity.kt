@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.*
 import com.github.kittinunf.fuel.android.core.Json
@@ -30,7 +29,7 @@ import cat.pantsu.nyaapantsu.ui.fragment.RecentFragment
 import com.bumptech.glide.Glide
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentListFragment.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
+class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentListFragment.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)

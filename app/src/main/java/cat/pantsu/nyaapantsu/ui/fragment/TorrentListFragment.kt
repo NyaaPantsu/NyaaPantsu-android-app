@@ -91,6 +91,7 @@ class TorrentListFragment : Fragment() {
             startActivity<TorrentActivity>("position" to i, "type" to "search")
         }
 
+        swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
         swiperefresh.setOnRefreshListener {
             this.getData()
         }
@@ -149,7 +150,7 @@ class TorrentListFragment : Fragment() {
     fun getData() {
         myHandler.removeCallbacksAndMessages(null)
         QueryHelper.instance.query = query
-        QueryHelper.instance.search(object : QueryHelper.CallBack {
+        QueryHelper.instance.search(object : QueryHelper.Callback {
             override fun failure() {
                 swiperefresh.isRefreshing = false
             }

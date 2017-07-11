@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.app.LoaderManager.LoaderCallbacks
 import android.content.CursorLoader
 import android.content.Loader
@@ -24,7 +23,6 @@ import android.widget.TextView
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.util.Log
-import android.view.MenuItem
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.Fuel
@@ -40,7 +38,7 @@ import org.json.JSONObject
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
+class LoginActivity : BaseActivity(), LoaderCallbacks<Cursor> {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -49,7 +47,6 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         // Set up the login form.
         populateAutoComplete()
@@ -316,14 +313,6 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
-        if (item.itemId == android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
     companion object {
 
         /**

@@ -40,7 +40,7 @@ class QueryHelper private constructor(){
         //TODO
     }
 
-    fun search(cb: CallBack) {
+    fun search(cb: Callback) {
         ("/search" + query.toString()).httpGet().responseJson { request, response, result ->
             when (result) {
                 is Result.Failure -> {
@@ -63,7 +63,7 @@ class QueryHelper private constructor(){
         }
     }
 
-    interface CallBack {
+    interface Callback {
         fun failure()
         fun success(torrentList: LinkedList<Torrent>)
     }

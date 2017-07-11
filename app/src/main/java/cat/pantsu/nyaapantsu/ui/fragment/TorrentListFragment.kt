@@ -91,6 +91,7 @@ class TorrentListFragment : Fragment() {
             startActivity<TorrentActivity>("position" to i, "type" to "search")
         }
 
+        swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
         swiperefresh.setOnRefreshListener {
             this.getData()
         }

@@ -1,0 +1,29 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_header_general"
+        android:key="pref_key_settings_general">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="keep_login_switch"
+            android:summary="@string/pref_description_keep_login"
+            android:title="@string/pref_title_keep_login" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_data_sync"
+        android:key="pref_key_settings_notifications">
+
+        <ListPreference
+            android:defaultValue="15"
+            android:entries="@array/pref_sync_frequency_titles"
+            android:entryValues="@array/pref_sync_frequency_values"
+            android:key="sync_frequency"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_sync_frequency" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

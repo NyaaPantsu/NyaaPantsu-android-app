@@ -184,4 +184,6 @@
     <string name="recent">Ostatnie</string>
     <string name="stream">Stream</string>
     <string name="clear">Wyczyść</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
 </resources>

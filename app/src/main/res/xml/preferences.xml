@@ -6,6 +6,16 @@
 
         <SwitchPreference
             android:defaultValue="true"
+            android:key="doubleBackToExit"
+            android:title="@string/pref_title_doubleBackToExit" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_account"
+        android:key="pref_key_settings_account">
+
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="keep_login_switch"
             android:summary="@string/pref_description_keep_login"
             android:title="@string/pref_title_keep_login" />

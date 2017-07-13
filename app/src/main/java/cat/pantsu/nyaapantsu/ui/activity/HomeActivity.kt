@@ -1,11 +1,24 @@
 package cat.pantsu.nyaapantsu.ui.activity
 
+import android.app.Fragment
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.NavigationView
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
-import android.view.*
+import android.view.MenuItem
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.Query
+import cat.pantsu.nyaapantsu.model.User
+import cat.pantsu.nyaapantsu.model.Utils
+import cat.pantsu.nyaapantsu.ui.fragment.*
+import com.bumptech.glide.Glide
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -13,20 +26,9 @@ import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
-import android.app.Fragment
-import android.widget.*
-import org.jetbrains.anko.*
-import android.net.Uri
-import android.support.v4.content.ContextCompat
-import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.model.Query
-import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
-import cat.pantsu.nyaapantsu.model.User
-import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
-import cat.pantsu.nyaapantsu.ui.fragment.SearchFragment
-import cat.pantsu.nyaapantsu.ui.fragment.UploadFragment
-import cat.pantsu.nyaapantsu.ui.fragment.RecentFragment
-import com.bumptech.glide.Glide
+import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentListFragment.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
@@ -61,6 +63,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         memberButton.setOnClickListener { _ ->
             if (User.token == "") {
                 startActivity<LoginActivity>()
+                finish()
             } else {
                 resetUser()
             }
@@ -78,7 +81,15 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
+        }
+        else if (Utils.doubleBackToExit) {
+            toast(getString(R.string.doubleBackToExit))
+            Handler().postDelayed({
+                super.onBackPressed()
+            }, 2000)
+
+        }
+        else if (!Utils.doubleBackToExit){
             super.onBackPressed()
         }
     }
@@ -90,28 +101,24 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val torrentListFragment = TorrentListFragment.newInstance(Query())
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, torrentListFragment as Fragment)
-                        .addToBackStack(null)
                         .commit()
             }
             R.id.nav_upload -> {
                 val uploadFragment = UploadFragment.newInstance()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, uploadFragment as Fragment)
-                        .addToBackStack(null)
                         .commit()
             }
             R.id.nav_recent -> {
                 val recentFragment = RecentFragment.newInstance()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, recentFragment as Fragment)
-                        .addToBackStack(null)
                         .commit()
             }
             R.id.nav_search -> {
                 val searchFragment = SearchFragment()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, searchFragment as Fragment)
-                        .addToBackStack(null)
                         .commit()
             }
             R.id.nav_settings -> {
@@ -121,7 +128,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 val aboutFragment = AboutFragment.newInstance()
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_fragment, aboutFragment as Fragment)
-                        .addToBackStack(null)
                         .commit()
             }
         }

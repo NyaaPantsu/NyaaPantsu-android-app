@@ -144,8 +144,8 @@
 
     <!-- Strings related to Settings -->
 
-    <!-- Example General settings -->
-    <string name="pref_header_general">Account</string>
+    <string name="pref_header_account">Account</string>
+    <string name="pref_header_general">General</string>
 
     <string name="pref_title_keep_login">Remember my account</string>
     <string name="pref_description_keep_login">Log you in every time you start the app (does not store your password)
@@ -192,4 +192,6 @@
     <string name="clear">Clear</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="doubleBackToExit">Please click BACK again to exit</string>
+    <string name="pref_title_doubleBackToExit">Double back to exit</string>
 </resources>

@@ -248,11 +248,11 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         progressdialog!!.setCanceledOnTouchOutside(true)
         progressdialog!!.setCancelable(true)
         progressdialog!!.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok), {
-            dialog, which ->
+            _, _ ->
             progressdialog!!.dismiss()
         })
         progressdialog!!.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), {
-            dialog, which ->
+            _, _ ->
             //FIXME cancel need already starting
             if (TorrentStreamHelper.instance.isStreaming()) TorrentStreamHelper.instance.stop()
             progressdialog!!.dismiss()

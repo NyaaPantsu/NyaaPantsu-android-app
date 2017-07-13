@@ -35,7 +35,6 @@ import java.util.*
 class TorrentListFragment : Fragment() {
 
     private var query: Query? = null
-    private var searchParams: String? = null
     private var myHandler = Handler()
     var timeUpdateInterval: Int? = null
     lateinit var recyclerView: RecyclerView
@@ -56,14 +55,12 @@ class TorrentListFragment : Fragment() {
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.VISIBLE
 
-        searchParams = ""
         if (query?.isQueryable() == true) {
             if (query?.q != "") {
                 activity.title = getString(R.string.title_activity_results)+" \'" + query?.q + "\' - NyaaPantsu"
             } else {
                 activity.title = getString(R.string.title_activity_search)
             }
-            searchParams = query.toString()
             closeButton.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_clear_search))
 
             closeButton.setOnClickListener { _ ->
@@ -169,8 +166,8 @@ class TorrentListFragment : Fragment() {
     }
 
     fun resetTorrents() {
-        searchParams = ""
         myHandler.removeCallbacksAndMessages(null)
+        query = Query() // We reset to nothing the query
         activity.title = "Torrents - NyaaPantsu"
         getData()
     }

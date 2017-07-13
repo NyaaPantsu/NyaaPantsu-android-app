@@ -1,15 +1,16 @@
 <?xmlns version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
+    cardview:cardBackgroundColor="@color/colorBluePastelTransparent"
     cardview:cardCornerRadius="1dp"
     cardview:cardElevation="1dp"
-    cardview:cardUseCompatPadding="true"
-    cardview:cardBackgroundColor="@color/colorBluePastelTransparent">
+    cardview:cardUseCompatPadding="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -33,8 +34,8 @@
             android:id="@+id/uploader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
-            android:layout_below="@+id/stats" />
+            android:layout_below="@+id/stats"
+            android:textAlignment="textEnd" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

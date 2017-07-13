@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +18,9 @@ import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.model.Query
 import cat.pantsu.nyaapantsu.model.Torrent
-import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.startActivity
 import java.util.*
 
 
@@ -37,7 +37,8 @@ class TorrentListFragment : Fragment() {
     private var query: Query? = null
     private var searchParams: String? = null
     private var myHandler = Handler()
-    var timeUpdateInterval:Int? = null
+    var timeUpdateInterval: Int? = null
+    lateinit var recyclerView: RecyclerView
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -81,15 +82,16 @@ class TorrentListFragment : Fragment() {
 
         this.getData()
         // Inflate the layout for this fragment
+
         return inflater!!.inflate(R.layout.fragment_torrent_list, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        torrentlist.setOnItemClickListener { _, _, i, _ ->
-            startActivity<TorrentActivity>("position" to i, "type" to "search")
-        }
+        //torrentlist.setOnItemClickListener { _, _, i, _ ->
+        //    startActivity<TorrentActivity>("position" to i, "type" to "search")
+        //}
 
         swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
         swiperefresh.setOnRefreshListener {
@@ -157,7 +159,10 @@ class TorrentListFragment : Fragment() {
 
             override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
-                torrentlist.adapter = TorrentListAdapter(activity, torrentList = torrentList)
+                //torrentlist.adapter = RTorrentListAdapter(activity, torrentList = torrentList)
+                recyclerView = find<RecyclerView>(R.id.torrentlist)
+                recyclerView.layoutManager = LinearLayoutManager(activity)
+                recyclerView.adapter = TorrentListAdapter(activity, torrentList = torrentList)
             }
         })
         myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))

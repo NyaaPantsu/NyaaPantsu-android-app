@@ -3,6 +3,8 @@ package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.app.Fragment
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageButton
 import cat.pantsu.nyaapantsu.R
@@ -10,17 +12,15 @@ import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.Torrent
-import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import kotlinx.android.synthetic.main.app_bar_home.*
-import kotlinx.android.synthetic.main.fragment_recent.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.startActivity
 import org.json.JSONArray
 import java.util.*
 
 
 class RecentFragment : Fragment() {
     var torrents: JSONArray = JSONArray()
+    lateinit var recyclerView: RecyclerView
 
     companion object {
         fun newInstance(): RecentFragment {
@@ -47,7 +47,10 @@ class RecentFragment : Fragment() {
     fun parseTorrents() {
         val length = (torrents.length() - 1)
         val torrentList = (length downTo 0).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
-        torrentlist.adapter = TorrentListAdapter(activity, torrentList = torrentList)
+        //torrentlist.adapter = RTorrentListAdapter(activity, torrentList = torrentList)
+        recyclerView = find<RecyclerView>(R.id.torrentlist)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = TorrentListAdapter(activity, torrentList = torrentList)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -55,9 +58,9 @@ class RecentFragment : Fragment() {
         if (torrents.length() > 0) {
             parseTorrents()
         }
-        torrentlist.setOnItemClickListener { _, _, i, _ ->
-            startActivity<TorrentActivity>("position" to i, "type" to "recent")
-        }
+        //torrentlist.setOnItemClickListener { _, _, i, _ ->
+        //    startActivity<TorrentActivity>("position" to i, "type" to "recent")
+        //}
     }
 
 

@@ -16,7 +16,9 @@
     <string name="status">状态</string>
     <string name="max">最多</string>
     <string name="other">其它</string>
-    <string name="loading">数据装填中...</string>
+    <string name="loading">数据装填中…</string>
+    <string name="preparing">流预处理中…</string>
+    <string name="downloading">下载中…</string>
     <string name="uploaded_by">上传者</string>
     <string name="date">日期</string>
     <string name="size">大小</string>
@@ -179,4 +181,11 @@
     <string name="pref_title_vibrate">震动</string>
     <string name="from">从</string>
     <string name="to">至</string>
+    <string name="watch">观看</string>
+    <string name="title_activity_watch">观看动画!</string>
+    <string name="recent">最近</string>
+    <string name="stream">流</string>
+    <string name="clear">清除</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
 </resources>

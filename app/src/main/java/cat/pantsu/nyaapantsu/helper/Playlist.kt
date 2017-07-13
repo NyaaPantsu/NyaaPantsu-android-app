@@ -23,7 +23,13 @@ fun setRecentPlaylist(results: JSONArray) {
 }
 
 fun addTorrentToRecentPlaylist(torrent: Torrent) {
-    var torrents = getRecentPlaylistAsArray()
+    val torrents = getRecentPlaylistAsArray()
+    for (i in 0..(torrents.length() - 1)) {
+        if (torrent.id == torrents.getJSONObject(i).getInt("id")) {
+            torrents.remove(i)
+            break
+        }
+    }
     torrents.put(torrent.toJson())
     setRecentPlaylist(torrents)
 }

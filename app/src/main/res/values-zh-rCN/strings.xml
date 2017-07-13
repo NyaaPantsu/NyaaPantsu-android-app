@@ -141,7 +141,8 @@
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">账号</string>
+    <string name="pref_header_account">账号</string>
+    <string name="pref_header_general">General</string>
 
     <string name="pref_title_keep_login">记住我的账号</string>
     <string name="pref_description_keep_login">每次启动应用都将进行登录(不会存储你的密码)

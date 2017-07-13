@@ -4,6 +4,7 @@ import android.app.Application
 import android.preference.PreferenceManager
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.User
+import cat.pantsu.nyaapantsu.model.Utils
 import com.github.kittinunf.fuel.core.FuelManager
 import net.gotev.uploadservice.UploadService
 import net.gotev.uploadservice.okhttp.OkHttpStack
@@ -34,6 +35,15 @@ class Initializer : Application() {
             User.status=0
             User.md5 = ""
         }
+
+        val doubleBackToExit = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("doubleBackToExit", true)
+        if (doubleBackToExit) {
+            Utils.doubleBackToExit = true
+        }
+        else if(!doubleBackToExit){
+            Utils.doubleBackToExit = false
+        }
+
         if (BuildConfig.DEBUG) {
             //debugErase() // Comment out when you need to test and erase objects
         }

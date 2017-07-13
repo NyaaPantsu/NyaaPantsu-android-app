@@ -43,11 +43,13 @@ class RecentFragment : Fragment() {
         torrents = getRecentPlaylistAsArray()
         return inflater!!.inflate(R.layout.fragment_recent, container, false)
     }
+
     fun parseTorrents() {
-        val length = (torrents.length()-1)
-        val torrentList = (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
+        val length = (torrents.length() - 1)
+        val torrentList = (length downTo 0).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
         torrentlist.adapter = TorrentListAdapter(activity, torrentList = torrentList)
     }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (torrents.length() > 0) {

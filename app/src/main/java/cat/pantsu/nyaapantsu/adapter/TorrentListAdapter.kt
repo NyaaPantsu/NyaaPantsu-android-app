@@ -41,7 +41,7 @@ class TorrentListAdapter(var context: Context, torrentList: LinkedList<Torrent>)
         holder?.cardview?.setOnClickListener { _ ->
              context.startActivity<TorrentActivity>("position" to position, "type" to "search")
         }
-        
+
         when (item.status) {
             2 -> holder?.cardview?.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.resources.getColorStateList(R.color.colorRemake, null) else context.resources.getColorStateList(R.color.colorRemake)
             3 -> holder?.cardview?.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.resources.getColorStateList(R.color.colorTrusted, null) else context.resources.getColorStateList(R.color.colorTrusted)

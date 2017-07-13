@@ -3,10 +3,7 @@ package cat.pantsu.nyaapantsu.ui.fragment
 import android.Manifest
 import android.app.DownloadManager
 import android.app.ProgressDialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -22,6 +19,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
 import com.github.kittinunf.fuel.android.core.Json
@@ -30,9 +28,7 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
 import com.github.se_bastiaan.torrentstream.StreamStatus
-import com.github.se_bastiaan.torrentstream.TorrentOptions
-import com.github.se_bastiaan.torrentstreamserver.TorrentServerListener
-import com.github.se_bastiaan.torrentstreamserver.TorrentStreamServer
+import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
 import kotlinx.android.synthetic.main.fragment_torrent_view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.support.v4.toast
@@ -42,11 +38,9 @@ import java.lang.Exception
 /**
  * Created by ltype on 2017/7/9.
  */
-class TorrentViewFragment: Fragment(), TorrentServerListener {
+class TorrentViewFragment: Fragment(), TorrentListener {
     var torrent = Torrent(JSONObject())
     var showDet = false
-    val TORRENT = "TORRENT"
-    var torrentStreamServer : TorrentStreamServer? = null
     var progressdialog: ProgressDialog? = null
 
     companion object {
@@ -189,27 +183,20 @@ class TorrentViewFragment: Fragment(), TorrentServerListener {
         }
 
         streamButton.setOnClickListener { _ ->
-            prepareStream()
             val magnet = torrent.magnet
             if (magnet != "") {
                 if (ContextCompat.checkSelfPermission(context,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     if (isExternalStorageWritable()) {
                         Log.d("stream", "Magnet: " + magnet)
-                        progressdialog!!.progress = 0
-                        if(torrentStreamServer!!.isStreaming) {
-                            torrentStreamServer!!.stopStream()
-                            progressdialog!!.dismiss()
+                        if (!TorrentStreamHelper.instance.isStreaming())  {
+                            TorrentStreamHelper.instance.start(magnet)
+                            TorrentStreamHelper.torrent = torrent
+                            addTorrentToRecentPlaylist(torrent)
                         }
-                        progressdialog!!.setTitle(getString(R.string.preparing))
-                        progressdialog!!.setMessage(getString(R.string.loading))
-                        progressdialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
-                        progressdialog!!.isIndeterminate = false
-                        progressdialog!!.setCanceledOnTouchOutside(false)
-                        progressdialog!!.setCancelable(false)
-                        progressdialog!!.show()
-                        addTorrentToRecentPlaylist(torrent)
-                        torrentStreamServer!!.startStream(magnet)
+                        // show current stream status
+                        TorrentStreamHelper.instance.setListener(this)
+                        displayProgress()
                     } else {
                         toast(getString(R.string.external_storage_not_available))
                     }
@@ -233,18 +220,26 @@ class TorrentViewFragment: Fragment(), TorrentServerListener {
         }
     }
 
-    fun prepareStream() {
-        val torrentOptions = TorrentOptions.Builder()
-                .saveLocation(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS))
-                .removeFilesAfterStop(true)
-                .build()
-        torrentStreamServer = TorrentStreamServer.getInstance();
-        torrentStreamServer!!.setTorrentOptions(torrentOptions);
-        torrentStreamServer!!.setServerHost("127.0.0.1");
-        torrentStreamServer!!.setServerPort(8090);
-        torrentStreamServer!!.startTorrentStream();
-        torrentStreamServer!!.addListener(this);
+    fun displayProgress() {
+        progressdialog!!.setTitle(TorrentStreamHelper.torrent!!.name)
+        progressdialog!!.setMessage(getString(R.string.preparing))
+        progressdialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+        progressdialog!!.isIndeterminate = false
+        progressdialog!!.setCanceledOnTouchOutside(true)
+        progressdialog!!.setCancelable(true)
+        progressdialog!!.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok), {
+            dialog, which ->
+            progressdialog!!.dismiss()
+        })
+        progressdialog!!.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), {
+            dialog, which ->
+            //FIXME cancel need already starting
+            if (TorrentStreamHelper.instance.isStreaming()) TorrentStreamHelper.instance.stop()
+            progressdialog!!.dismiss()
+        })
+        progressdialog!!.progress = 0
         progressdialog!!.max = 100
+        progressdialog!!.show()
     }
 
     fun isExternalStorageWritable(): Boolean {
@@ -266,46 +261,47 @@ class TorrentViewFragment: Fragment(), TorrentServerListener {
 
     override fun onStop() {
         super.onStop()
-        torrentStreamServer?.stopTorrentStream()
-    }
-    override fun onStreamStarted(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
-        Log.d(TORRENT, "onStreamStarted");
     }
 
-    override fun onStreamReady(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
-        progressdialog!!.progress = 100
-        progressdialog!!.dismiss()
-        Log.d(TORRENT, "onStreamReady: " + p0!!.videoFile)
+    override fun onStreamPrepared(t: com.github.se_bastiaan.torrentstream.Torrent) {
+        Log.d(javaClass.simpleName, "OnStreamPrepared")
+        t.startDownload()
+        if (!isAdded) return
+        progressdialog!!.setMessage(getString(R.string.downloading))
     }
 
-    override fun onStreamPrepared(p0: com.github.se_bastiaan.torrentstream.Torrent?) {
-        Log.d(TORRENT, "OnStreamPrepared")
-        progressdialog!!.setTitle(getString(R.string.downloading))
-        p0!!.startDownload()
+    override fun onStreamStarted(t: com.github.se_bastiaan.torrentstream.Torrent?) {
+        Log.d(javaClass.simpleName, "onStreamStarted")
     }
 
-    override fun onStreamStopped() {
-        Log.d(TORRENT, "onStreamStopped")
-    }
-
-    override fun onStreamProgress(p0: com.github.se_bastiaan.torrentstream.Torrent?, status: StreamStatus?) {
-        if(status?.bufferProgress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != status.bufferProgress) {
-            Log.d(TORRENT, "Progress: " + status.bufferProgress)
-            progressdialog!!.progress = status.bufferProgress
+    override fun onStreamProgress(t: com.github.se_bastiaan.torrentstream.Torrent?, s: StreamStatus?) {
+        Log.d(javaClass.simpleName, "Progress: " + s?.progress)
+        if(isAdded && s?.progress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != s.progress.toInt()) {
+            progressdialog!!.progress = s.progress.toInt()
         }
     }
 
-    override fun onStreamError(p0: com.github.se_bastiaan.torrentstream.Torrent?, exception: Exception?) {
-        Log.e(TORRENT, "onStreamError", exception)
-        toast("Stream error: " + exception)
-    }
+    override fun onStreamReady(t: com.github.se_bastiaan.torrentstream.Torrent) {
+        Log.d(javaClass.simpleName, "onStreamReady: " + t.videoFile)
+        if (!isAdded) return
+        progressdialog!!.progress = 100
+        progressdialog!!.dismiss()
+        TorrentStreamHelper.instance.stop()
 
-    override fun onServerReady(url: String) {
-        Log.d(TORRENT, "onServerReady: " + url)
-
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        intent.setDataAndType(Uri.parse(url), "video/*")
+        //FIXME check file type
+        val uri = Uri.parse(t.videoFile.toString())
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setDataAndType(uri, "video/*")
         startActivity(intent)
     }
 
+    override fun onStreamStopped() {
+        TorrentStreamHelper.instance.setListener(null)
+        Log.d(javaClass.simpleName, "onStreamStopped")
+    }
+
+    override fun onStreamError(t: com.github.se_bastiaan.torrentstream.Torrent?, e: Exception?) {
+        Log.e(javaClass.simpleName, "onStreamError", e)
+        toast("Stream error: " + e)
+    }
 }

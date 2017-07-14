@@ -24,14 +24,6 @@ import org.jetbrains.anko.find
 import java.util.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [TorrentListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [TorrentListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TorrentListFragment : Fragment() {
 
     private var query: Query? = null
@@ -85,11 +77,6 @@ class TorrentListFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //torrentlist.setOnItemClickListener { _, _, i, _ ->
-        //    startActivity<TorrentActivity>("position" to i, "type" to "search")
-        //}
-
         swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
         swiperefresh.setOnRefreshListener {
             this.getData()
@@ -156,7 +143,6 @@ class TorrentListFragment : Fragment() {
 
             override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
-                //torrentlist.adapter = RTorrentListAdapter(activity, torrentList = torrentList)
                 recyclerView = find<RecyclerView>(R.id.torrentlist)
                 recyclerView.layoutManager = LinearLayoutManager(activity)
                 recyclerView.adapter = TorrentListAdapter(activity, torrentList = torrentList)

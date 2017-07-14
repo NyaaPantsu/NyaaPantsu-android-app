@@ -47,7 +47,6 @@ class RecentFragment : Fragment() {
     fun parseTorrents() {
         val length = (torrents.length() - 1)
         val torrentList = (length downTo 0).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
-        //torrentlist.adapter = RTorrentListAdapter(activity, torrentList = torrentList)
         recyclerView = find<RecyclerView>(R.id.torrentlist)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = TorrentListAdapter(activity, torrentList = torrentList)
@@ -58,9 +57,6 @@ class RecentFragment : Fragment() {
         if (torrents.length() > 0) {
             parseTorrents()
         }
-        //torrentlist.setOnItemClickListener { _, _, i, _ ->
-        //    startActivity<TorrentActivity>("position" to i, "type" to "recent")
-        //}
     }
 
 

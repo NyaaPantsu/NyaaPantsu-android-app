@@ -120,6 +120,9 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .replace(R.id.main_fragment, searchFragment as Fragment)
                         .commit()
             }
+            R.id.nav_user_profile -> {
+                startActivity<UserProfileActivity>()
+            }
             R.id.nav_settings -> {
                 startActivity<SettingsActivity>()
             }

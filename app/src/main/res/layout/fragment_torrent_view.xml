@@ -264,7 +264,10 @@
                             android:id="@+id/torrentWebsite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorDarkBlue" />
+                            android:textColor="@color/colorDarkBlue"
+                            android:linksClickable="true"
+                            android:autoLink="web"/>
+
                     </TableRow>
 
                     <TableRow

@@ -23,7 +23,7 @@ class AboutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         activity.title = getString(R.string.title_activity_about)
-        activity.fab.visibility = View.VISIBLE
+        activity.fab.visibility = View.GONE
         activity.buttonClose.visibility = View.GONE
 
 

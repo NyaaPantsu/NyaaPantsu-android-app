@@ -1,25 +1,22 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.Manifest
+import android.app.Activity
+import android.app.Fragment
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import kotlinx.android.synthetic.main.app_bar_home.*
-import kotlinx.android.synthetic.main.fragment_upload.*
-import org.jetbrains.anko.find
-import android.app.Activity
-import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.model.User
@@ -27,26 +24,17 @@ import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import com.github.kittinunf.fuel.core.FuelManager
 import com.nononsenseapps.filepicker.FilePickerActivity
 import com.nononsenseapps.filepicker.Utils
+import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.fragment_upload.*
+import net.gotev.uploadservice.*
+import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
-import java.io.File
-import net.gotev.uploadservice.UploadNotificationConfig
-import net.gotev.uploadservice.MultipartUploadRequest
-import net.gotev.uploadservice.UploadInfo
-import net.gotev.uploadservice.ServerResponse
-import net.gotev.uploadservice.UploadStatusDelegate
-import org.jetbrains.anko.startActivity
 import org.json.JSONObject
+import java.io.File
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [UploadFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [UploadFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class UploadFragment : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null

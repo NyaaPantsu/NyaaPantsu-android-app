@@ -72,7 +72,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val torrentListFragment = TorrentListFragment.newInstance(Query())
             fragmentManager.beginTransaction()
                     .add(R.id.main_fragment, torrentListFragment as Fragment)
-                    .addToBackStack(null)
                     .commit()
         }
         nav_view.setNavigationItemSelectedListener(this)

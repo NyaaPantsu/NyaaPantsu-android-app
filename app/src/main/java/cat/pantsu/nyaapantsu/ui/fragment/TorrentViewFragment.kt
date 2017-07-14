@@ -5,6 +5,8 @@ import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,12 +15,14 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.helper.ImageGetterAsyncTask
 import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
@@ -122,17 +126,33 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         torrentHash.text = torrent.hash
         torrentDate.text = torrent.date
         torrentSize.text = torrent.size
-
+        var spanned: Spanned
         if (Build.VERSION.SDK_INT >= 24) {
-            torrentDescription.text = Html.fromHtml(torrent.description, Html.FROM_HTML_MODE_COMPACT) // for 24 api and more
+            spanned = Html.fromHtml(torrent.description, Html.FROM_HTML_MODE_COMPACT,
+                    Html.ImageGetter { source ->
+                        val d = LevelListDrawable()
+                        val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
+                        d.addLevel(0, 0, empty)
+                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight())
+                        ImageGetterAsyncTask(context, source, d).execute(torrentDescription)
+                        d
+                    }, null)
         } else {
-            torrentDescription.text = Html.fromHtml(torrent.description) // or for older api
+            spanned = Html.fromHtml(torrent.description,
+                    Html.ImageGetter { source ->
+                        val d = LevelListDrawable()
+                        val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
+                        d.addLevel(0, 0, empty)
+                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight())
+                        ImageGetterAsyncTask(context, source, d).execute(torrentDescription)
+                        d
+                    }, null)
         }
-
+        torrentDescription.text = spanned
         torrentDownloads.text = torrent.completed.toString()
         torrentWebsite.text = torrent.website
-        torrentSeeders.text = "S: " + torrent.seeders.toString()
-        torrentLeechers.text = "L: " + torrent.leechers.toString()
+        torrentSeeders.text = "S: ${torrent.seeders}"
+        torrentLeechers.text = "L: ${torrent.leechers}"
         torrentLastScraped.text = torrent.last_scrape
         torrentFiles.text = torrent.fileList.length().toString()
 
@@ -228,11 +248,11 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         progressdialog!!.setCanceledOnTouchOutside(true)
         progressdialog!!.setCancelable(true)
         progressdialog!!.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok), {
-            dialog, which ->
+            _, _ ->
             progressdialog!!.dismiss()
         })
         progressdialog!!.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), {
-            dialog, which ->
+            _, _ ->
             //FIXME cancel need already starting
             if (TorrentStreamHelper.instance.isStreaming()) TorrentStreamHelper.instance.stop()
             progressdialog!!.dismiss()

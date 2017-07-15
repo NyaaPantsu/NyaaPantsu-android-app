@@ -5,6 +5,7 @@ import android.preference.PreferenceManager
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.model.Utils
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.github.kittinunf.fuel.core.FuelManager
 import net.gotev.uploadservice.UploadService
 import net.gotev.uploadservice.okhttp.OkHttpStack
@@ -16,6 +17,7 @@ class Initializer : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Fresco.initialize(this)
         // setup the broadcast action namespace string which will
         // be used to notify upload status.
         // Gradle automatically generates proper variable as below.

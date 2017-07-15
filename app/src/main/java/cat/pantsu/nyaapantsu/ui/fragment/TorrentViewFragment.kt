@@ -1,16 +1,17 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
+import android.graphics.Point
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -22,10 +23,16 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.helper.ImageGetterAsyncTask
 import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
+import com.facebook.common.executors.CallerThreadExecutor
+import com.facebook.common.references.CloseableReference
+import com.facebook.datasource.DataSource
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber
+import com.facebook.imagepipeline.image.CloseableImage
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -126,27 +133,11 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         torrentHash.text = torrent.hash
         torrentDate.text = torrent.date
         torrentSize.text = torrent.size
-        var spanned: Spanned
+        val spanned: Spanned
         if (Build.VERSION.SDK_INT >= 24) {
-            spanned = Html.fromHtml(torrent.description, Html.FROM_HTML_MODE_COMPACT,
-                    Html.ImageGetter { source ->
-                        val d = LevelListDrawable()
-                        val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
-                        d.addLevel(0, 0, empty)
-                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight())
-                        ImageGetterAsyncTask(context, source, d).execute(torrentDescription)
-                        d
-                    }, null)
+            spanned = Html.fromHtml(torrent.description, Html.FROM_HTML_MODE_COMPACT, imageGetter(), null)
         } else {
-            spanned = Html.fromHtml(torrent.description,
-                    Html.ImageGetter { source ->
-                        val d = LevelListDrawable()
-                        val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
-                        d.addLevel(0, 0, empty)
-                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight())
-                        ImageGetterAsyncTask(context, source, d).execute(torrentDescription)
-                        d
-                    }, null)
+            spanned = Html.fromHtml(torrent.description, imageGetter(), null)
         }
         torrentDescription.text = spanned
         torrentDownloads.text = torrent.completed.toString()
@@ -240,6 +231,35 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         }
     }
 
+    fun imageGetter(): Html.ImageGetter {
+        return Html.ImageGetter { source ->
+            val ld = LevelListDrawable()
+            val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
+            ld.addLevel(0, 0, empty)
+            ld.setBounds(0, 0, empty.intrinsicWidth, empty.intrinsicHeight)
+            val imageRequestBuilder: ImageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(Uri.parse(source))
+            val imagePipeline = Fresco.getImagePipeline()
+            val dataSource = imagePipeline.fetchDecodedImage(imageRequestBuilder.build(), this)
+            dataSource.subscribe(object: BaseBitmapDataSubscriber() {
+                override fun onFailureImpl(ds: DataSource<CloseableReference<CloseableImage>>?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onNewResultImpl(bitmap: Bitmap?) {
+                    if (bitmap == null) return
+                    val d = BitmapDrawable(context.resources, bitmap)
+                    val size = Point()
+                    (context as Activity).windowManager.defaultDisplay.getSize(size)
+                    val multiplier = size.x / bitmap.width
+                    ld.addLevel(1, 1, d)
+                    ld.setBounds(0, 0, bitmap.width * multiplier, bitmap.height * multiplier)
+                    ld.level = 1
+                }
+            }, CallerThreadExecutor.getInstance())
+            return@ImageGetter ld
+        }
+    }
+
     fun displayProgress() {
         progressdialog!!.setTitle(TorrentStreamHelper.torrent!!.name)
         progressdialog!!.setMessage(getString(R.string.preparing))
@@ -295,9 +315,9 @@ class TorrentViewFragment: Fragment(), TorrentListener {
     }
 
     override fun onStreamProgress(t: com.github.se_bastiaan.torrentstream.Torrent?, s: StreamStatus?) {
-        Log.d(javaClass.simpleName, "Progress: " + s?.progress)
-        if(isAdded && s?.progress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != s.progress.toInt()) {
-            progressdialog!!.progress = s.progress.toInt()
+        Log.d(javaClass.simpleName, "Progress: ${s?.progress}, ${s?.bufferProgress}")
+        if(isAdded && s?.bufferProgress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != s.bufferProgress) {
+            progressdialog!!.progress = s.bufferProgress
         }
     }
 
@@ -306,7 +326,6 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         if (!isAdded) return
         progressdialog!!.progress = 100
         progressdialog!!.dismiss()
-        TorrentStreamHelper.instance.stop()
 
         //FIXME check file type
         val uri = Uri.parse(t.videoFile.toString())

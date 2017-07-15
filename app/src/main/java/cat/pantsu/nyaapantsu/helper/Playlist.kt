@@ -14,6 +14,7 @@ fun getRecentPlaylistAsArray(): JSONArray {
         val torrents = JSONArray(RecentlyPlayed.torrents)
         return torrents
     } catch (e: JSONException) {
+        e.printStackTrace()
     }
     return JSONArray()
 }
@@ -24,12 +25,14 @@ fun setRecentPlaylist(results: JSONArray) {
 
 fun addTorrentToRecentPlaylist(torrent: Torrent) {
     val torrents = getRecentPlaylistAsArray()
+    val newTorrents = JSONArray()
     for (i in 0..(torrents.length() - 1)) {
         if (torrent.id == torrents.getJSONObject(i).getInt("id")) {
             torrents.remove(i)
             break
         }
     }
-    torrents.put(torrent.toJson())
-    setRecentPlaylist(torrents)
+    newTorrents.put(torrent.toJson())
+    for (i in 0..(torrents.length() - 1)) newTorrents.put(torrents[i])
+    setRecentPlaylist(newTorrents)
 }

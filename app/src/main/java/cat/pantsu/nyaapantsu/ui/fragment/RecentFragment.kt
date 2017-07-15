@@ -3,6 +3,7 @@ package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.app.Fragment
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.*
@@ -90,7 +91,7 @@ class RecentFragment : Fragment() {
     fun helperCallback(dragDirs: Int, swipeDirs: Int): ItemTouchHelper.Callback {
         return object: ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
             override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -98,6 +99,7 @@ class RecentFragment : Fragment() {
                 torrents.remove(position)
                 torrentList.removeAt(position)
                 recyclerView.adapter.notifyItemRemoved(position)
+                Snackbar.make(view, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
             }
 
         }

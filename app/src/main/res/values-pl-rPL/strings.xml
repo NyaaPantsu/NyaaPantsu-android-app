@@ -188,4 +188,5 @@
     <string name="cancel">Anuluj</string>
     <string name="doubleBackToExit">Please click BACK again to exit</string>
     <string name="pref_title_doubleBackToExit">Kliknij podwójnie, aby wyjść</string>
+    <string name="deleted">Usunięto</string>
 </resources>

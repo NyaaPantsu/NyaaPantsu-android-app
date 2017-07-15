@@ -85,7 +85,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             toast(getString(R.string.doubleBackToExit))
             Handler().postDelayed({
                 super.onBackPressed()
-            }, 2000)
+            }, 1000)
 
         }
         else if (!Utils.doubleBackToExit){

@@ -194,4 +194,5 @@
     <string name="cancel">Cancel</string>
     <string name="doubleBackToExit">Please click BACK again to exit</string>
     <string name="pref_title_doubleBackToExit">Double back to exit</string>
+    <string name="deleted">Deleted</string>
 </resources>

@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cat.pantsu.nyaapantsu.ui.activity.UserProfileActivity">
+    tools:context="cat.pantsu.nyaapantsu.ui.activity.ProfileActivity">
 
-    <include layout="@layout/content_user_profile" />
+    <include layout="@layout/content_profile" />
 
 
 </android.support.design.widget.CoordinatorLayout>

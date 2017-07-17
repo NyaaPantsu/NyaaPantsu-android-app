@@ -121,7 +121,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .commit()
             }
             R.id.nav_user_profile -> {
-                startActivity<UserProfileActivity>()
+                startActivity<ProfileActivity>()
             }
             R.id.nav_settings -> {
                 startActivity<SettingsActivity>()

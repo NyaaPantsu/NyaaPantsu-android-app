@@ -36,12 +36,10 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //profiletorrentList[0].id= 0
-        //profiletorrentList[0].name= "torrent name"
         val length = (torrents.length() - 1)
         val torrentList = (length downTo 0).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
         recyclerView = find<RecyclerView>(R.id.profiletorrentlist)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = ProfileTorrentListAdapter(context = activity, profiletorrentList = torrentList)
+        recyclerView.adapter = ProfileTorrentListAdapter(activity = activity, profiletorrentList = torrentList)
     }
 }

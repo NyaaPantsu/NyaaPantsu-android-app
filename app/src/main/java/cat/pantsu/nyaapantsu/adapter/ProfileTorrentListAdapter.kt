@@ -1,6 +1,7 @@
 package cat.pantsu.nyaapantsu.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -18,12 +19,12 @@ import java.util.*
 /**
  * Created by xdk78 on 2017-07-15.
  */
-class ProfileTorrentListAdapter(var context: Context, profiletorrentList: LinkedList<Torrent>) : RecyclerView.Adapter<ProfileTorrentListAdapter.ProfileTorrentListViewHolder>() {
+class ProfileTorrentListAdapter(var activity: Activity, profiletorrentList: LinkedList<Torrent>) : RecyclerView.Adapter<ProfileTorrentListAdapter.ProfileTorrentListViewHolder>() {
     private var profiletorrentList = LinkedList<Torrent>()
 
     init {
         this.profiletorrentList = profiletorrentList
-        this.context = context
+        this.activity = activity
 
     }
 
@@ -31,9 +32,9 @@ class ProfileTorrentListAdapter(var context: Context, profiletorrentList: Linked
     override fun onBindViewHolder(holder: ProfileTorrentListViewHolder?, position: Int) {
         val item = profiletorrentList[position]
 
-        holder?.label?.text = item.name
+        holder?.name?.text = item.name
         holder?.cardview2?.setOnClickListener { _ ->
-             context.startActivity<TorrentActivity>("position" to position, "type" to "search")
+            activity.startActivity<TorrentActivity>("position" to position, "type" to "search")
         }
 
         //when (item.status) {
@@ -58,7 +59,7 @@ class ProfileTorrentListAdapter(var context: Context, profiletorrentList: Linked
     }
 
     class ProfileTorrentListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val label: TextView = view.find<TextView>(R.id.label)
+        val name: TextView = view.find<TextView>(R.id.name)
         val cardview2: CardView = view.find<CardView>(R.id.cardview2)
     }
 }

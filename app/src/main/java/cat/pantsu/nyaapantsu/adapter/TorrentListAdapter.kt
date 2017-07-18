@@ -27,12 +27,12 @@ import java.util.*
 /**
  * Created by xdk78 on 2017-07-10.
  */
-class TorrentListAdapter(var a: Activity, torrentList: LinkedList<Torrent>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
+class TorrentListAdapter(var activity: Activity, torrentList: LinkedList<Torrent>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
     private var torrentList = LinkedList<Torrent>()
 
     init {
         this.torrentList = torrentList
-        this.a = a
+        this.activity = activity
 
     }
 
@@ -55,33 +55,33 @@ class TorrentListAdapter(var a: Activity, torrentList: LinkedList<Torrent>) : Re
 
         holder.download.setOnClickListener { _ ->
             if (!TextUtils.isEmpty(item.download)) {
-                Utils.download(a, holder.itemView, item.download, item.name)
+                Utils.download(activity, holder.itemView, item.download, item.name)
             } else {
-                a.toast(a.getString(R.string.torrent_not_available))
+                activity.toast(activity.getString(R.string.torrent_not_available))
             }
         }
 
         holder.copy.setOnClickListener { _ ->
-            val clipboard = a.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(item.name, item.magnet)
             clipboard.primaryClip = clipData
-            a.toast(a.getString(R.string.magnet_copied))
+            activity.toast(activity.getString(R.string.magnet_copied))
         }
 
         holder.cardview.setOnClickListener { _ ->
-             a.startActivity<TorrentActivity>("position" to position, "type" to "search")
+            activity.startActivity<TorrentActivity>("position" to position, "type" to "search")
         }
 
         when (item.status) {
-            2 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) a.resources.getColorStateList(R.color.colorRemake, null) else a.resources.getColorStateList(R.color.colorRemake)
-            3 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) a.resources.getColorStateList(R.color.colorTrusted, null) else a.resources.getColorStateList(R.color.colorTrusted)
-            4 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) a.resources.getColorStateList(R.color.colorAPlus, null) else a.resources.getColorStateList(R.color.colorAPlus)
+            2 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) activity.resources.getColorStateList(R.color.colorRemake, null) else activity.resources.getColorStateList(R.color.colorRemake)
+            3 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) activity.resources.getColorStateList(R.color.colorTrusted, null) else activity.resources.getColorStateList(R.color.colorTrusted)
+            4 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) activity.resources.getColorStateList(R.color.colorAPlus, null) else activity.resources.getColorStateList(R.color.colorAPlus)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TorrentListViewHolder {
         val layoutInflater = LayoutInflater.from(parent?.context)
-        return TorrentListViewHolder(layoutInflater.inflate(R.layout.list_row, parent, false))
+        return TorrentListViewHolder(layoutInflater.inflate(R.layout.torrent_item, parent, false))
 
     }
 

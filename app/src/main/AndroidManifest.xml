@@ -83,7 +83,7 @@
         <activity
             android:name=".ui.activity.ProfileActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_main2" >
+            android:label="@string/title_activity_profile" >
 
         </activity>
     </application>

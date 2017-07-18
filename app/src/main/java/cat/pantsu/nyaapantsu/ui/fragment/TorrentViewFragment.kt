@@ -1,31 +1,39 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.Manifest
-import android.app.DownloadManager
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
+import android.graphics.Point
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.text.Spanned
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.helper.ImageGetterAsyncTask
+import cat.pantsu.nyaapantsu.Util.Utils
 import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
+import com.facebook.common.executors.CallerThreadExecutor
+import com.facebook.common.references.CloseableReference
+import com.facebook.datasource.DataSource
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber
+import com.facebook.imagepipeline.image.CloseableImage
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -126,27 +134,11 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         torrentHash.text = torrent.hash
         torrentDate.text = torrent.date
         torrentSize.text = torrent.size
-        var spanned: Spanned
+        val spanned: Spanned
         if (Build.VERSION.SDK_INT >= 24) {
-            spanned = Html.fromHtml(torrent.description, Html.FROM_HTML_MODE_COMPACT,
-                    Html.ImageGetter { source ->
-                        val d = LevelListDrawable()
-                        val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
-                        d.addLevel(0, 0, empty)
-                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight())
-                        ImageGetterAsyncTask(context, source, d).execute(torrentDescription)
-                        d
-                    }, null)
+            spanned = Html.fromHtml(torrent.description, Html.FROM_HTML_MODE_COMPACT, imageGetter(), null)
         } else {
-            spanned = Html.fromHtml(torrent.description,
-                    Html.ImageGetter { source ->
-                        val d = LevelListDrawable()
-                        val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
-                        d.addLevel(0, 0, empty)
-                        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight())
-                        ImageGetterAsyncTask(context, source, d).execute(torrentDescription)
-                        d
-                    }, null)
+            spanned = Html.fromHtml(torrent.description, imageGetter(), null)
         }
         torrentDescription.text = spanned
         torrentDownloads.text = torrent.completed.toString()
@@ -167,29 +159,8 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         torrentDetails.visibility = View.VISIBLE
 
         downloadButton.setOnClickListener { _ ->
-            val url = torrent.download
-            if (url != "") {
-                if (ContextCompat.checkSelfPermission(context,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    if (isExternalStorageWritable()) {
-                        Log.d("download", "URL: " + url)
-                        val request = DownloadManager.Request(Uri.parse(url))
-                        request.setDescription("Download a torrent file")
-                        request.setTitle(torrent.name + " - NyaaPantsu")
-                        // in order for this if to run, you must use the android 3.2 to compile your app
-                        request.allowScanningByMediaScanner()
-                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, torrent.name + ".torrent")
-                        Log.d("download", "request")
-                        // get download service and enqueue file
-                        val manager = activity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                        manager.enqueue(request)
-                    } else {
-                        toast(getString(R.string.external_storage_not_available))
-                    }
-                } else {
-                    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 10)
-                }
+            if (!TextUtils.isEmpty(torrent.download)) {
+                Utils.download(activity, downloadButton, torrent.download, torrent.name)
             } else {
                 toast(getString(R.string.torrent_not_available))
             }
@@ -207,7 +178,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
             if (magnet != "") {
                 if (ContextCompat.checkSelfPermission(context,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    if (isExternalStorageWritable()) {
+                    if (Utils.isExternalStorageWritable()) {
                         Log.d("stream", "Magnet: " + magnet)
                         if (!TorrentStreamHelper.instance.isStreaming())  {
                             TorrentStreamHelper.instance.start(magnet)
@@ -240,6 +211,35 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         }
     }
 
+    fun imageGetter(): Html.ImageGetter {
+        return Html.ImageGetter { source ->
+            val ld = LevelListDrawable()
+            val empty = ContextCompat.getDrawable(activity, R.drawable.abc_btn_check_material)
+            ld.addLevel(0, 0, empty)
+            ld.setBounds(0, 0, empty.intrinsicWidth, empty.intrinsicHeight)
+            val imageRequestBuilder: ImageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(Uri.parse(source))
+            val imagePipeline = Fresco.getImagePipeline()
+            val dataSource = imagePipeline.fetchDecodedImage(imageRequestBuilder.build(), this)
+            dataSource.subscribe(object: BaseBitmapDataSubscriber() {
+                override fun onFailureImpl(ds: DataSource<CloseableReference<CloseableImage>>?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onNewResultImpl(bitmap: Bitmap?) {
+                    if (bitmap == null) return
+                    val d = BitmapDrawable(context.resources, bitmap)
+                    val size = Point()
+                    (context as Activity).windowManager.defaultDisplay.getSize(size)
+                    val multiplier = size.x / bitmap.width
+                    ld.addLevel(1, 1, d)
+                    ld.setBounds(0, 0, bitmap.width * multiplier, bitmap.height * multiplier)
+                    ld.level = 1
+                }
+            }, CallerThreadExecutor.getInstance())
+            return@ImageGetter ld
+        }
+    }
+
     fun displayProgress() {
         progressdialog!!.setTitle(TorrentStreamHelper.torrent!!.name)
         progressdialog!!.setMessage(getString(R.string.preparing))
@@ -260,14 +260,6 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         progressdialog!!.progress = 0
         progressdialog!!.max = 100
         progressdialog!!.show()
-    }
-
-    fun isExternalStorageWritable(): Boolean {
-        val state = Environment.getExternalStorageState()
-        if (Environment.MEDIA_MOUNTED == state) {
-            return true
-        }
-        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -295,9 +287,9 @@ class TorrentViewFragment: Fragment(), TorrentListener {
     }
 
     override fun onStreamProgress(t: com.github.se_bastiaan.torrentstream.Torrent?, s: StreamStatus?) {
-        Log.d(javaClass.simpleName, "Progress: " + s?.progress)
-        if(isAdded && s?.progress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != s.progress.toInt()) {
-            progressdialog!!.progress = s.progress.toInt()
+        Log.d(javaClass.simpleName, "Progress: ${s?.progress}, ${s?.bufferProgress}")
+        if(isAdded && s?.bufferProgress!! <= 100 && progressdialog!!.progress < 100 && progressdialog!!.progress != s.bufferProgress) {
+            progressdialog!!.progress = s.bufferProgress
         }
     }
 
@@ -306,7 +298,6 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         if (!isAdded) return
         progressdialog!!.progress = 100
         progressdialog!!.dismiss()
-        TorrentStreamHelper.instance.stop()
 
         //FIXME check file type
         val uri = Uri.parse(t.videoFile.toString())

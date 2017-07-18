@@ -194,6 +194,9 @@
     <string name="cancel">Cancel</string>
     <string name="doubleBackToExit">Please click BACK again to exit</string>
     <string name="pref_title_doubleBackToExit">Double back to exit</string>
-    <string name="title_activity_main2">UserProfileActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
     <string name="user_profile">User profile</string>
+    <string name="deleted">Deleted</string>
+    <string name="permission_required">Permission required</string>
+>>>>>>> origin/master
 </resources>

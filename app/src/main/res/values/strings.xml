@@ -195,4 +195,5 @@
     <string name="doubleBackToExit">Please click BACK again to exit</string>
     <string name="pref_title_doubleBackToExit">Double back to exit</string>
     <string name="deleted">Deleted</string>
+    <string name="permission_required">Permission required</string>
 </resources>

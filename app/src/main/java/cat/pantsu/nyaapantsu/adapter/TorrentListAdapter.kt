@@ -1,12 +1,14 @@
 package cat.pantsu.nyaapantsu.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.Util.Utils
 import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import org.jetbrains.anko.find
@@ -24,12 +27,12 @@ import java.util.*
 /**
  * Created by xdk78 on 2017-07-10.
  */
-class TorrentListAdapter(var context: Context, torrentList: LinkedList<Torrent>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
+class TorrentListAdapter(var a: Activity, torrentList: LinkedList<Torrent>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
     private var torrentList = LinkedList<Torrent>()
 
     init {
         this.torrentList = torrentList
-        this.context = context
+        this.a = a
 
     }
 
@@ -51,24 +54,28 @@ class TorrentListAdapter(var context: Context, torrentList: LinkedList<Torrent>)
         }
 
         holder.download.setOnClickListener { _ ->
-            //TODO Utils.download
+            if (!TextUtils.isEmpty(item.download)) {
+                Utils.download(a, holder.itemView, item.download, item.name)
+            } else {
+                a.toast(a.getString(R.string.torrent_not_available))
+            }
         }
 
         holder.copy.setOnClickListener { _ ->
-            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = a.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(item.name, item.magnet)
             clipboard.primaryClip = clipData
-            context.toast(context.getString(R.string.magnet_copied))
+            a.toast(a.getString(R.string.magnet_copied))
         }
 
         holder.cardview.setOnClickListener { _ ->
-             context.startActivity<TorrentActivity>("position" to position, "type" to "search")
+             a.startActivity<TorrentActivity>("position" to position, "type" to "search")
         }
 
         when (item.status) {
-            2 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.resources.getColorStateList(R.color.colorRemake, null) else context.resources.getColorStateList(R.color.colorRemake)
-            3 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.resources.getColorStateList(R.color.colorTrusted, null) else context.resources.getColorStateList(R.color.colorTrusted)
-            4 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.resources.getColorStateList(R.color.colorAPlus, null) else context.resources.getColorStateList(R.color.colorAPlus)
+            2 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) a.resources.getColorStateList(R.color.colorRemake, null) else a.resources.getColorStateList(R.color.colorRemake)
+            3 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) a.resources.getColorStateList(R.color.colorTrusted, null) else a.resources.getColorStateList(R.color.colorTrusted)
+            4 -> holder.cardview.cardBackgroundColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) a.resources.getColorStateList(R.color.colorAPlus, null) else a.resources.getColorStateList(R.color.colorAPlus)
         }
     }
 

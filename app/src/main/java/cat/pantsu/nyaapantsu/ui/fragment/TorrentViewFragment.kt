@@ -2,7 +2,6 @@ package cat.pantsu.nyaapantsu.ui.fragment
 
 import android.Manifest
 import android.app.Activity
-import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
@@ -17,12 +16,14 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.text.Spanned
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.Util.Utils
 import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
@@ -158,29 +159,8 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         torrentDetails.visibility = View.VISIBLE
 
         downloadButton.setOnClickListener { _ ->
-            val url = torrent.download
-            if (url != "") {
-                if (ContextCompat.checkSelfPermission(context,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    if (isExternalStorageWritable()) {
-                        Log.d("download", "URL: " + url)
-                        val request = DownloadManager.Request(Uri.parse(url))
-                        request.setDescription("Download a torrent file")
-                        request.setTitle(torrent.name + " - NyaaPantsu")
-                        // in order for this if to run, you must use the android 3.2 to compile your app
-                        request.allowScanningByMediaScanner()
-                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, torrent.name + ".torrent")
-                        Log.d("download", "request")
-                        // get download service and enqueue file
-                        val manager = activity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                        manager.enqueue(request)
-                    } else {
-                        toast(getString(R.string.external_storage_not_available))
-                    }
-                } else {
-                    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 10)
-                }
+            if (!TextUtils.isEmpty(torrent.download)) {
+                Utils.download(activity, downloadButton, torrent.download, torrent.name)
             } else {
                 toast(getString(R.string.torrent_not_available))
             }
@@ -198,7 +178,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
             if (magnet != "") {
                 if (ContextCompat.checkSelfPermission(context,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    if (isExternalStorageWritable()) {
+                    if (Utils.isExternalStorageWritable()) {
                         Log.d("stream", "Magnet: " + magnet)
                         if (!TorrentStreamHelper.instance.isStreaming())  {
                             TorrentStreamHelper.instance.start(magnet)
@@ -280,14 +260,6 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         progressdialog!!.progress = 0
         progressdialog!!.max = 100
         progressdialog!!.show()
-    }
-
-    fun isExternalStorageWritable(): Boolean {
-        val state = Environment.getExternalStorageState()
-        if (Environment.MEDIA_MOUNTED == state) {
-            return true
-        }
-        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

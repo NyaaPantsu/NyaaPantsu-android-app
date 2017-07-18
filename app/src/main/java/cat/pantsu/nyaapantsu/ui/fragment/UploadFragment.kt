@@ -3,6 +3,7 @@ package cat.pantsu.nyaapantsu.ui.fragment
 import android.Manifest
 import android.app.Activity
 import android.app.Fragment
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,11 +20,14 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
+import cat.pantsu.nyaapantsu.model.FlagChip
 import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import com.github.kittinunf.fuel.core.FuelManager
 import com.nononsenseapps.filepicker.FilePickerActivity
 import com.nononsenseapps.filepicker.Utils
+import com.pchmn.materialchips.ChipsInput
+import com.pchmn.materialchips.model.ChipInterface
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_upload.*
 import net.gotev.uploadservice.*
@@ -39,11 +43,12 @@ class UploadFragment : Fragment() {
 
     private var mListener: OnFragmentInteractionListener? = null
     val categories = arrayOf("_", "3_", "3_12", "3_5", "3_13", "3_6", "2_", "2_3", "2_4", "4_", "4_7", "4_14", "4_8", "5_", "5_9", "5_10", "5_18", "5_11", "6_", "6_15", "6_16", "1_", "1_1", "1_2")
-    val languages = arrayOf("", "multiple", "other", "ca-es", "zh-cn", "zh-tw", "nl-nl", "en-us", "fr-fr", "de-de", "hu-hu", "is-is", "it-it", "ja-jp", "ko-kr", "nb-no", "pt-br", "pt-pt", "ro-ro", "es-es", "es-mx", "sv-se", "th-th")
+    val languages = arrayOf("ca", "zh", "zh-Hant", "nl", "en", "fr", "de", "hu", "is", "it", "ja", "ko", "nb", "pt", "ro", "es",  "sv", "th")
 
     var c = ""
     var lang = ""
     var selectedTorrent: File? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,18 +68,6 @@ class UploadFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val catAdapter = ArrayAdapter.createFromResource(activity, R.array.cat_array, R.layout.spinner_layout)
         categorySpin.adapter = catAdapter
-        val langAdapter = ArrayAdapter.createFromResource(activity, R.array.language_array, R.layout.spinner_layout)
-        languageSpin.adapter = langAdapter
-
-        languageSpin.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                lang = languages[p2]
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                lang = ""
-            }
-        }
         categorySpin.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 c = categories[p2]
@@ -102,6 +95,26 @@ class UploadFragment : Fragment() {
             if (valideForm()) {
                 upload(activity)
             }
+        }
+
+        langsInput.addChipsListener(object: ChipsInput.ChipsListener {
+            override fun onChipAdded(chip: ChipInterface, newSize:Int) {
+                val langs = lang.split(";").toMutableList()
+                langs.add(chip.info)
+                lang = langs.joinToString(";")
+            }
+            override fun onChipRemoved(chip:ChipInterface, newSize:Int) {
+                val langs = lang.split(";").toMutableList()
+                langs.remove(chip.info)
+                lang = langs.joinToString(";")
+            }
+            override fun onTextChanged(text:CharSequence) {
+                // Do nothing
+            }
+        })
+        val langTranslation = resources.getStringArray(R.array.language_array)
+        for ((index, lg) in languages.withIndex()) {
+            langsInput.addChip(FlagChip(index.toString(), Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+resources.getResourcePackageName(R.drawable.logo)+"/"+resources.getResourceTypeName(R.drawable.logo)+"/flag_"+lg), langTranslation[index], lg))
         }
     }
 
@@ -148,11 +161,11 @@ class UploadFragment : Fragment() {
                     .addParameter("username", User.name)
                     .addParameter("name", nameUpload.text.toString())
                     .addParameter("c", c)
-                    .addParameter("language", lang)
                     .addParameter("remake", remakeSwitch.isChecked.toString())
                     .addParameter("hidden", anonSwitch.isChecked.toString())
                     .addParameter("website_link", websiteUpload.text.toString())
                     .addParameter("desc", descriptionUpload.text.toString())
+                    .addArrayParameter("language", lang.split(";").toMutableList())
                     .setNotificationConfig(notificationConfig)
                     .setMaxRetries(2)
                     .setDelegate(object : UploadStatusDelegate {
@@ -179,7 +192,7 @@ class UploadFragment : Fragment() {
                                 }
                                 nameUpload.error = if (allErrors?.optString("name") != "") allErrors?.optString("name") else null
                                 (categorySpin.getSelectedView() as TextView).error = if (allErrors?.optString("category") != "") allErrors?.optString("category") else null
-                                (languageSpin.getSelectedView() as TextView).error = if (allErrors?.optString("language") != "") allErrors?.optString("language") else null
+                                langLabel.error = if (allErrors?.optString("language") != "") allErrors?.optString("language") else null
                                 websiteUpload.error = if (allErrors?.optString("website") != "") allErrors?.optString("website") else null
                                 errorText.visibility = View.VISIBLE
                             }

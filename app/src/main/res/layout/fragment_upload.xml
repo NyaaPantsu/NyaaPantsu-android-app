@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cat.pantsu.nyaapantsu.ui.fragment.UploadFragment">
+
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -12,6 +13,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorBluePastelLight"
         tools:showIn="@layout/fragment_upload">
+
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="212dp"
@@ -37,169 +39,173 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/nav_header_height"
-                android:layout_marginTop="@dimen/marginMedium"
-                android:background="@drawable/layout_bg"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp">
-
-                <TextView
-                    android:id="@+id/errorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/nav_header_height"
+                    android:layout_marginTop="@dimen/marginMedium"
+                    android:background="@drawable/layout_bg"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/errorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/torrent_file"
+                            android:textColor="@color/colorDarkLink"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/chooseButton"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/choose" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/torrentName"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/torrent_file"
+                        android:textColor="@color/colorPink" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                        android:layout_weight="1"
+                        android:text="@string/name"
                         android:textColor="@color/colorDarkLink"
                         android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/nameUpload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category"
+                        android:textColor="@color/colorDarkLink"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/categorySpin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                        android:padding="@dimen/nav_header_vertical_spacing" />
+
+                    <TextView
+                        android:id="@+id/langLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/language"
+                        android:textColor="@color/colorDarkLink"
+                        android:textStyle="bold" />
+
+                    <com.pchmn.materialchips.ChipsInput
+                        android:id="@+id/langsInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:chip_deletable="true"
+                        app:chip_deleteIconColor="@color/grey"
+                        app:chip_hasAvatarIcon="true"
+                        app:hint="@string/type_languages"
+                        app:maxRows="5" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/website"
+                        android:textColor="@color/colorDarkLink"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/websiteUpload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description"
+                        android:textColor="@color/colorDarkLink"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/descriptionUpload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                        android:ems="10"
+                        android:inputType="text|textAutoCorrect|textAutoComplete|textMultiLine|textWebEditText"
+                        android:lines="5" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Switch
+                            android:id="@+id/remakeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/mark_as_remake"
+                            android:textColor="@color/colorDarkLink"
+                            android:textStyle="bold" />
+
+                        <Switch
+                            android:id="@+id/anonSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/mark_as_anon"
+                            android:textColor="@color/colorDarkLink"
+                            android:textStyle="bold"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
 
                     <Button
-                        android:id="@+id/chooseButton"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/uploadButton"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/choose" />
+                        android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:text="@string/upload" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/torrentName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPink" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                    android:layout_weight="1"
-                    android:text="@string/name"
-                    android:textColor="@color/colorDarkLink"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/nameUpload"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category"
-                    android:textColor="@color/colorDarkLink"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/categorySpin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                    android:padding="@dimen/nav_header_vertical_spacing" />
-
-                <TextView
-                    android:id="@+id/langLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language"
-                    android:textColor="@color/colorDarkLink"
-                    android:textStyle="bold" />
-
-                <com.pchmn.materialchips.ChipsInput
-                    android:id="@+id/langsInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:hint="@string/type_languages" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/website"
-                    android:textColor="@color/colorDarkLink"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/websiteUpload"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:textColor="@color/colorDarkLink"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/descriptionUpload"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                    android:ems="10"
-                    android:inputType="text|textAutoCorrect|textAutoComplete|textMultiLine|textWebEditText"
-                    android:lines="5" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <Switch
-                        android:id="@+id/remakeSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/mark_as_remake"
-                        android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold" />
-
-                    <Switch
-                        android:id="@+id/anonSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/mark_as_anon"
-                        android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold"
-                        android:visibility="invisible" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/uploadButton"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/activity_horizontal_margin"
-                    android:text="@string/upload" />
-
-            </LinearLayout>
             </RelativeLayout>
 
         </ScrollView>
 
     </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
+</FrameLayout>
 

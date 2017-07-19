@@ -14,8 +14,8 @@
                 android:scaleType="centerCrop"
                 android:background="@color/cardview_dark_background"/>
 
-            <ImageButton
-                android:id="@+id/user_profile_photo"
+            <ImageView
+                android:id="@+id/user_profile_avatar"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_below="@+id/header_cover_image"
@@ -54,7 +54,7 @@
                     android:layout_below="@+id/user_profile_name"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="12dp"
-                    android:text="user profile"
+                    android:text="@string/user_profile"
                     android:textColor="@color/colorBluePastel"
                     android:textSize="14sp" />
             </RelativeLayout>

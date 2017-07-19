@@ -121,7 +121,13 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         .commit()
             }
             R.id.nav_user_profile -> {
-                startActivity<ProfileActivity>()
+                if (User.token == "") {
+                    startActivity<LoginActivity>()
+                    finish()
+                } else {
+                    startActivity<ProfileActivity>()
+                }
+
             }
             R.id.nav_settings -> {
                 startActivity<SettingsActivity>()

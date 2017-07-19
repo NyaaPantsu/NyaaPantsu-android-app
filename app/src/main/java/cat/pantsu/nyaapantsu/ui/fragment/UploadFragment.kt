@@ -113,9 +113,16 @@ class UploadFragment : Fragment() {
             }
         })
         val langTranslation = resources.getStringArray(R.array.language_array)
+        val flagList: ArrayList<FlagChip> = ArrayList<FlagChip>()
         for ((index, lg) in languages.withIndex()) {
-            langsInput.addChip(FlagChip(index.toString(), Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+resources.getResourcePackageName(R.drawable.logo)+"/"+resources.getResourceTypeName(R.drawable.logo)+"/flag_"+lg), langTranslation[index], lg))
+            var flagCode = lg.replace("-", "_").toLowerCase()
+            if (resources.getIdentifier("flag_"+flagCode, "drawable", activity.packageName) > 0) {
+                val uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + activity.packageName + "/drawable/flag_" + flagCode)
+                flagList.add(FlagChip(index.toString(), uri, langTranslation[index], lg))
+            }
         }
+        langsInput.filterableList = flagList
+
     }
 
     fun valideForm(): Boolean {

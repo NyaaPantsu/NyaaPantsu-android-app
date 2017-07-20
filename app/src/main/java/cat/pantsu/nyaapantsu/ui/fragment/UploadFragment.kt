@@ -60,11 +60,21 @@ class UploadFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val uploadTypeAdapter = ArrayAdapter.createFromResource(activity, R.array.upload_type_array, R.layout.spinner_layout)
         val catAdapter = ArrayAdapter.createFromResource(activity, R.array.cat_array, R.layout.spinner_layout)
-        categorySpin.adapter = catAdapter
         val langAdapter = ArrayAdapter.createFromResource(activity, R.array.language_array, R.layout.spinner_layout)
+        upload_type_spinner.adapter = uploadTypeAdapter
+        categorySpin.adapter = catAdapter
         languageSpin.adapter = langAdapter
 
+        upload_type_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                switchUploadType(uploadTypeAdapter.getItem(p2) as String)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
         languageSpin.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 lang = languages[p2]
@@ -88,7 +98,7 @@ class UploadFragment : Fragment() {
             anonSwitch.visibility = View.VISIBLE
         }
 
-        chooseButton.setOnClickListener { _ ->
+        choose_text.setOnClickListener { _ ->
             if (ContextCompat.checkSelfPermission(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 startActivityForResult<FilePickerActivity>(FILE_CODE, FilePickerActivity.EXTRA_ALLOW_MULTIPLE to false, FilePickerActivity.EXTRA_MODE to FilePickerActivity.MODE_FILE)
@@ -117,9 +127,28 @@ class UploadFragment : Fragment() {
         }
     }
 
+    fun switchUploadType(type: String) {
+        val arr = resources.getStringArray(R.array.upload_type_array)
+        when (type) {
+            arr[0] -> {
+                magnet_edit.visibility = View.GONE
+                choose_text.visibility = View.VISIBLE
+                magnet_edit.text = null
+            }
+            arr[1] -> {
+                choose_text.visibility = View.GONE
+                magnet_edit.visibility = View.VISIBLE
+                selectedTorrent = null
+                choose_text.setText(R.string.choose)
+            }
+        }
+    }
+
     fun valideForm(): Boolean {
+        choose_text.error = null
+        magnet_edit.error = null
         name_edit.error = null
-        (categorySpin.getSelectedView() as TextView).error =null
+        (categorySpin.selectedView as TextView).error =null
 
         if (name_edit.text.isEmpty()) {
             name_edit.error = getString(R.string.name_required)
@@ -127,12 +156,13 @@ class UploadFragment : Fragment() {
         }
 
         if (c == "") {
-            (categorySpin.getSelectedView() as TextView).error = getString(R.string.category_required)
+            (categorySpin.selectedView as TextView).error = getString(R.string.category_required)
             return false
         }
 
-        if (selectedTorrent == null) {
-            name_edit.error = getString(R.string.file_required)
+        if (selectedTorrent == null && magnet_edit.text.isEmpty()) {
+            choose_text.error = getString(R.string.file_required)
+            magnet_edit.error = getString(R.string.file_required)
             return false
         }
 
@@ -158,6 +188,7 @@ class UploadFragment : Fragment() {
                     .addHeader("Authorization", User.token)
                     .addParameter("username", User.name)
                     .addParameter("name", name_edit.text.toString())
+                    .addParameter("magnet", magnet_edit.text.toString())
                     .addParameter("c", c)
                     .addParameter("language", lang)
                     .addParameter("remake", remakeSwitch.isChecked.toString())
@@ -189,8 +220,8 @@ class UploadFragment : Fragment() {
                                     errorText.text = errors.join("\n")
                                 }
                                 name_edit.error = if (allErrors?.optString("name") != "") allErrors?.optString("name") else null
-                                (categorySpin.getSelectedView() as TextView).error = if (allErrors?.optString("category") != "") allErrors?.optString("category") else null
-                                (languageSpin.getSelectedView() as TextView).error = if (allErrors?.optString("language") != "") allErrors?.optString("language") else null
+                                (categorySpin.selectedView as TextView).error = if (allErrors?.optString("category") != "") allErrors?.optString("category") else null
+                                (languageSpin.selectedView as TextView).error = if (allErrors?.optString("language") != "") allErrors?.optString("language") else null
                                 website_edit.error = if (allErrors?.optString("website") != "") allErrors?.optString("website") else null
                                 errorText.visibility = View.VISIBLE
                             }
@@ -231,6 +262,7 @@ class UploadFragment : Fragment() {
                 if (name_edit.text.toString() == "") {
                     name_edit.setText(file.name)
                 }
+                choose_text.text = file.nameWithoutExtension
                 name_edit.setText(file.nameWithoutExtension)
                 selectedTorrent = file
             }

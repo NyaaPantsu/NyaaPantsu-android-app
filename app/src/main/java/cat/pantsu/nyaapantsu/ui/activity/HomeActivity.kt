@@ -3,7 +3,6 @@ package cat.pantsu.nyaapantsu.ui.activity
 import android.app.Fragment
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
@@ -77,15 +76,21 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         nav_view.setNavigationItemSelectedListener(this)
     }
 
+    var count = 0
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         }
+
         else if (Utils.doubleBackToExit) {
-            toast(getString(R.string.doubleBackToExit))
-            Handler().postDelayed({
+            count++
+            if(count==1) {
+                toast(getString(R.string.doubleBackToExit))
+
+            }
+            else {
                 super.onBackPressed()
-            }, 1000)
+            }
 
         }
         else if (!Utils.doubleBackToExit){

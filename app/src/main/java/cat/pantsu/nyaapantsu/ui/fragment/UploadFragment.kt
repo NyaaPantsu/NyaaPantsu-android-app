@@ -11,9 +11,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
@@ -47,6 +45,7 @@ class UploadFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -97,21 +96,33 @@ class UploadFragment : Fragment() {
                 ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 10)
             }
         }
+    }
 
-        uploadButton.setOnClickListener { _ ->
-            if (valideForm()) {
-                upload(activity)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_done, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_done -> {
+                if (valideForm()) {
+                    upload(activity)
+                }
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
     }
 
     fun valideForm(): Boolean {
-        torrentName.error=null
+        name_edit.error = null
         (categorySpin.getSelectedView() as TextView).error =null
-        torrentName.error = null
 
-        if (torrentName.text.isEmpty()) {
-            torrentName.error = getString(R.string.name_required)
+        if (name_edit.text.isEmpty()) {
+            name_edit.error = getString(R.string.name_required)
             return false
         }
 
@@ -121,7 +132,7 @@ class UploadFragment : Fragment() {
         }
 
         if (selectedTorrent == null) {
-            torrentName.error = getString(R.string.file_required)
+            name_edit.error = getString(R.string.file_required)
             return false
         }
 
@@ -146,13 +157,13 @@ class UploadFragment : Fragment() {
                     .setUtf8Charset()
                     .addHeader("Authorization", User.token)
                     .addParameter("username", User.name)
-                    .addParameter("name", nameUpload.text.toString())
+                    .addParameter("name", name_edit.text.toString())
                     .addParameter("c", c)
                     .addParameter("language", lang)
                     .addParameter("remake", remakeSwitch.isChecked.toString())
                     .addParameter("hidden", anonSwitch.isChecked.toString())
-                    .addParameter("website_link", websiteUpload.text.toString())
-                    .addParameter("desc", descriptionUpload.text.toString())
+                    .addParameter("website_link", website_edit.text.toString())
+                    .addParameter("desc", desc_edit.text.toString())
                     .setNotificationConfig(notificationConfig)
                     .setMaxRetries(2)
                     .setDelegate(object : UploadStatusDelegate {
@@ -177,10 +188,10 @@ class UploadFragment : Fragment() {
                                 if (errors != null) {
                                     errorText.text = errors.join("\n")
                                 }
-                                nameUpload.error = if (allErrors?.optString("name") != "") allErrors?.optString("name") else null
+                                name_edit.error = if (allErrors?.optString("name") != "") allErrors?.optString("name") else null
                                 (categorySpin.getSelectedView() as TextView).error = if (allErrors?.optString("category") != "") allErrors?.optString("category") else null
                                 (languageSpin.getSelectedView() as TextView).error = if (allErrors?.optString("language") != "") allErrors?.optString("language") else null
-                                websiteUpload.error = if (allErrors?.optString("website") != "") allErrors?.optString("website") else null
+                                website_edit.error = if (allErrors?.optString("website") != "") allErrors?.optString("website") else null
                                 errorText.visibility = View.VISIBLE
                             }
                         }
@@ -217,10 +228,10 @@ class UploadFragment : Fragment() {
             val files = Utils.getSelectedFilesFromResult(intent!!)
             for (uri in files) {
                 val file = Utils.getFileForUri(uri)
-                if (torrentName.text.toString() == "") {
-                    torrentName.text = file.name
+                if (name_edit.text.toString() == "") {
+                    name_edit.setText(file.name)
                 }
-                nameUpload.setText(file.nameWithoutExtension)
+                name_edit.setText(file.nameWithoutExtension)
                 selectedTorrent = file
             }
         }

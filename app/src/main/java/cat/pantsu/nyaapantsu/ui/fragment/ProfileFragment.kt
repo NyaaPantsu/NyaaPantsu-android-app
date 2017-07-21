@@ -10,20 +10,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.adapter.ProfileTorrentListAdapter
-import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
+import cat.pantsu.nyaapantsu.helper.ProfileHelper
+import cat.pantsu.nyaapantsu.model.ProfileQuery
 import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.model.User
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.jetbrains.anko.support.v4.find
-import org.json.JSONArray
+import org.jetbrains.anko.support.v4.toast
 import java.util.*
 
 
 class ProfileFragment : Fragment() {
 
-    var torrents: JSONArray = JSONArray()
     lateinit var recyclerView: RecyclerView
+    private var query: ProfileQuery? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +32,9 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        torrents = getRecentPlaylistAsArray()
+
         activity.title = getString(R.string.user_profile) + " - " + User.name
+
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
@@ -43,13 +45,24 @@ class ProfileFragment : Fragment() {
         user_profile_name.text = User.name
 
         val avatarUser = find<ImageView>(R.id.user_profile_avatar)
-        Glide.with(this).load("https://www.gravatar.com/avatar/"+ User.md5 +"?s=130").into(avatarUser)
-
-        val length = (torrents.length() - 1)
-        val torrentList = (length downTo 0).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
-        recyclerView = find<RecyclerView>(R.id.profiletorrentlist)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = ProfileTorrentListAdapter(activity = activity, profiletorrentList = torrentList)
-        //TODO: load data for user if have own torrents
+        Glide.with(this).load("https://www.gravatar.com/avatar/" + User.md5 + "?s=130").into(avatarUser)
+        getData()
     }
+
+    fun getData() {
+        ProfileHelper.instance.query = query
+        ProfileHelper.instance.search(object : ProfileHelper.Callback {
+            override fun failure() {
+                toast(R.string.network_error)
+            }
+
+            override fun success(torrentList: LinkedList<Torrent>) {
+                recyclerView = find<RecyclerView>(R.id.profiletorrentlist)
+                recyclerView.layoutManager = LinearLayoutManager(activity)
+                recyclerView.adapter = ProfileTorrentListAdapter(activity = activity, profiletorrentList = torrentList)
+            }
+        })
+    }
+
+
 }

@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -38,7 +37,7 @@ class TorrentListFragment : Fragment() {
         if (arguments != null) {
             query = arguments.getParcelable("query")
         }
-        timeUpdateInterval = PreferenceManager.getDefaultSharedPreferences(activity).getString("sync_frequency", "15").toInt()
+        timeUpdateInterval = 15
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

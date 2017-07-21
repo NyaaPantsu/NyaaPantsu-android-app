@@ -16,7 +16,7 @@
     <string name="status">Status</string>
     <string name="max">Maks</string>
     <string name="other">Inne</string>
-    <string name="loading">Ładowanie danych...</string>
+    <string name="loading">Ładowanie danych…</string>
     <string name="uploaded_by">Przesłane przez</string>
     <string name="date">Data</string>
     <string name="size">Wielkość</string>
@@ -87,7 +87,7 @@
         <item>Thai</item>
     </string-array>
 
-    <string name="network_error">Bład sieci</string>
+    <string name="network_error">Błąd sieci</string>
     <string name="token_expired">Zostałeś wylogowany, token uwierzytelniający wygasł.</string>
     <string name="title_activity_login">Zaloguj się</string>
     <string name="title_activity_about">O - NyaaPantsu</string>
@@ -124,7 +124,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="close">Zamknij</string>
     <string name="torrent_file">Plik Torrent</string>
-    <string name="choose">Wybierz...</string>
+    <string name="choose">Wybierz…</string>
     <string name="name">Nazwa</string>
     <string name="language">Język</string>
     <string name="description">Opis</string>
@@ -186,7 +186,7 @@
     <string name="clear">Wyczyść</string>
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
-    <string name="doubleBackToExit">Please click BACK again to exit</string>
+    <string name="doubleBackToExit">Kliknij podwójnie, aby wyjść</string>
     <string name="pref_title_doubleBackToExit">Kliknij podwójnie, aby wyjść</string>
     <string name="deleted">Usunięto</string>
 </resources>

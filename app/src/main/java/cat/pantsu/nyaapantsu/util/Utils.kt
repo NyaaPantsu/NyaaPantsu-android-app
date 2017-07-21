@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.Util
+package cat.pantsu.nyaapantsu.util
 
 import android.Manifest
 import android.app.Activity

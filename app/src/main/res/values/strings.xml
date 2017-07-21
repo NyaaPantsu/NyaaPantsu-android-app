@@ -94,6 +94,11 @@
     <string name="external_storage_not_available">External Storage doesn\'t seem to be available</string>
     <string name="magnet_copied">Magnet Link copied!</string>
 
+    <string-array name="upload_type_array">
+        <item>Torrent File</item>
+        <item>Magnet</item>
+    </string-array>
+
     <!-- Upload Messages -->
     <string name="upload_progress">Uploading at [[UPLOAD_RATE]] ([[PROGRESS]])</string>
     <string name="upload_done">Upload completed successfully in [[ELAPSED_TIME]]</string>
@@ -102,7 +107,7 @@
     <!-- Upload Errors -->
     <string name="upload_error">Error while uploading</string>
     <string name="name_required">Torrent name is required!</string>
-    <string name="file_required">A torrent file is needed!</string>
+    <string name="file_required">A torrent file or magnet is needed!</string>
     <string name="category_required">A category must be selected!</string>
     <string name="lang_next_time">No language selected! You should select one next time!</string>
 
@@ -191,4 +196,6 @@
     <string name="deleted">Deleted</string>
     <string name="permission_required">Permission required</string>
     <string name="type_languages">Type languages</string>
+    <string name="done">Done</string>
+    <string name="magnet">Magnet</string>
 </resources>

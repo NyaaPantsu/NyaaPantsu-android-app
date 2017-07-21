@@ -1,122 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cat.pantsu.nyaapantsu.ui.fragment.UploadFragment">
+    android:background="@color/colorBluePastelLight"
+    tools:context="cat.pantsu.nyaapantsu.ui.fragment.UploadFragment"
+    tools:showIn="@layout/fragment_upload">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="212dp"
+        android:layout_height="290dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/renchon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/renchon_2x" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBluePastelLight"
-        tools:showIn="@layout/fragment_upload">
+        android:paddingEnd="@dimen/nav_header_vertical_spacing"
+        android:paddingStart="@dimen/nav_header_vertical_spacing">
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="212dp"
-            android:layout_height="290dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@string/renchon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/renchon_2x" />
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="0dp"
-            android:paddingEnd="@dimen/nav_header_vertical_spacing"
-            android:paddingLeft="@dimen/nav_header_vertical_spacing"
-            android:paddingRight="@dimen/nav_header_vertical_spacing"
-            android:paddingStart="@dimen/nav_header_vertical_spacing"
-            android:paddingTop="0dp">
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_bg"
+            android:clipToPadding="true"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/errorText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent" />
+          
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <Spinner
+                    android:id="@+id/upload_type_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/nav_header_height"
-                    android:layout_marginTop="@dimen/marginMedium"
-                    android:background="@drawable/layout_bg"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    tools:layout_editor_absoluteX="8dp"
-                    tools:layout_editor_absoluteY="8dp">
+                    android:orientation="horizontal"
+                    app:hintEnabled="false">
 
                     <TextView
-                        android:id="@+id/errorText"
+                        android:id="@+id/choose_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent" />
+                        android:gravity="end"
+                        android:text="@string/choose" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/torrent_file"
-                            android:textColor="@color/colorDarkLink"
-                            android:textStyle="bold" />
-
-                        <Button
-                            android:id="@+id/chooseButton"
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/choose" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/torrentName"
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/magnet_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/colorPink" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                        android:layout_weight="1"
-                        android:text="@string/name"
+                        android:hint="@string/magnet"
+                        android:inputType="text"
+                        android:lines="1"
                         android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold" />
+                        android:visibility="gone" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/nameUpload"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                        android:ems="10"
-                        android:inputType="textPersonName" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category"
-                        android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category"
+                    android:textColor="@color/colorDarkLink"
+                    android:textStyle="bold" />
 
-                    <Spinner
-                        android:id="@+id/categorySpin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                        android:padding="@dimen/nav_header_vertical_spacing" />
+                <Spinner
+                    android:id="@+id/categorySpin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/nav_header_vertical_spacing" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/langLabel"
@@ -135,77 +121,72 @@
                         app:chip_hasAvatarIcon="true"
                         app:hint="@string/type_languages"
                         app:maxRows="5" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/website"
-                        android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
-                    <EditText
-                        android:id="@+id/websiteUpload"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                        android:ems="10"
-                        android:inputType="textPersonName" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/name_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:textColor="@color/colorDarkLink" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/description"
-                        android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
-                    <EditText
-                        android:id="@+id/descriptionUpload"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
-                        android:ems="10"
-                        android:inputType="text|textAutoCorrect|textAutoComplete|textMultiLine|textWebEditText"
-                        android:lines="5" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/website_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/website"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:textColor="@color/colorDarkLink" />
+            </android.support.design.widget.TextInputLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
-                        <Switch
-                            android:id="@+id/remakeSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/mark_as_remake"
-                            android:textColor="@color/colorDarkLink"
-                            android:textStyle="bold" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/desc_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:hint="@string/description"
+                    android:inputType="textAutoCorrect|textMultiLine"
+                    android:lines="3"
+                    android:textColor="@color/colorDarkLink" />
+            </android.support.design.widget.TextInputLayout>
 
-                        <Switch
-                            android:id="@+id/anonSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/mark_as_anon"
-                            android:textColor="@color/colorDarkLink"
-                            android:textStyle="bold"
-                            android:visibility="invisible" />
+            <Switch
+                android:id="@+id/remakeSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/mark_as_remake"
+                android:textColor="@color/colorDarkLink"
+                android:textStyle="bold" />
 
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/uploadButton"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/activity_horizontal_margin"
-                        android:text="@string/upload" />
-
-                </LinearLayout>
-            </RelativeLayout>
-
-        </ScrollView>
-
-    </android.support.constraint.ConstraintLayout>
-</FrameLayout>
-
+            <Switch
+                android:id="@+id/anonSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/mark_as_anon"
+                android:textColor="@color/colorDarkLink"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

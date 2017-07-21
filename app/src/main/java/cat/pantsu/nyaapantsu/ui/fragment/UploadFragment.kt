@@ -12,9 +12,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
@@ -52,6 +50,7 @@ class UploadFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -66,8 +65,19 @@ class UploadFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val uploadTypeAdapter = ArrayAdapter.createFromResource(activity, R.array.upload_type_array, R.layout.spinner_layout)
         val catAdapter = ArrayAdapter.createFromResource(activity, R.array.cat_array, R.layout.spinner_layout)
+        upload_type_spinner.adapter = uploadTypeAdapter
         categorySpin.adapter = catAdapter
+
+        upload_type_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                switchUploadType(uploadTypeAdapter.getItem(p2) as String)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
         categorySpin.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 c = categories[p2]
@@ -82,7 +92,7 @@ class UploadFragment : Fragment() {
             anonSwitch.visibility = View.VISIBLE
         }
 
-        chooseButton.setOnClickListener { _ ->
+        choose_text.setOnClickListener { _ ->
             if (ContextCompat.checkSelfPermission(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 startActivityForResult<FilePickerActivity>(FILE_CODE, FilePickerActivity.EXTRA_ALLOW_MULTIPLE to false, FilePickerActivity.EXTRA_MODE to FilePickerActivity.MODE_FILE)
@@ -90,10 +100,40 @@ class UploadFragment : Fragment() {
                 ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 10)
             }
         }
+    }
 
-        uploadButton.setOnClickListener { _ ->
-            if (valideForm()) {
-                upload(activity)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_done, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_done -> {
+                if (valideForm()) {
+                    upload(activity)
+                }
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    fun switchUploadType(type: String) {
+        val arr = resources.getStringArray(R.array.upload_type_array)
+        when (type) {
+            arr[0] -> {
+                magnet_edit.visibility = View.GONE
+                choose_text.visibility = View.VISIBLE
+                magnet_edit.text = null
+            }
+            arr[1] -> {
+                choose_text.visibility = View.GONE
+                magnet_edit.visibility = View.VISIBLE
+                selectedTorrent = null
+                choose_text.setText(R.string.choose)
             }
         }
 
@@ -126,22 +166,24 @@ class UploadFragment : Fragment() {
     }
 
     fun valideForm(): Boolean {
-        torrentName.error=null
-        (categorySpin.getSelectedView() as TextView).error =null
-        torrentName.error = null
+        choose_text.error = null
+        magnet_edit.error = null
+        name_edit.error = null
+        (categorySpin.selectedView as TextView).error =null
 
-        if (torrentName.text.isEmpty()) {
-            torrentName.error = getString(R.string.name_required)
+        if (name_edit.text.isEmpty()) {
+            name_edit.error = getString(R.string.name_required)
             return false
         }
 
         if (c == "") {
-            (categorySpin.getSelectedView() as TextView).error = getString(R.string.category_required)
+            (categorySpin.selectedView as TextView).error = getString(R.string.category_required)
             return false
         }
 
-        if (selectedTorrent == null) {
-            torrentName.error = getString(R.string.file_required)
+        if (selectedTorrent == null && magnet_edit.text.isEmpty()) {
+            choose_text.error = getString(R.string.file_required)
+            magnet_edit.error = getString(R.string.file_required)
             return false
         }
 
@@ -166,13 +208,14 @@ class UploadFragment : Fragment() {
                     .setUtf8Charset()
                     .addHeader("Authorization", User.token)
                     .addParameter("username", User.name)
-                    .addParameter("name", nameUpload.text.toString())
+                    .addParameter("name", name_edit.text.toString())
+                    .addParameter("magnet", magnet_edit.text.toString())
                     .addParameter("c", c)
                     .addParameter("remake", remakeSwitch.isChecked.toString())
                     .addParameter("hidden", anonSwitch.isChecked.toString())
-                    .addParameter("website_link", websiteUpload.text.toString())
-                    .addParameter("desc", descriptionUpload.text.toString())
                     .addArrayParameter("language", lang.split(";").toMutableList())
+                    .addParameter("website_link", website_edit.text.toString())
+                    .addParameter("desc", desc_edit.text.toString())
                     .setNotificationConfig(notificationConfig)
                     .setMaxRetries(2)
                     .setDelegate(object : UploadStatusDelegate {
@@ -197,10 +240,11 @@ class UploadFragment : Fragment() {
                                 if (errors != null) {
                                     errorText.text = errors.join("\n")
                                 }
-                                nameUpload.error = if (allErrors?.optString("name") != "") allErrors?.optString("name") else null
-                                (categorySpin.getSelectedView() as TextView).error = if (allErrors?.optString("category") != "") allErrors?.optString("category") else null
+
+                                name_edit.error = if (allErrors?.optString("name") != "") allErrors?.optString("name") else null
+                                (categorySpin.selectedView as TextView).error = if (allErrors?.optString("category") != "") allErrors?.optString("category") else null
                                 langLabel.error = if (allErrors?.optString("language") != "") allErrors?.optString("language") else null
-                                websiteUpload.error = if (allErrors?.optString("website") != "") allErrors?.optString("website") else null
+                                website_edit.error = if (allErrors?.optString("website") != "") allErrors?.optString("website") else null
                                 errorText.visibility = View.VISIBLE
                             }
                         }
@@ -237,10 +281,11 @@ class UploadFragment : Fragment() {
             val files = Utils.getSelectedFilesFromResult(intent!!)
             for (uri in files) {
                 val file = Utils.getFileForUri(uri)
-                if (torrentName.text.toString() == "") {
-                    torrentName.text = file.name
+                if (name_edit.text.toString() == "") {
+                    name_edit.setText(file.name)
                 }
-                nameUpload.setText(file.nameWithoutExtension)
+                choose_text.text = file.nameWithoutExtension
+                name_edit.setText(file.nameWithoutExtension)
                 selectedTorrent = file
             }
         }

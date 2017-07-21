@@ -99,7 +99,7 @@
     <!-- Upload Errors -->
     <string name="upload_error">Error while uploading</string>
     <string name="name_required">Torrent name is required!</string>
-    <string name="file_required">A torrent file is needed!</string>
+    <string name="file_required">A torrent file or magnet is needed!</string>
     <string name="category_required">A category must be selected!</string>
     <string name="lang_next_time">No language selected! You should select one next time!</string>
 

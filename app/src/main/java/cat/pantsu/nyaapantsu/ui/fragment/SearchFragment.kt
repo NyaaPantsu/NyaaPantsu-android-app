@@ -117,9 +117,9 @@ class SearchFragment : Fragment() {
             query.q = queryText.text.toString()
             query.c = c
             query.s = s
-            query.max = maxNumber.text.toString()
-            query.fromSize = fromSize.text.toString()
-            query.toSize = toSize.text.toString()
+            query.limit = maxNumber.text.toString()
+            query.minSize = fromSize.text.toString()
+            query.maxSize = toSize.text.toString()
             query.sizeType = selectedSize
             query.fromDate = formatDate(fromDate.text.toString())
             query.toDate = formatDate(toDate.text.toString())

@@ -20,7 +20,7 @@
             android:contentDescription="@string/renchon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/renchon_2x" />
+            app:srcCompat="@drawable/renchon" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/torrentlist"

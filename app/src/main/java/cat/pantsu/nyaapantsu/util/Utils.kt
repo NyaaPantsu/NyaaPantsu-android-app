@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.DownloadManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -69,6 +70,15 @@ class Utils {
                 return true
             }
             return false
+        }
+
+        fun playVoice(c: Context) {
+            //TODO support sukebei mode, maybe need a application context for hold player
+            val player = MediaPlayer.create(c, R.raw.nyanpass)
+            player.setOnCompletionListener {
+                player.release()
+            }
+            player.start()
         }
     }
 }

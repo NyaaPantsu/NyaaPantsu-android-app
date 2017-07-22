@@ -6,8 +6,13 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="doubleBackToExit"
-            android:title="@string/pref_title_doubleBackToExit" />
+            android:key="double_back_to_exit"
+            android:title="@string/pref_title_double_back_to_exit" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="mascot_voice_switch"
+            android:title="@string/pref_title_enable_mascot_voice" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -20,6 +25,5 @@
             android:summary="@string/pref_description_keep_login"
             android:title="@string/pref_title_keep_login" />
     </PreferenceCategory>
-
 </PreferenceScreen>
 

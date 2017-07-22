@@ -9,14 +9,14 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
 import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 
 
 
 class ProfileHelper private constructor(){
     var query: ProfileQuery ?= null
-    var torrents: JSONArray = JSONArray()
-    var torrentList : LinkedList<Torrent> = LinkedList()
+    var profile: JSONObject = JSONObject()
 
     private object Holder {
         val INSTANCE = ProfileHelper()
@@ -24,15 +24,11 @@ class ProfileHelper private constructor(){
 
     companion object {
         val instance: ProfileHelper by lazy { Holder.INSTANCE }
-        fun parseTorrents(torrents: JSONArray): LinkedList<Torrent> {
-            val length = (torrents.length() - 1)
-            return (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
-        }
     }
 
 
-    fun search(cb: Callback) {
-        ("/search" + query.toString()).httpGet().responseJson { request, response, result ->
+    fun get(cb: Callback) {
+        ("/profile" + query.toString()).httpGet().responseJson { request, response, result ->
             when (result) {
                 is Result.Failure -> {
                     Log.d("Network", "Big Fail :/")
@@ -48,10 +44,9 @@ class ProfileHelper private constructor(){
                     val json = result.getAs<Json>()
                     if (json !== null) {
                         val resultObj = json.obj()
-                        torrents = resultObj.optJSONArray("torrents")
+                        profile = resultObj.optJSONObject("data")
                     }
-                    torrentList = ProfileHelper.parseTorrents(torrents)
-                    cb.success(torrentList)
+                    cb.success(profile)
                 }
             }
         }
@@ -59,6 +54,6 @@ class ProfileHelper private constructor(){
 
     interface Callback {
         fun failure()
-        fun success(torrentList: LinkedList<Torrent>)
+        fun success(profile: JSONObject)
     }
 }

@@ -153,7 +153,7 @@ class UploadFragment : Fragment() {
             }
         })
         val langTranslation = resources.getStringArray(R.array.language_array)
-        val flagList: ArrayList<FlagChip> = ArrayList<FlagChip>()
+        val flagList: ArrayList<FlagChip> = ArrayList()
         for ((index, lg) in languages.withIndex()) {
             var flagCode = lg.replace("-", "_").toLowerCase()
             if (resources.getIdentifier("flag_"+flagCode, "drawable", activity.packageName) > 0) {

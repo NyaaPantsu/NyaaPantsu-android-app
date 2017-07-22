@@ -104,23 +104,24 @@
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/langLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/language"
-                        android:textColor="@color/colorDarkLink"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/langLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/language"
+                    android:textColor="@color/colorDarkLink"
+                    android:textStyle="bold" />
 
-                    <com.pchmn.materialchips.ChipsInput
-                        android:id="@+id/langsInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:chip_deletable="true"
-                        app:chip_deleteIconColor="@color/grey"
-                        app:chip_hasAvatarIcon="true"
-                        app:hint="@string/type_languages"
-                        app:maxRows="5" />
+                <com.pchmn.materialchips.ChipsInput
+                    android:id="@+id/langsInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:chip_deletable="true"
+                    app:chip_deleteIconColor="@color/grey"
+                    app:chip_hasAvatarIcon="true"
+                    app:hint="@string/type_languages"
+                    app:maxRows="5" />
             </LinearLayout>
 
             <android.support.design.widget.TextInputLayout

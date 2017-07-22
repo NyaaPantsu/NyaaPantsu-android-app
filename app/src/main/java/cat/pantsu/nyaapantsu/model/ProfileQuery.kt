@@ -36,7 +36,7 @@ class ProfileQuery : Parcelable {
     }
 
     override fun toString(): String {
-        return "?userID=${User.id}"
+        return "?id=$userID"
     }
 
 }

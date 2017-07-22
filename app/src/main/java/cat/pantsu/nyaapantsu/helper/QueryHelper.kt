@@ -55,7 +55,10 @@ class QueryHelper private constructor(){
                     Log.d("Network", response.toString())
 
                     val json = result.getAs<Json>()
-                    if (json !== null) torrents = json.array()
+                    if (json !== null) {
+                        val resultObj = json.obj()
+                        torrents = resultObj.optJSONArray("torrents")
+                    }
                     torrentList = parseTorrents(torrents)
                     cb.success(torrentList)
                 }

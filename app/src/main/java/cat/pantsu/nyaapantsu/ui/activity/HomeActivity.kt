@@ -128,7 +128,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_user_profile -> {
                 if (User.token == "") {
                     startActivity<LoginActivity>()
-                    finish()
                 } else {
                     startActivity<ProfileActivity>()
                 }

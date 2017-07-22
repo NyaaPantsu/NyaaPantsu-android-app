@@ -167,6 +167,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         avatarUser.setImageResource(android.R.color.transparent)
         avatarUser.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.anon))
         memberButton.text = getString(R.string.action_sign_in)
+        nav_view.menu.findItem(R.id.nav_user_profile).isVisible = false
     }
 
     fun checkUser() {

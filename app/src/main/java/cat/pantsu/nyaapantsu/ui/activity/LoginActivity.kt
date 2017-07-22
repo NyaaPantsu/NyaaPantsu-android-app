@@ -1,28 +1,26 @@
 package cat.pantsu.nyaapantsu.ui.activity
 
+import android.Manifest.permission.READ_CONTACTS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
-import android.content.pm.PackageManager
-import android.support.design.widget.Snackbar
 import android.app.LoaderManager.LoaderCallbacks
 import android.content.CursorLoader
 import android.content.Loader
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.support.design.widget.Snackbar
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
-
-import java.util.ArrayList
-import android.Manifest.permission.READ_CONTACTS
-import android.util.Log
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.model.User
 import com.github.kittinunf.fuel.Fuel
@@ -30,10 +28,10 @@ import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
-
 import kotlinx.android.synthetic.main.content_login.*
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
+import java.util.*
 
 /**
  * A login screen that offers login via email/password.
@@ -287,7 +285,7 @@ class LoginActivity : BaseActivity(), LoaderCallbacks<Cursor> {
                     User.token = data.optString("token")
                     User.name = data.optString("username")
                     User.md5 = data.optString("md5")
-                    User.id = data.optInt("id")
+                    User.id = data.optInt("user_id")
                     User.status = data.optInt("status")
                     return true
                 }

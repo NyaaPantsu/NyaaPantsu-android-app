@@ -1,5 +1,6 @@
 package cat.pantsu.nyaapantsu.Util
 
+
 import android.Manifest
 import android.app.Activity
 import android.app.DownloadManager
@@ -19,8 +20,8 @@ import org.jetbrains.anko.toast
  */
 class Utils {
     companion object {
-        fun download(a: Activity, parent: View, url: String, name: String) {
-            if (!mayRequestPermission(a, parent, Manifest.permission.WRITE_EXTERNAL_STORAGE, 10)) {
+        fun download(activity: Activity, parent: View, url: String, name: String) {
+            if (!mayRequestPermission(activity, parent, Manifest.permission.WRITE_EXTERNAL_STORAGE, 10)) {
                 if (isExternalStorageWritable()) {
                     Log.d("download", "URL: " + url)
                     val request = DownloadManager.Request(Uri.parse(url))
@@ -32,15 +33,18 @@ class Utils {
                     request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name + ".torrent")
                     Log.d("download", "request")
                     // get download service and enqueue file
-                    val manager = a.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+                    val manager = activity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                     manager.enqueue(request)
                 } else {
-                    a.toast(a.getString(R.string.external_storage_not_available))
+                    activity.toast(activity.getString(R.string.external_storage_not_available))
+
                 }
             }
         }
 
-        fun mayRequestPermission(a: Activity, parent: View, permission: String, code: Int): Boolean {
+
+        fun mayRequestPermission(activity: Activity, parent: View, permission: String, code: Int): Boolean {
             val c = parent.context
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 return false
@@ -48,12 +52,13 @@ class Utils {
             if (c.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
                 return false
             }
-            if (a.shouldShowRequestPermissionRationale(permission)) {
+            if (activity.shouldShowRequestPermissionRationale(permission)) {
                 Snackbar.make(parent, R.string.permission_required, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(android.R.string.ok, { _ -> a.requestPermissions(arrayOf(permission), code) })
+                        .setAction(android.R.string.ok, { _ -> activity.requestPermissions(arrayOf(permission), code) })
                         .show()
             } else {
-                a.requestPermissions(arrayOf(permission), code)
+                activity.requestPermissions(arrayOf(permission), code)
+
             }
             return true
         }

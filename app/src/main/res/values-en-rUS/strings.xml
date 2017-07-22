@@ -63,9 +63,6 @@
         <item>A+</item>
     </string-array>
     <string-array name="language_array">
-        <item>Select a Torrent Language</item>
-        <item>Multiple Languages</item>
-        <item>Other</item>
         <item>Catalan</item>
         <item>Simplified Chinese</item>
         <item>Traditional Chinese</item>
@@ -79,12 +76,9 @@
         <item>Japanese</item>
         <item>Korean</item>
         <item>Norwegian</item>
-        <item>Portuguese (Brazil)</item>
-        <item>Portuguese (Portugal)</item>
+        <item>Portuguese</item>
         <item>Romanian</item>
-        <item>Russian</item>
         <item>Spanish</item>
-        <item>Spanish (LATAM)</item>
         <item>Swedish</item>
         <item>Thai</item>
     </string-array>
@@ -105,7 +99,7 @@
     <!-- Upload Errors -->
     <string name="upload_error">Error while uploading</string>
     <string name="name_required">Torrent name is required!</string>
-    <string name="file_required">A torrent file is needed!</string>
+    <string name="file_required">A torrent file or magnet is needed!</string>
     <string name="category_required">A category must be selected!</string>
     <string name="lang_next_time">No language selected! You should select one next time!</string>
 

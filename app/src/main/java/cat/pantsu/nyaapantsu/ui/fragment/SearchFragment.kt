@@ -38,7 +38,7 @@ class SearchFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
-        activity.fab.visibility = View.VISIBLE
+        activity.fab.visibility = View.GONE
 
         activity.title = getString(R.string.title_activity_search)
         // Inflate the layout for this fragment

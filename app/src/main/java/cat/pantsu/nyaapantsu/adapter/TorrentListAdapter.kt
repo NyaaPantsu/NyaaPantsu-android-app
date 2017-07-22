@@ -16,7 +16,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.Util.Utils
+import cat.pantsu.nyaapantsu.util.Utils
 import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import org.jetbrains.anko.find

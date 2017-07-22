@@ -1,5 +1,6 @@
 package cat.pantsu.nyaapantsu.Util
 
+
 import android.Manifest
 import android.app.Activity
 import android.app.DownloadManager
@@ -32,13 +33,16 @@ class Utils {
                     request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name + ".torrent")
                     Log.d("download", "request")
                     // get download service and enqueue file
+
                     val manager = activity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                     manager.enqueue(request)
                 } else {
                     activity.toast(activity.getString(R.string.external_storage_not_available))
+
                 }
             }
         }
+
 
         fun mayRequestPermission(activity: Activity, parent: View, permission: String, code: Int): Boolean {
             val c = parent.context
@@ -54,6 +58,7 @@ class Utils {
                         .show()
             } else {
                 activity.requestPermissions(arrayOf(permission), code)
+
             }
             return true
         }

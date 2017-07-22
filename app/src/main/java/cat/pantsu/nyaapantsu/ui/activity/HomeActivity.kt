@@ -58,11 +58,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             memberButton.text = getString(R.string.log_out)
             Glide.with(this).load("https://www.gravatar.com/avatar/"+ User.md5 +"?s=130").into(avatarUser)
             usernameBadge.text = User.name
+            nav_view.menu.findItem(R.id.nav_user_profile).isVisible = true
         }
         memberButton.setOnClickListener { _ ->
             if (User.token == "") {
                 startActivity<LoginActivity>()
-                finish()
             } else {
                 resetUser()
             }

@@ -26,7 +26,8 @@
             <item
                 android:id="@+id/nav_user_profile"
                 android:icon="@drawable/ic_person"
-                android:title="@string/user_profile" />
+                android:title="@string/user_profile"
+                android:visible="false" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_action_name"

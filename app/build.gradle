@@ -61,6 +61,9 @@ dependencies {
     implementation "com.chibatching.kotpref:kotpref:2.1.1"
     implementation "com.chibatching.kotpref:initializer:2.1.1"
 
+    // UI tool
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
+
     //unit testing
     testImplementation 'junit:junit:4.12'
 }

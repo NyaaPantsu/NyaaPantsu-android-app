@@ -63,9 +63,6 @@
         <item>A+</item>
     </string-array>
     <string-array name="language_array">
-        <item>选择一个种子语言</item>
-        <item>多种语言</item>
-        <item>其它</item>
         <item>加泰罗尼亚语</item>
         <item>简体中文</item>
         <item>繁体中文</item>
@@ -79,12 +76,9 @@
         <item>日语</item>
         <item>韩语</item>
         <item>挪威语</item>
-        <item>葡萄牙语（巴西）</item>
-        <item>葡萄牙语（葡萄牙）</item>
+        <item>葡萄牙语</item>
         <item>罗马尼亚语</item>
-        <item>俄语</item>
         <item>西班牙语</item>
-        <item>西班牙语 (LATAM)</item>
         <item>瑞典语</item>
         <item>泰语</item>
     </string-array>

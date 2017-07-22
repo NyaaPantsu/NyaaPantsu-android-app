@@ -16,8 +16,8 @@
                 android:id="@+id/header_cover_image"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:background="@color/cardview_dark_background"/>
+                android:background="@color/colorPinkText"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/user_profile_avatar"

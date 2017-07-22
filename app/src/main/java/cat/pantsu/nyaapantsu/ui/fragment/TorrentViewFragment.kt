@@ -23,10 +23,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.util.Utils
 import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
 import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.util.Utils
 import com.facebook.common.executors.CallerThreadExecutor
 import com.facebook.common.references.CloseableReference
 import com.facebook.datasource.DataSource

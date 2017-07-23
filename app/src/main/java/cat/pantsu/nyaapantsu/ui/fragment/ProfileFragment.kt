@@ -1,7 +1,8 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
-import android.os.Bundle
 import android.app.Fragment
+import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,6 @@ import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.model.User
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_profile.*
-import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
 
@@ -24,6 +24,7 @@ import java.util.*
 class ProfileFragment : Fragment() {
 
     private var query: Query? = null
+    private var userID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,7 @@ class ProfileFragment : Fragment() {
         QueryHelper.instance.query = query
         QueryHelper.instance.search(object : QueryHelper.Callback {
             override fun failure() {
-                toast(R.string.network_error)
+                Snackbar.make(view, R.string.network_error, Snackbar.LENGTH_SHORT)
             }
 
             override fun success(torrentList: LinkedList<Torrent>) {
@@ -67,9 +68,9 @@ class ProfileFragment : Fragment() {
         })
         // TODO: Use ProfileHelper as a helper to get profile data from the api
         /* New API endpoint /profile/?id=USERID */
-        var userID = 0
+
         if (localQuery?.userID != null) {
-            userID = localQuery?.userID.toInt()
+            userID = localQuery.userID.toInt()
         }
         if (User.id != userID) {
             val profileQuery = ProfileQuery()
@@ -77,7 +78,7 @@ class ProfileFragment : Fragment() {
             ProfileHelper.instance.query = profileQuery
             ProfileHelper.instance.get(object : ProfileHelper.Callback {
                 override fun failure() {
-                    toast(R.string.network_error)
+                    Snackbar.make(view, R.string.network_error, Snackbar.LENGTH_SHORT)
                 }
 
                 override fun success(profile: JSONObject) {

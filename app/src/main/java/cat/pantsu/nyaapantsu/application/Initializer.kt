@@ -1,7 +1,8 @@
-package cat.pantsu.nyaapantsu
+package cat.pantsu.nyaapantsu.application
 
 import android.app.Application
 import android.preference.PreferenceManager
+import cat.pantsu.nyaapantsu.BuildConfig
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.model.Utils

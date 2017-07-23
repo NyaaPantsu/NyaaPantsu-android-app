@@ -4,6 +4,7 @@ import android.app.Fragment
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -25,12 +26,16 @@ import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import org.jetbrains.anko.contentView
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 
 class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, TorrentListFragment.OnFragmentInteractionListener, UploadFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
+
+    private var count = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -40,7 +45,6 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val uploadFragment = UploadFragment.newInstance()
             fragmentManager.beginTransaction()
                     .replace(R.id.main_fragment, uploadFragment as Fragment)
-                    .addToBackStack(null)
                     .commit()
         }
 
@@ -76,7 +80,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    var count = 0
+
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -177,7 +181,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         Log.d("Network", "Big Fail :/")
                         Log.d("Network", response.toString())
                         Log.d("Network", request.toString())
-                        toast(R.string.network_error)
+                        Snackbar.make(contentView!!, R.string.network_error, Snackbar.LENGTH_SHORT).show()
                     }
                     is Result.Success -> {
                         Log.d("Network", result.toString())
@@ -188,7 +192,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         if (json !== null) {
                             if (!json.obj().getBoolean("ok")) {
                                 resetUser()
-                                toast(R.string.token_expired)
+                                Snackbar.make(contentView!!, R.string.token_expired, Snackbar.LENGTH_SHORT).show()
                             }
                         }
                     }

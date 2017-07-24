@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -24,13 +23,32 @@ import java.util.*
 
 
 class TorrentListFragment : Fragment() {
-
+    var timeUpdateInterval: Int? = null
     private var query: Query? = null
     private var myHandler = Handler()
-    var timeUpdateInterval: Int? = null
-    lateinit var recyclerView: RecyclerView
-
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mAdapter: TorrentListAdapter
     private var mListener: OnFragmentInteractionListener? = null
+
+    companion object {
+        var mList: LinkedList<Torrent> = LinkedList()
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+
+         * @param query Query.
+         * *
+         * @return A new instance of fragment TorrentListFragment.
+         */
+        fun newInstance(query: Query): TorrentListFragment {
+            val fragment = TorrentListFragment()
+            val args = Bundle()
+            args.putParcelable("query", query)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +60,11 @@ class TorrentListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        return inflater!!.inflate(R.layout.fragment_torrent_list, container, false)
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
         closeButton.visibility = View.GONE
         activity.fab.visibility = View.VISIBLE
@@ -68,18 +91,16 @@ class TorrentListFragment : Fragment() {
             closeButton.visibility = View.VISIBLE
         }
 
-        this.getData()
-        // Inflate the layout for this fragment
+        mRecyclerView = find<RecyclerView>(R.id.torrentlist)
+        mAdapter = TorrentListAdapter(activity, mList)
+        mRecyclerView.adapter = mAdapter
 
-        return inflater!!.inflate(R.layout.fragment_torrent_list, container, false)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
         swiperefresh.setOnRefreshListener {
             this.getData()
         }
+
+        this.getData()
     }
 
 
@@ -115,23 +136,6 @@ class TorrentListFragment : Fragment() {
         fun onFragmentInteraction(uri: Uri)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-
-         * @param query Query.
-         * *
-         * @return A new instance of fragment TorrentListFragment.
-         */
-        fun newInstance(query: Query): TorrentListFragment {
-            val fragment = TorrentListFragment()
-            val args = Bundle()
-            args.putParcelable("query", query)
-            fragment.arguments = args
-            return fragment
-        }
-    }
     fun getData() {
         myHandler.removeCallbacksAndMessages(null)
         QueryHelper.instance.query = query
@@ -142,9 +146,9 @@ class TorrentListFragment : Fragment() {
 
             override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
-                recyclerView = find<RecyclerView>(R.id.torrentlist)
-                recyclerView.layoutManager = LinearLayoutManager(activity)
-                recyclerView.adapter = TorrentListAdapter(activity, torrentList = torrentList)
+                mList.clear()
+                mList.addAll(torrentList)
+                mAdapter.notifyDataSetChanged()
             }
         })
         myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
@@ -156,7 +160,4 @@ class TorrentListFragment : Fragment() {
         activity.title = "Torrents - NyaaPantsu"
         getData()
     }
-
-
-
-}// Required empty public constructor
+}

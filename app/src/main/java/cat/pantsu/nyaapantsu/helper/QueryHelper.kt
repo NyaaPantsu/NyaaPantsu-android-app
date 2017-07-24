@@ -17,7 +17,6 @@ import java.util.*
 class QueryHelper private constructor(){
     var query: Query ?= null
     var torrents: JSONArray = JSONArray()
-    var torrentList : LinkedList<Torrent> = LinkedList()
 
     private object Holder {
         val INSTANCE = QueryHelper()
@@ -59,8 +58,7 @@ class QueryHelper private constructor(){
                         val resultObj = json.obj()
                         torrents = resultObj.optJSONArray("torrents")
                     }
-                    torrentList = parseTorrents(torrents)
-                    cb.success(torrentList)
+                    cb.success(parseTorrents(torrents))
                 }
             }
         }

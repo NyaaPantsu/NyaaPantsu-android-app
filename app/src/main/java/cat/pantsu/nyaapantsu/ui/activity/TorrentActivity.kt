@@ -7,6 +7,7 @@ import cat.pantsu.nyaapantsu.adapter.ViewPagerAdapter
 import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
 import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib
 import kotlinx.android.synthetic.main.activity_torrent.*
 import org.json.JSONArray
@@ -21,7 +22,7 @@ class TorrentActivity : BaseActivity() {
         val type = intent.getStringExtra("type")
         when (type) {
             "search" -> {
-                list = QueryHelper.instance.torrentList
+                list = TorrentListFragment.mList
             }
             "recent" -> {
                 list = QueryHelper.parseTorrents(getRecentPlaylistAsArray())

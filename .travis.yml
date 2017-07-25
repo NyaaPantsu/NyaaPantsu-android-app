@@ -47,7 +47,7 @@ before_install:
 - ./gradlew dependencies || true
 
 install:
-- echo yes | sdkmanager --channel=3 "tools" "platform-tools" "build-tools;26.0.0-rc2" "platforms;android-26"
+- echo yes | ${ANDROID_HOME}/tools/bin/sdkmanager --channel=3 "tools" "platform-tools" "build-tools;26.0.0-rc2" "platforms;android-26"
 
 before_script:
 - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a

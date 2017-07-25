@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cat.pantsu.nyaapantsu.BuildConfig
 import cat.pantsu.nyaapantsu.R
 import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.fragment_about.*
 
 
 class AboutFragment : Fragment() {
@@ -17,7 +19,6 @@ class AboutFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -26,11 +27,14 @@ class AboutFragment : Fragment() {
         activity.fab.visibility = View.GONE
         activity.buttonClose.visibility = View.GONE
 
-
         // Inflate the layout for this fragment
         return inflater!!.inflate(R.layout.fragment_about, container, false)
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        appversion.text = BuildConfig.VERSION_NAME
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

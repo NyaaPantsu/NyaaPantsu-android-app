@@ -19,9 +19,9 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="0dp">
@@ -60,6 +60,16 @@
                     android:text="@string/about_mess"
                     android:textColor="@color/colorWhite" />
 
+                <TextView
+                    android:id="@+id/appversion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorPinkText" />
+
+
                 </LinearLayout>
         </ScrollView>
 
@@ -69,7 +79,6 @@
             android:layout_height="201dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/megumin"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -136,7 +136,7 @@
 
     <!-- Example General settings -->
     <string name="pref_header_account">账号</string>
-    <string name="pref_header_general">General</string>
+    <string name="pref_header_general">通用</string>
 
     <string name="pref_title_keep_login">记住我的账号</string>
     <string name="pref_description_keep_login">每次启动应用都将进行登录(不会存储你的密码)
@@ -183,4 +183,15 @@
     <string name="clear">清除</string>
     <string name="ok">确认</string>
     <string name="cancel">取消</string>
+    <string name="doubleBackToExit">再按一次退出应用</string>
+    <string name="pref_title_double_back_to_exit">连续点击后退键两次以退出应用</string>
+    <string name="pref_title_enable_mascot_voice">开启看板娘语音</string>
+    <string name="title_activity_profile">个人资料</string>
+    <string name="user_profile">用户资料</string>
+    <string name="deleted">已删除</string>
+    <string name="permission_required">需要权限</string>
+    <string name="type_languages">输入语言项</string>
+    <string name="done">完成</string>
+    <string name="magnet">磁链</string>
+    <string name="play">来一发</string>
 </resources>

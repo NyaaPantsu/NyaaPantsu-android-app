@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +72,7 @@ class TorrentListFragment : Fragment() {
 
         if (query?.isQueryable() == true) {
             if (query?.q != "") {
-                activity.title = getString(R.string.title_activity_results)+" \'" + query?.q + "\' - NyaaPantsu"
+                activity.title = getString(R.string.title_activity_results) + " \'" + query?.q + "\' - NyaaPantsu"
             } else {
                 activity.title = getString(R.string.title_activity_search)
             }
@@ -85,7 +86,7 @@ class TorrentListFragment : Fragment() {
         } else {
             activity.title = getString(R.string.title_activity_home)
             closeButton.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_reload))
-            closeButton.setOnClickListener{ _ ->
+            closeButton.setOnClickListener { _ ->
                 this.getData()
             }
             closeButton.visibility = View.VISIBLE
@@ -95,9 +96,21 @@ class TorrentListFragment : Fragment() {
         mAdapter = TorrentListAdapter(activity, mList)
         mRecyclerView.adapter = mAdapter
 
+        val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy <= 0 || mList.isEmpty()) return
+                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                if (!swiperefresh.isRefreshing && lastVisibleItemPosition >= layoutManager.itemCount - 1) {
+                    swiperefresh.isRefreshing = true
+                    prev()
+                }
+            }
+        })
+
         swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
         swiperefresh.setOnRefreshListener {
-            this.getData()
+            next()
         }
 
         this.getData()
@@ -137,7 +150,6 @@ class TorrentListFragment : Fragment() {
     }
 
     fun getData() {
-        myHandler.removeCallbacksAndMessages(null)
         QueryHelper.instance.query = query
         QueryHelper.instance.search(object : QueryHelper.Callback {
             override fun failure() {
@@ -151,7 +163,44 @@ class TorrentListFragment : Fragment() {
                 mAdapter.notifyDataSetChanged()
             }
         })
-        myHandler.postDelayed({ getData() }, (timeUpdateInterval!!.toLong()*60*1000))
+    }
+
+    fun next() {
+        QueryHelper.instance.next(object : QueryHelper.Callback {
+            override fun failure() {
+                swiperefresh.isRefreshing = false
+            }
+
+            override fun success(torrentList: LinkedList<Torrent>) {
+                swiperefresh.isRefreshing = false
+                mAdapter.notifyItemRangeInserted(0, merge(mList, torrentList))
+            }
+        })
+    }
+
+    fun prev() {
+        QueryHelper.instance.prev(object : QueryHelper.Callback {
+            override fun failure() {
+                swiperefresh.isRefreshing = false
+            }
+
+            override fun success(torrentList: LinkedList<Torrent>) {
+                swiperefresh.isRefreshing = false
+                mList.addAll(torrentList)
+                mAdapter.notifyItemRangeInserted(mList.size - torrentList.size, torrentList.size)
+            }
+        })
+    }
+
+    fun merge(dest: LinkedList<Torrent>, src: LinkedList<Torrent>): Int {
+        var index = 0
+        if (dest.isEmpty() || src.isEmpty()) return index
+        src.filter { it.id == dest[0].id }.forEach {
+            index = src.indexOf(it)
+            if (index == 0) return index
+            dest.addAll(0, src.subList(0, index))
+        }
+        return index
     }
 
     fun resetTorrents() {

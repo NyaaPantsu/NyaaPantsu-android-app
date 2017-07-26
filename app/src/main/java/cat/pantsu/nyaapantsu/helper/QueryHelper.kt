@@ -31,12 +31,13 @@ class QueryHelper private constructor(){
     }
 
 
-    fun next() {
-        //TODO
+    fun next(cb: Callback) {
+        search(cb)
     }
 
-    fun prev() {
-        //TODO
+    fun prev(cb: Callback) {
+        query!!.page += 1
+        search(cb)
     }
 
     fun search(cb: Callback) {

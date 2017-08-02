@@ -126,7 +126,7 @@
     <string name="mark_as_anon">Prześlij jako Anonymous</string>
     <string name="congrats">Gratulacje!</string>
     <string name="welcome_mess">Właśnie pobrałeś aplikację NyaaPantsu. Możesz teraz spróbować * mofu * * mofu * (kliknij na) Megumin, aby mieć pełny dostęp!</string>
-    <string name="about_mess">Ta aplikacja jest dystrybuowana na podstawie licencji MIT. Wyłacznie w celach edukacyjnych.</string>
+    <string name="about_mess">Ta aplikacja jest dystrybuowana na podstawie licencji MIT. Wyłącznie w celach edukacyjnych.</string>
     <string name="megumin">Megumin</string>
     <string name="title_activity_settings">Ustawienia</string>
 
@@ -180,8 +180,8 @@
     <string name="clear">Wyczyść</string>
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
-    <string name="doubleBackToExit">Kliknij podwójnie, aby wyjść</string>
-    <string name="pref_title_double_back_to_exit">Kliknij podwójnie, aby wyjść</string>
+    <string name="doubleBackToExit">Naciśnij podwójnie, aby wyjść</string>
+    <string name="pref_title_double_back_to_exit">Naciśnij podwójnie, aby wyjść</string>
     <string name="pref_title_enable_mascot_voice">Aktywuj głos maskotki</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="user_profile">Profil użytkownika</string>

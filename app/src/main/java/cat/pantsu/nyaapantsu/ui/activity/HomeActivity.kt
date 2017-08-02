@@ -67,6 +67,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         memberButton.setOnClickListener { _ ->
             if (User.token == "") {
                 startActivity<LoginActivity>()
+                finish()
             } else {
                 resetUser()
             }

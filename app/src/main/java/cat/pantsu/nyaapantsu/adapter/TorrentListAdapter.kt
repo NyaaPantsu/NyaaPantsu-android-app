@@ -16,9 +16,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.util.Utils
-import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.model.TorrentOld
 import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
+import cat.pantsu.nyaapantsu.util.Utils
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -27,11 +27,11 @@ import java.util.*
 /**
  * Created by xdk78 on 2017-07-10.
  */
-class TorrentListAdapter(var activity: Activity, torrentList: LinkedList<Torrent>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
-    private var torrentList = LinkedList<Torrent>()
+class TorrentListAdapter(var activity: Activity, torrentOldList: LinkedList<TorrentOld>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
+    private var torrentList = LinkedList<TorrentOld>()
 
     init {
-        this.torrentList = torrentList
+        this.torrentList = torrentOldList
         this.activity = activity
 
     }

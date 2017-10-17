@@ -13,7 +13,7 @@ import cat.pantsu.nyaapantsu.helper.ProfileHelper
 import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.model.ProfileQuery
 import cat.pantsu.nyaapantsu.model.Query
-import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.model.TorrentOld
 import cat.pantsu.nyaapantsu.model.User
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -61,9 +61,9 @@ class ProfileFragment : Fragment() {
                 Snackbar.make(view, R.string.network_error, Snackbar.LENGTH_SHORT)
             }
 
-            override fun success(torrentList: LinkedList<Torrent>) {
+            override fun success(torrentOldList: LinkedList<TorrentOld>) {
                 profiletorrentlist.layoutManager = LinearLayoutManager(activity)
-                profiletorrentlist.adapter = TorrentListAdapter(activity = activity, torrentList = torrentList)
+                profiletorrentlist.adapter = TorrentListAdapter(activity = activity, torrentOldList = torrentOldList)
             }
         })
         // TODO: Use ProfileHelper as a helper to get profile data from the api

@@ -1,7 +1,7 @@
 package cat.pantsu.nyaapantsu.helper
 
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
-import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.model.TorrentOld
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -23,16 +23,16 @@ fun setRecentPlaylist(results: JSONArray) {
     RecentlyPlayed.torrents = results.toString()
 }
 
-fun addTorrentToRecentPlaylist(torrent: Torrent) {
+fun addTorrentToRecentPlaylist(torrentOld: TorrentOld) {
     val torrents = getRecentPlaylistAsArray()
     val newTorrents = JSONArray()
     for (i in 0..(torrents.length() - 1)) {
-        if (torrent.id == torrents.getJSONObject(i).getInt("id")) {
+        if (torrentOld.id == torrents.getJSONObject(i).getInt("id")) {
             torrents.remove(i)
             break
         }
     }
-    newTorrents.put(torrent.toJson())
+    newTorrents.put(torrentOld.toJson())
     for (i in 0..(torrents.length() - 1)) newTorrents.put(torrents[i])
     setRecentPlaylist(newTorrents)
 }

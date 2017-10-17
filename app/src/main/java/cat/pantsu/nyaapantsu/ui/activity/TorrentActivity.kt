@@ -28,7 +28,7 @@ class TorrentActivity : BaseActivity() {
                 list = QueryHelper.parseTorrents(getRecentPlaylistAsArray())
             }
             "upload" -> {
-                val arr = JSONArray().put(intent.getStringExtra("torrentOld"))
+                val arr = JSONArray().put(intent.getStringExtra("torrent"))
                 list = QueryHelper.parseTorrents(arr)
             }
         }

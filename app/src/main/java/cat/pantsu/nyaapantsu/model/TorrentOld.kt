@@ -36,7 +36,7 @@ class TorrentOld(torrent: JSONObject) {
         website = if (torrent.optString("website_link") !== null)  torrent.optString("website_link") else ""
         languages = if (torrent.optJSONArray("languages") !== null)  torrent.optJSONArray("languages") else JSONArray()
         magnet = if (torrent.optString("magnet") !== null)  torrent.optString("magnet") else ""
-        download = if (torrent.optString("torrentOld") !== null)  torrent.optString("torrentOld") else ""
+        download = if (torrent.optString("torrent") !== null)  torrent.optString("torrent") else ""
         hash = if (torrent.optString("hash") !== null)  torrent.optString("hash") else ""
         date = if (torrent.optString("date") !== null)  torrent.optString("date") else ""
         size = humanReadableByteCount(torrent.optLong("filesize"), false)

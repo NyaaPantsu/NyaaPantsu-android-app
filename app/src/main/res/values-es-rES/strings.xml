@@ -1,0 +1,198 @@
+<resources>
+    <string name="title_activity_home">Torrents - NyaaPantsu</string>
+    <string name="title_activity_results">Resultados para</string>
+
+    <string name="navigation_drawer_open">Abrir el cajón de navegación</string>
+    <string name="navigation_drawer_close">Cerrar el panel de navegación</string>
+
+    <string name="action_settings">Ajustes</string>
+    <string name="upload">Subir</string>
+    <string name="search">Buscar</string>
+    <string name="torrents">Torrents</string>
+    <string name="settings">Ajustes</string>
+    <string name="about">Sobre nosotros</string>
+    <string name="title_activity_search">Buscar - NyaaPantsu</string>
+    <string name="category">Categoría</string>
+    <string name="status">Estado</string>
+    <string name="max">Max</string>
+    <string name="other">Otro</string>
+    <string name="loading">Cargando datos…</string>
+    <string name="preparing">Preparando la transmisión...</string>
+    <string name="downloading">Descargando...</string>
+    <string name="uploaded_by">Subido por</string>
+    <string name="date">Fecha</string>
+    <string name="size">Tamaño</string>
+    <string name="download">Descargar</string>
+    <string name="copy">Copiar</string>
+    <string name="show_more">Mostrar más</string>
+    <string name="website">Web</string>
+    <string name="hash">Hash</string>
+    <string name="Files">Archivos</string>
+    <string name="last_scraped">Last Scraped</string>
+    <string name="downloads">Descargas</string>
+    <string-array name="cat_array">
+        <item>Todas las categorías</item>
+        <item>Anime</item>
+        <item>Anime - Anime Music Video</item>
+        <item>Anime - Traducido al inglés</item>
+        <item>Anime - Traducido a un idioma distinto al inglés</item>
+        <item>Anime - Raw</item>
+        <item>Audio</item>
+        <item>Audio - Sin pérdida</item>
+        <item>Audio - Pérdida</item>
+        <item>Literatura</item>
+        <item>Literatura - Traducido al inglés</item>
+        <item>Literatura - Traducido a un idioma distinto al inglés</item>
+        <item>Literatura - Raw</item>
+        <item>Live Action</item>
+        <item>Live Action - Traducido al inglés</item>
+        <item>Live Action - Idol/Vídeo Promocional</item>
+        <item>Live Action - Traducido a un idioma distinto al inglés</item>
+        <item>Live Action - Raw</item>
+        <item>Imágenes</item>
+        <item>Imágenes - Gráficos</item>
+        <item>Imágenes - Fotos</item>
+        <item>Software</item>
+        <item>Software - Aplicaciones</item>
+        <item>Software - Juegos</item>
+    </string-array>
+    <string-array name="status_array">
+        <item>Mostrar todo</item>
+        <item>Filtrar remakes</item>
+        <item>Confiables</item>
+        <item>A+</item>
+    </string-array>
+    <string-array name="language_array">
+        <item>Catalán</item>
+        <item>Chino Simplificado</item>
+        <item>Chino Tradicional</item>
+        <item>Holandés</item>
+        <item>Inglés</item>
+        <item>Francés</item>
+        <item>Alemán</item>
+        <item>Húngaro</item>
+        <item>Islandés</item>
+        <item>Italiano</item>
+        <item>Japonés</item>
+        <item>Coreano</item>
+        <item>Noruego</item>
+        <item>Portugués</item>
+        <item>Rumano</item>
+        <item>Español</item>
+        <item>Sueco</item>
+        <item>Tailandés </item>
+    </string-array>
+
+    <string name="network_error">Error de red</string>
+    <string name="token_expired">Has cerrado la sesión, tus credenciales y tokens han expirado.</string>
+    <string name="title_activity_login">Entrar</string>
+    <string name="title_activity_about">Acerca de NyaaPantsu</string>
+    <string name="torrent_not_available">El torrent no parece estar disponible</string>
+    <string name="external_storage_not_available">El almacenamiento externo no parece estar disponible</string>
+    <string name="magnet_copied">¡Enlace magnet copiado!</string>
+
+    <string-array name="upload_type_array">
+        <item>Archivo Torrent</item>
+        <item>Magnet</item>
+    </string-array>
+
+    <!-- Upload Messages -->
+    <string name="upload_progress">Cargando a [[UPLOAD_RATE]] ([[PROGRESS]])</string>
+    <string name="upload_done">La carga se completó correctamente en [[ELAPSED_TIME]]</string>
+    <string name="try_error">No se pudo crear el torrent debido a un error. Inténtalo de nuevo.</string>
+
+    <!-- Upload Errors -->
+    <string name="upload_error">Error al cargar</string>
+    <string name="name_required">¡Se requiere el nombre del torrent!</string>
+    <string name="file_required">¡Se necesita un archivo torrent o un magnet!</string>
+    <string name="category_required">¡Se debe seleccionar una categoría!</string>
+    <string name="lang_next_time">¡Ningún idioma seleccionado! ¡Deberías seleccionar uno la próxima vez!</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Nombre de usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Entrar</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="error_invalid_username">Nombre de usuario es demasiado corto</string>
+    <string name="error_invalid_password">Contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">Contraseña es incorrecta</string>
+    <string name="error_field_required">Campo necesario</string>
+    <string name="permission_rationale">Se requieren permisos de contactos para completar el correo electrónico.</string>
+    <string name="log_in">Iniciar Sesión</string>
+    <string name="log_out">Cerrar sesión</string>
+
+    <string name="hello_blank_fragment">Hola fragmento en blanco</string>
+    <string name="close">Cerca</string>
+    <string name="torrent_file">Archivo torrent</string>
+    <string name="choose">Elegir...</string>
+    <string name="name">Nombre</string>
+    <string name="language">Idioma</string>
+    <string name="description">Descripción</string>
+    <string name="mark_as_remake">Marcar como Remake</string>
+    <string name="mark_as_anon">Cargar como anónimo</string>
+    <string name="congrats">¡Enhorabuena!</string>
+    <string name="welcome_mess">Acabas de descargar la aplicación NyaaPantsu. ¡Ahora puede intentar *mofu* *mofu* (hacer click en) Megumin para tener acceso completo!</string>
+    <string name="about_mess">Esta aplicación se distribuye bajo la Licencia MIT. Esto es puramente una prueba educativa de concepto.</string>
+    <string name="title_activity_settings">Ajustes</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="pref_header_account">Cuenta</string>
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_keep_login">Recordar mi cuenta</string>
+    <string name="pref_description_keep_login">Inicia tu sesión cada vez que inicies la aplicación (no almacena su contraseña)</string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Datos y sincronización</string>
+
+    <string name="pref_title_sync_frequency">Frecuencia de sincronización</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>3 horas</item>
+        <item>6 horas</item>
+        <item>Nunca</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">Configuración de sincronización del sistema</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notificaciones</string>
+
+    <string name="pref_title_enable_notifications">Habilitar Notificaciones</string>
+
+    <string name="pref_title_ringtone">Tono</string>
+    <string name="pref_ringtone_silent">Silencio</string>
+
+    <string name="pref_title_vibrate">Vibrar</string>
+    <string name="from">De</string>
+    <string name="to">A</string>
+    <string name="watch">Ver</string>
+    <string name="title_activity_watch">¡Ver anime!</string>
+    <string name="recent">Recientes</string>
+    <string name="stream">Stream</string>
+    <string name="clear">Borrar</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Borrar</string>
+    <string name="doubleBackToExit">Por favor, pulse ATRÁS otra vez para salir</string>
+    <string name="pref_title_double_back_to_exit">Pulsar atrás dos veces para salir</string>
+    <string name="pref_title_enable_mascot_voice">Habilitar la voz de la mascota</string>
+    <string name="title_activity_profile">Actividad del perfil</string>
+    <string name="user_profile">Perfil del usuario</string>
+    <string name="deleted">Borrado</string>
+    <string name="permission_required">Permiso necesario</string>
+    <string name="type_languages">Seleccionar idiomas</string>
+    <string name="done">Listo</string>
+    <string name="magnet">Magnet</string>
+    <string name="play">Reproducir</string>
+</resources>

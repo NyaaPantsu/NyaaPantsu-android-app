@@ -30,7 +30,7 @@ before_install:
 - ./gradlew dependencies || true
 
 before_script:
-- (while sleep 3; do echo "y"; done) | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" "extras;android;m2repository" "extras;google;m2repository" "build-tools;${ANDROID_BUILD_TOOLS}" "platforms;android-${ANDROID_API}"
+- (while sleep 3; do echo "y"; done) | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" "extras;android;m2repository" "extras;google;m2repository" "build-tools;$ANDROID_BUILD_TOOLS" "platforms;android-$ANDROID_API"
 
 script:
 - "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"

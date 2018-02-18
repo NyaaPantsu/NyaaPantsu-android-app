@@ -2,7 +2,7 @@ package cat.pantsu.nyaapantsu.helper
 
 import android.util.Log
 import cat.pantsu.nyaapantsu.model.Query
-import cat.pantsu.nyaapantsu.model.TorrentOld
+import cat.pantsu.nyaapantsu.model.Torrent
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -24,9 +24,9 @@ class QueryHelper private constructor(){
 
     companion object {
         val instance: QueryHelper by lazy { Holder.INSTANCE }
-        fun parseTorrents(torrents: JSONArray): LinkedList<TorrentOld> {
+        fun parseTorrents(torrents: JSONArray): LinkedList<Torrent> {
             val length = (torrents.length() - 1)
-            return (0..length).mapTo(LinkedList<TorrentOld>()) { TorrentOld(torrents.getJSONObject(it)) }
+            return (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
         }
     }
 
@@ -67,6 +67,6 @@ class QueryHelper private constructor(){
 
     interface Callback {
         fun failure()
-        fun success(torrentOldList: LinkedList<TorrentOld>)
+        fun success(torrentList: LinkedList<Torrent>)
     }
 }

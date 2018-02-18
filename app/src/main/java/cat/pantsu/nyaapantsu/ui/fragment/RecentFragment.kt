@@ -13,7 +13,7 @@ import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
 import cat.pantsu.nyaapantsu.helper.setRecentPlaylist
 import cat.pantsu.nyaapantsu.model.RecentlyPlayed
-import cat.pantsu.nyaapantsu.model.TorrentOld
+import cat.pantsu.nyaapantsu.model.Torrent
 import kotlinx.android.synthetic.main.app_bar_home.*
 import org.jetbrains.anko.find
 import org.json.JSONArray
@@ -22,7 +22,7 @@ import java.util.*
 
 class RecentFragment : Fragment() {
     var torrents: JSONArray = JSONArray()
-    var torrentOldList: LinkedList<TorrentOld> = LinkedList()
+    var torrentList: LinkedList<Torrent> = LinkedList()
     lateinit var recyclerView: RecyclerView
     lateinit var touchHelper: ItemTouchHelper
 
@@ -48,18 +48,18 @@ class RecentFragment : Fragment() {
         return inflater!!.inflate(R.layout.fragment_recent, container, false)
     }
 
-    fun parseTorrents(): LinkedList<TorrentOld> {
+    fun parseTorrents(): LinkedList<Torrent> {
         val length = (torrents.length() - 1)
-        return (0 .. length).mapTo(LinkedList<TorrentOld>()) { TorrentOld(torrents.getJSONObject(it)) }
+        return (0..length).mapTo(LinkedList<Torrent>()) { Torrent(torrents.getJSONObject(it)) }
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (torrents.length() == 0) return
-        torrentOldList.clear()
-        torrentOldList.addAll(parseTorrents())
+        torrentList.clear()
+        torrentList.addAll(parseTorrents())
         recyclerView = find<RecyclerView>(R.id.torrentlist)
-        recyclerView.adapter = TorrentListAdapter(activity, torrentOldList)
+        recyclerView.adapter = TorrentListAdapter(activity, torrentList)
         val cb = helperCallback(0, ItemTouchHelper.START or ItemTouchHelper.END)
         touchHelper = ItemTouchHelper(cb)
         touchHelper.attachToRecyclerView(recyclerView)
@@ -97,7 +97,7 @@ class RecentFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 torrents.remove(position)
-                torrentOldList.removeAt(position)
+                torrentList.removeAt(position)
                 recyclerView.adapter.notifyItemRemoved(position)
                 Snackbar.make(view, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
             }

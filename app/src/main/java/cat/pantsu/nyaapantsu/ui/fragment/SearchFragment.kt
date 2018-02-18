@@ -11,14 +11,12 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.model.Query
-
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_search.*
 import org.jetbrains.anko.find
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-
 
 
 class SearchFragment : Fragment() {
@@ -30,10 +28,6 @@ class SearchFragment : Fragment() {
     private var s = ""
     private var selectedSize = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)

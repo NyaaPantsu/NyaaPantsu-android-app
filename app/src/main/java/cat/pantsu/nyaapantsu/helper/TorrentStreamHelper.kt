@@ -1,7 +1,7 @@
 package cat.pantsu.nyaapantsu.helper
 
 import android.os.Environment
-import cat.pantsu.nyaapantsu.model.TorrentOld
+import cat.pantsu.nyaapantsu.model.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import com.github.se_bastiaan.torrentstream.TorrentStream
 import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
@@ -18,7 +18,7 @@ class TorrentStreamHelper private constructor() {
     }
 
     companion object {
-        var torrentOld: TorrentOld?= null
+        var torrent: Torrent? = null
         val instance: TorrentStreamHelper by lazy { Holder.INSTANCE }
     }
 

@@ -6,7 +6,7 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.adapter.ViewPagerAdapter
 import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.helper.getRecentPlaylistAsArray
-import cat.pantsu.nyaapantsu.model.TorrentOld
+import cat.pantsu.nyaapantsu.model.Torrent
 import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
 import kotlinx.android.synthetic.main.activity_torrent.*
 import org.json.JSONArray
@@ -14,7 +14,7 @@ import java.util.*
 import com.github.se_bastiaan.torrentstream.Torrent as TorrentLib
 
 class TorrentActivity : BaseActivity() {
-    private var list:LinkedList<TorrentOld> = LinkedList()
+    private var list: LinkedList<Torrent> = LinkedList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

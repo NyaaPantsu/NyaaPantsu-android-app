@@ -155,7 +155,7 @@ class UploadFragment : Fragment() {
         val langTranslation = resources.getStringArray(R.array.language_array)
         val flagList: ArrayList<FlagChip> = ArrayList()
         for ((index, lg) in languages.withIndex()) {
-            var flagCode = lg.replace("-", "_").toLowerCase()
+            val flagCode = lg.replace("-", "_").toLowerCase()
             if (resources.getIdentifier("flag_"+flagCode, "drawable", activity.packageName) > 0) {
                 val uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + activity.packageName + "/drawable/flag_" + flagCode)
                 flagList.add(FlagChip(index.toString(), uri, langTranslation[index], lg))
@@ -231,12 +231,12 @@ class UploadFragment : Fragment() {
                             // your code here
                             // if you have mapped your server response to a POJO, you can easily get it:
                             // YourClass obj = new Gson().fromJson(serverResponse.getBodyAsString(), YourClass.class);
-                            var json = JSONObject(serverResponse.bodyAsString)
+                            val json = JSONObject(serverResponse.bodyAsString)
                             if (json.getBoolean("ok")) {
                                 startActivity<TorrentActivity>("torrent" to json.getJSONObject("data").toString(), "type" to "upload")
                             } else {
-                                var allErrors = json.optJSONObject("all_errors")
-                                var errors = allErrors?.optJSONArray("errors")
+                                val allErrors = json.optJSONObject("all_errors")
+                                val errors = allErrors?.optJSONArray("errors")
                                 if (errors != null) {
                                     errorText.text = errors.join("\n")
                                 }

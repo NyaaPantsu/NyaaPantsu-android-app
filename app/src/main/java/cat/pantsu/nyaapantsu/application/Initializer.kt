@@ -3,7 +3,6 @@ package cat.pantsu.nyaapantsu.application
 import android.app.Application
 import android.preference.PreferenceManager
 import cat.pantsu.nyaapantsu.BuildConfig
-import cat.pantsu.nyaapantsu.model.RecentlyPlayed
 import cat.pantsu.nyaapantsu.model.User
 import cat.pantsu.nyaapantsu.model.Utils
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -47,17 +46,6 @@ class Initializer : Application() {
             Utils.doubleBackToExit = false
         }
 
-        if (BuildConfig.DEBUG) {
-            //debugErase() // Comment out when you need to test and erase objects
-        }
     }
 
-    fun debugErase() {
-        RecentlyPlayed.torrents = ""
-        User.id =0
-        User.name=""
-        User.token=""
-        User.status=0
-        User.md5 = ""
-    }
 }

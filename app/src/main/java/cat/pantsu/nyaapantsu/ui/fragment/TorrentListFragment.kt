@@ -16,7 +16,7 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.helper.QueryHelper
 import cat.pantsu.nyaapantsu.model.Query
-import cat.pantsu.nyaapantsu.model.TorrentOld
+import cat.pantsu.nyaapantsu.model.Torrent
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
 import org.jetbrains.anko.find
@@ -32,7 +32,7 @@ class TorrentListFragment : Fragment() {
     private var mListener: OnFragmentInteractionListener? = null
 
     companion object {
-        var mList: LinkedList<TorrentOld> = LinkedList()
+        var mList: LinkedList<Torrent> = LinkedList()
 
         /**
          * Use this factory method to create a new instance of
@@ -156,10 +156,10 @@ class TorrentListFragment : Fragment() {
                 swiperefresh.isRefreshing = false
             }
 
-            override fun success(torrentOldList: LinkedList<TorrentOld>) {
+            override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
                 mList.clear()
-                mList.addAll(torrentOldList)
+                mList.addAll(torrentList)
                 mAdapter.notifyDataSetChanged()
             }
         })
@@ -171,9 +171,9 @@ class TorrentListFragment : Fragment() {
                 swiperefresh.isRefreshing = false
             }
 
-            override fun success(torrentOldList: LinkedList<TorrentOld>) {
+            override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
-                mAdapter.notifyItemRangeInserted(0, merge(mList, torrentOldList))
+                mAdapter.notifyItemRangeInserted(0, merge(mList, torrentList))
             }
         })
     }
@@ -184,15 +184,15 @@ class TorrentListFragment : Fragment() {
                 swiperefresh.isRefreshing = false
             }
 
-            override fun success(torrentOldList: LinkedList<TorrentOld>) {
+            override fun success(torrentList: LinkedList<Torrent>) {
                 swiperefresh.isRefreshing = false
-                mList.addAll(torrentOldList)
-                mAdapter.notifyItemRangeInserted(mList.size - torrentOldList.size, torrentOldList.size)
+                mList.addAll(torrentList)
+                mAdapter.notifyItemRangeInserted(mList.size - torrentList.size, torrentList.size)
             }
         })
     }
 
-    fun merge(dest: LinkedList<TorrentOld>, src: LinkedList<TorrentOld>): Int {
+    fun merge(dest: LinkedList<Torrent>, src: LinkedList<Torrent>): Int {
         var index = 0
         if (dest.isEmpty() || src.isEmpty()) return index
         src.filter { it.id == dest[0].id }.forEach {

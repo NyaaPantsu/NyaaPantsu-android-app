@@ -10,7 +10,8 @@ import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -25,7 +26,7 @@ import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.helper.TorrentStreamHelper
 import cat.pantsu.nyaapantsu.helper.addTorrentToRecentPlaylist
-import cat.pantsu.nyaapantsu.model.Torrent
+import cat.pantsu.nyaapantsu.model.TorrentOld
 import cat.pantsu.nyaapantsu.util.Utils
 import com.facebook.common.executors.CallerThreadExecutor
 import com.facebook.common.references.CloseableReference
@@ -51,7 +52,7 @@ import java.lang.Exception
  * Created by ltype on 2017/7/9.
  */
 class TorrentViewFragment: Fragment(), TorrentListener {
-    var torrent = Torrent(JSONObject())
+    var torrent = TorrentOld(JSONObject())
     var showDet = false
     var progressdialog: ProgressDialog? = null
 
@@ -59,7 +60,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         fun newInstance(torrent: String): TorrentViewFragment {
             val fragment = TorrentViewFragment()
             val args = Bundle()
-            args.putString("torrent", torrent)
+            args.putString("torrentOld", torrent)
             fragment.arguments = args
             return fragment
         }
@@ -87,7 +88,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments.getString("torrent") !== null) {
-            torrent = Torrent(JSONObject(arguments.getString("torrent")))
+            torrent = TorrentOld(JSONObject(arguments.getString("torrent")))
             genView()
         } else if (arguments.containsKey("id")) {
             torrent.id = arguments.getInt("id", 0)
@@ -118,7 +119,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
 
                     val json = result.getAs<Json>()
                     if (json !== null) {
-                        torrent = Torrent(json.obj())
+                        torrent = TorrentOld(json.obj())
                         genView()
                     }
                 }
@@ -182,7 +183,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
                         Log.d("stream", "Magnet: " + magnet)
                         if (!TorrentStreamHelper.instance.isStreaming())  {
                             TorrentStreamHelper.instance.start(magnet)
-                            TorrentStreamHelper.torrent = torrent
+                            TorrentStreamHelper.torrentOld = torrent
                             addTorrentToRecentPlaylist(torrent)
                         }
                         // show current stream status
@@ -241,7 +242,7 @@ class TorrentViewFragment: Fragment(), TorrentListener {
     }
 
     fun displayProgress() {
-        progressdialog!!.setTitle(TorrentStreamHelper.torrent!!.name)
+        progressdialog!!.setTitle(TorrentStreamHelper.torrentOld!!.name)
         progressdialog!!.setMessage(getString(R.string.preparing))
         progressdialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
         progressdialog!!.isIndeterminate = false

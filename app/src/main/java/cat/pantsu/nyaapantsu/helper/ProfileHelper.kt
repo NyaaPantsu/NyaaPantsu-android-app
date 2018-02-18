@@ -2,16 +2,12 @@ package cat.pantsu.nyaapantsu.helper
 
 import android.util.Log
 import cat.pantsu.nyaapantsu.model.ProfileQuery
-import cat.pantsu.nyaapantsu.model.Torrent
 import com.github.kittinunf.fuel.android.core.Json
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.kittinunf.result.getAs
-import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
-
 
 
 class ProfileHelper private constructor(){

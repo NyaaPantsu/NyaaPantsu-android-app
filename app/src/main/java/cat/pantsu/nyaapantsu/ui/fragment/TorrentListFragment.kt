@@ -1,212 +1,89 @@
 package cat.pantsu.nyaapantsu.ui.fragment
 
-import android.app.Fragment
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.support.v4.content.ContextCompat
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
-import cat.pantsu.nyaapantsu.helper.QueryHelper
-import cat.pantsu.nyaapantsu.model.Query
-import cat.pantsu.nyaapantsu.model.Torrent
-import kotlinx.android.synthetic.main.app_bar_home.*
+import cat.pantsu.nyaapantsu.base.BaseFragment
+import cat.pantsu.nyaapantsu.mvp.model.TorrentListModel
+import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
+import cat.pantsu.nyaapantsu.mvp.presenter.TorrentListPresenter
+import cat.pantsu.nyaapantsu.mvp.view.TorrentListView
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
-import org.jetbrains.anko.find
-import java.util.*
+import org.jetbrains.anko.support.v4.find
+import java.io.IOException
+import javax.inject.Inject
 
 
-class TorrentListFragment : Fragment() {
-    var timeUpdateInterval: Int? = null
-    private var query: Query? = null
-    private var myHandler = Handler()
-    private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mAdapter: TorrentListAdapter
-    private var mListener: OnFragmentInteractionListener? = null
+class TorrentListFragment : BaseFragment(), TorrentListView {
+
+    lateinit var adapter: TorrentListAdapter
+
+    @Inject
+    lateinit var presenter: TorrentListPresenter
+
+    lateinit var recyclerView: RecyclerView
 
     companion object {
-        var mList: LinkedList<Torrent> = LinkedList()
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-
-         * @param query Query.
-         * *
-         * @return A new instance of fragment TorrentListFragment.
-         */
-        fun newInstance(query: Query): TorrentListFragment {
-            val fragment = TorrentListFragment()
-            val args = Bundle()
-            args.putParcelable("query", query)
-            fragment.arguments = args
-            return fragment
+        fun newInstance(): TorrentListFragment {
+            return TorrentListFragment()
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            query = arguments.getParcelable("query")
-        }
-        timeUpdateInterval = 15
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_torrent_list, container, false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_torrent_list, container, false)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val closeButton = activity.toolbar.find<ImageButton>(R.id.buttonClose)
-        closeButton.visibility = View.GONE
-        activity.fab.visibility = View.VISIBLE
-
-        if (query?.isQueryable() == true) {
-            if (query?.q != "") {
-                activity.title = getString(R.string.title_activity_results) + " \'" + query?.q + "\' - NyaaPantsu"
-            } else {
-                activity.title = getString(R.string.title_activity_search)
-            }
-            closeButton.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_clear_search))
-
-            closeButton.setOnClickListener { _ ->
-                resetTorrents()
-                closeButton.visibility = View.GONE
-            }
-            closeButton.visibility = View.VISIBLE
-        } else {
-            activity.title = getString(R.string.title_activity_home)
-            closeButton.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_action_reload))
-            closeButton.setOnClickListener { _ ->
-                this.getData()
-            }
-            closeButton.visibility = View.VISIBLE
-        }
-
-        mRecyclerView = find<RecyclerView>(R.id.torrentlist)
-        mAdapter = TorrentListAdapter(activity, mList)
-        mRecyclerView.adapter = mAdapter
-
-        val layoutManager = mRecyclerView.layoutManager as LinearLayoutManager
-        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if (dy <= 0 || mList.isEmpty()) return
-                val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-                if (!swiperefresh.isRefreshing && lastVisibleItemPosition >= layoutManager.itemCount - 1) {
-                    swiperefresh.isRefreshing = true
-                    prev()
-                }
-            }
-        })
-
-        swiperefresh.setColorSchemeColors(*resources.getIntArray(R.array.swipe_refresh_color))
+        activity!!.title = getString(R.string.title_activity_home)
         swiperefresh.setOnRefreshListener {
-            next()
+            presenter.subscribe(this)
+            swiperefresh.isRefreshing = true
+            presenter.loadData()
         }
-
-        this.getData()
+        presenter.subscribe(this)
+        presenter.loadData()
     }
 
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement OnFragmentInteractionListener")
+    override fun onItemLoaded(items: TorrentListResponse<TorrentListModel>) {
+        recyclerView = find(R.id.torrentlist)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = TorrentListAdapter(context!!, items)
+        recyclerView.adapter = adapter
+
+        swiperefresh.isRefreshing = false
+    }
+
+    override fun onError(e: Throwable?) {
+        when (e) {
+            is IOException -> {
+                Log.e("torrentlist", e.message)
+                Snackbar.make(view!!, e.toString(), Snackbar.LENGTH_LONG).show()
+                swiperefresh.isRefreshing = false
+            }
+            else -> {
+                Log.e("torrentlistapi", e!!.message)
+            }
         }
     }
 
-    override fun onPause() {
-        myHandler.removeCallbacksAndMessages(null)
-        super.onPause()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.unsubscribe()
     }
 
     override fun onDetach() {
         super.onDetach()
-        mListener = null
+        presenter.unsubscribe()
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
-    }
 
-    fun getData() {
-        QueryHelper.instance.query = query
-        QueryHelper.instance.search(object : QueryHelper.Callback {
-            override fun failure() {
-                swiperefresh.isRefreshing = false
-            }
-
-            override fun success(torrentList: LinkedList<Torrent>) {
-                swiperefresh.isRefreshing = false
-                mList.clear()
-                mList.addAll(torrentList)
-                mAdapter.notifyDataSetChanged()
-            }
-        })
-    }
-
-    fun next() {
-        QueryHelper.instance.next(object : QueryHelper.Callback {
-            override fun failure() {
-                swiperefresh.isRefreshing = false
-            }
-
-            override fun success(torrentList: LinkedList<Torrent>) {
-                swiperefresh.isRefreshing = false
-                mAdapter.notifyItemRangeInserted(0, merge(mList, torrentList))
-            }
-        })
-    }
-
-    fun prev() {
-        QueryHelper.instance.prev(object : QueryHelper.Callback {
-            override fun failure() {
-                swiperefresh.isRefreshing = false
-            }
-
-            override fun success(torrentList: LinkedList<Torrent>) {
-                swiperefresh.isRefreshing = false
-                mList.addAll(torrentList)
-                mAdapter.notifyItemRangeInserted(mList.size - torrentList.size, torrentList.size)
-            }
-        })
-    }
-
-    fun merge(dest: LinkedList<Torrent>, src: LinkedList<Torrent>): Int {
-        var index = 0
-        if (dest.isEmpty() || src.isEmpty()) return index
-        src.filter { it.id == dest[0].id }.forEach {
-            index = src.indexOf(it)
-            if (index == 0) return index
-            dest.addAll(0, src.subList(0, index))
-        }
-        return index
-    }
-
-    fun resetTorrents() {
-        myHandler.removeCallbacksAndMessages(null)
-        query = Query() // We reset to nothing the query
-        activity.title = "Torrents - NyaaPantsu"
-        getData()
-    }
 }

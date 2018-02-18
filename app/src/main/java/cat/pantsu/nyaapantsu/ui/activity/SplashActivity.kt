@@ -1,21 +1,21 @@
 package cat.pantsu.nyaapantsu.ui.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.model.User
+import cat.pantsu.nyaapantsu.base.BaseActivity
+import cat.pantsu.nyaapantsu.mvp.model.UserModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!User.splash) {
+        if (!UserModel.splash) {
             setContentView(R.layout.activity_main)
             meguminButton.setOnClickListener { _ ->
                 run {
-                    User.splash = true
+                    UserModel.splash = true
                     startActivity<HomeActivity>()
                 }
             }

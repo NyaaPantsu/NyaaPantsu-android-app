@@ -1,14 +1,11 @@
 package cat.pantsu.nyaapantsu.helper
 
 import android.os.Environment
-import cat.pantsu.nyaapantsu.model.Torrent
 import com.github.se_bastiaan.torrentstream.TorrentOptions
 import com.github.se_bastiaan.torrentstream.TorrentStream
 import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
 
-/**
- * Created by ltype on 2017/7/12.
- */
+
 class TorrentStreamHelper private constructor() {
     private val stream: TorrentStream = newInstance()
     private var listener: TorrentListener ?= null
@@ -18,7 +15,6 @@ class TorrentStreamHelper private constructor() {
     }
 
     companion object {
-        var torrent: Torrent? = null
         val instance: TorrentStreamHelper by lazy { Holder.INSTANCE }
     }
 

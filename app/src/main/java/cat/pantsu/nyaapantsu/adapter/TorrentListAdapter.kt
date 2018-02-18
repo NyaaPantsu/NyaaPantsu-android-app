@@ -12,23 +12,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.model.Torrent
-import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
+import cat.pantsu.nyaapantsu.mvp.model.TorrentListModel
+import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
 import cat.pantsu.nyaapantsu.util.Utils
 import kotlinx.android.synthetic.main.torrent_item.view.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
-import java.util.*
 
-class TorrentListAdapter(var activity: Activity, var torrentList: LinkedList<Torrent>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
+class TorrentListAdapter(var context: Context, private var torrentList: TorrentListResponse<TorrentListModel>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TorrentListViewHolder?, position: Int) {
         if (holder == null) return
-        val item = torrentList[position]
+        val item = torrentList.torrents[position]
 
         holder.itemView.name.text = item.name
-        holder.itemView.uploader.text = item.username
+        holder.itemView.uploader.text = item.uploaderName
         holder.itemView.stats.text = "S: " + item.seeders + " L: " + item.leechers
         holder.itemView.date.text = item.date
 
@@ -44,44 +42,44 @@ class TorrentListAdapter(var activity: Activity, var torrentList: LinkedList<Tor
 
         holder.itemView.download.setOnClickListener { _ ->
             when {
-                !TextUtils.isEmpty(item.download) -> Utils.download(activity, holder.itemView, item.download, item.name)
-                else -> activity.toast(activity.getString(R.string.torrent_not_available))
+                !TextUtils.isEmpty(item.torrent) -> Utils.download(context as Activity, holder.itemView, item.torrent, item.name)
+                else -> context.toast(context.getString(R.string.torrent_not_available))
             }
         }
 
         holder.itemView.copy.setOnClickListener { _ ->
-            val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(item.name, item.magnet)
             clipboard.primaryClip = clipData
-            activity.toast(activity.getString(R.string.magnet_copied))
+            context.toast(context.getString(R.string.magnet_copied))
         }
 
-        holder.itemView.cardview.setOnClickListener { _ ->
-            activity.startActivity<TorrentActivity>("position" to position, "type" to "search")
-        }
+//        holder.itemView.cardview.setOnClickListener { _ ->
+//            activity.startActivity<TorrentActivity>("position" to position, "type" to "search")
+//        }
 
         when (item.status) {
             2 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.itemView.cardview.setCardBackgroundColor(activity.resources.getColorStateList(R.color.colorRemake, null))
+                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorRemake, null))
                 } else {
-                    holder.itemView.cardview.setCardBackgroundColor(activity.resources.getColorStateList(R.color.colorRemake))
+                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorRemake))
                 }
 
             }
             3 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.itemView.cardview.setCardBackgroundColor(activity.resources.getColorStateList(R.color.colorTrusted, null))
+                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorTrusted, null))
                 } else {
-                    holder.itemView.cardview.setCardBackgroundColor(activity.resources.getColorStateList(R.color.colorTrusted))
+                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorTrusted))
                 }
 
             }
             4 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.itemView.cardview.setCardBackgroundColor(activity.resources.getColorStateList(R.color.colorAPlus, null))
+                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorAPlus, null))
                 } else {
-                    holder.itemView.cardview.setCardBackgroundColor(activity.resources.getColorStateList(R.color.colorAPlus))
+                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorAPlus))
                 }
             }
         }
@@ -98,7 +96,7 @@ class TorrentListAdapter(var activity: Activity, var torrentList: LinkedList<Tor
     }
 
     override fun getItemCount(): Int {
-        return torrentList.size
+        return torrentList.torrents.size
     }
 
     class TorrentListViewHolder(view: View) : RecyclerView.ViewHolder(view)

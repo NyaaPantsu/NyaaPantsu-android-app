@@ -3,8 +3,10 @@ package cat.pantsu.nyaapantsu.di.module
 import cat.pantsu.nyaapantsu.di.module.about.AboutFragmentProvider
 import cat.pantsu.nyaapantsu.di.module.torrent.TorrentListFragmentProvider
 import cat.pantsu.nyaapantsu.di.module.torrent.TorrentListModule
+import cat.pantsu.nyaapantsu.di.module.torrent.TorrentModule
 import cat.pantsu.nyaapantsu.ui.activity.HomeActivity
 import cat.pantsu.nyaapantsu.ui.activity.SplashActivity
+import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,4 +22,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector()
     abstract fun bindSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector(modules = [TorrentModule::class])
+    abstract fun bindTorrentActivity(): TorrentActivity
 }

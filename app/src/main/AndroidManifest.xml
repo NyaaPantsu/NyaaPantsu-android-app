@@ -34,17 +34,17 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--<activity-->
-        <!--android:name=".ui.activity.TorrentActivity"-->
-        <!--android:configChanges="keyboardHidden|orientation|screenSize">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.SEND" />-->
+        <activity
+            android:name=".ui.activity.TorrentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <category android:name="android.intent.category.DEFAULT" />
 
-        <!--<data android:mimeType="video/*" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
         <!--<activity-->
         <!--android:name=".ui.activity.LoginActivity"-->
         <!--android:configChanges="keyboardHidden|orientation|screenSize"-->

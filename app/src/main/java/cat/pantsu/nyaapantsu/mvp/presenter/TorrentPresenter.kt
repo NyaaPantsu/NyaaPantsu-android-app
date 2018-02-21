@@ -3,15 +3,15 @@ package cat.pantsu.nyaapantsu.mvp.presenter
 import cat.pantsu.nyaapantsu.api.torrent.TorrentApi
 import cat.pantsu.nyaapantsu.base.BasePresenter
 import cat.pantsu.nyaapantsu.base.Schedulers
-import cat.pantsu.nyaapantsu.mvp.view.TorrentListView
+import cat.pantsu.nyaapantsu.mvp.view.TorrentView
 
 
-class TorrentListPresenter(val schedulers: Schedulers, val torrentApi: TorrentApi) : BasePresenter<TorrentListView>() {
+class TorrentPresenter(val schedulers: Schedulers, val torrentApi: TorrentApi) : BasePresenter<TorrentView>() {
 
-    fun loadData() {
+    fun loadData(id: Int) {
         compositeObservable.add(
                 torrentApi
-                        .getTorrentList()
+                        .getTorrent(id)
                         .observeOn(schedulers.mainThread())
                         .subscribeOn(schedulers.backgroundThread())
                         .subscribe(

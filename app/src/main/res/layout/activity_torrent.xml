@@ -18,9 +18,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/renchon" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+
+    <FrameLayout
+        android:id="@+id/torrent_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include layout="@layout/fragment_torrent_view" />
+    </FrameLayout>
+
 
 </android.support.constraint.ConstraintLayout>

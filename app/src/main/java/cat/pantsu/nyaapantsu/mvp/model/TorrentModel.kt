@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import org.json.JSONArray
 import java.math.BigInteger
 
-data class TorrentListModel(
+data class TorrentModel(
         @SerializedName("id")
         @Expose
         val id: Int,

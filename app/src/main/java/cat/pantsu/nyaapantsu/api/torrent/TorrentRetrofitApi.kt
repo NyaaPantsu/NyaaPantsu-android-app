@@ -1,9 +1,10 @@
 package cat.pantsu.nyaapantsu.api.torrent
 
-import cat.pantsu.nyaapantsu.mvp.model.TorrentListModel
 import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
+import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -26,6 +27,8 @@ interface TorrentRetrofitApi {
                        @Query("sizeType") sizeType: String?,
                        @Query("sort") sort: String?,
                        @Query("order") order: Boolean?,
-                       @Query("lang") lang: List<String>?): Single<TorrentListResponse<TorrentListModel>>
+                       @Query("lang") lang: List<String>?): Single<TorrentListResponse<TorrentModel>>
 
+    @GET("view/{id}")
+    fun getTorrent(@Path("id") id: Int): Single<TorrentModel>
 }

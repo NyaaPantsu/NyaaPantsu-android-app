@@ -12,13 +12,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.mvp.model.TorrentListModel
 import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
+import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
+import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import cat.pantsu.nyaapantsu.util.Utils
 import kotlinx.android.synthetic.main.torrent_item.view.*
 import org.jetbrains.anko.toast
 
-class TorrentListAdapter(var context: Context, private var torrentList: TorrentListResponse<TorrentListModel>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
+
+class TorrentListAdapter(var context: Context, private var torrentList: TorrentListResponse<TorrentModel>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: TorrentListViewHolder?, position: Int) {
@@ -54,9 +56,9 @@ class TorrentListAdapter(var context: Context, private var torrentList: TorrentL
             context.toast(context.getString(R.string.magnet_copied))
         }
 
-//        holder.itemView.cardview.setOnClickListener { _ ->
-//            activity.startActivity<TorrentActivity>("position" to position, "type" to "search")
-//        }
+        holder.itemView.cardview.setOnClickListener { _ ->
+            context.startActivity(TorrentActivity.createIntent(context, item.id, item.name))
+        }
 
         when (item.status) {
             2 -> {

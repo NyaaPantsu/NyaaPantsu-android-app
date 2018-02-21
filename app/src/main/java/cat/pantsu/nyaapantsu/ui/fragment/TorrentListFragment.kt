@@ -11,13 +11,11 @@ import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.base.BaseFragment
-import cat.pantsu.nyaapantsu.mvp.model.TorrentListModel
 import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
+import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
 import cat.pantsu.nyaapantsu.mvp.presenter.TorrentListPresenter
 import cat.pantsu.nyaapantsu.mvp.view.TorrentListView
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
-import org.jetbrains.anko.support.v4.find
-import java.io.IOException
 import javax.inject.Inject
 
 
@@ -52,9 +50,8 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
         presenter.loadData()
     }
 
-
-    override fun onItemLoaded(items: TorrentListResponse<TorrentListModel>) {
-        recyclerView = find(R.id.torrentlist)
+    override fun onItemLoaded(items: TorrentListResponse<TorrentModel>) {
+        recyclerView = torrentlist
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = TorrentListAdapter(context!!, items)
         recyclerView.adapter = adapter
@@ -63,16 +60,9 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
     }
 
     override fun onError(e: Throwable?) {
-        when (e) {
-            is IOException -> {
-                Log.e("torrentlist", e.message)
-                Snackbar.make(view!!, e.toString(), Snackbar.LENGTH_LONG).show()
-                swiperefresh.isRefreshing = false
-            }
-            else -> {
-                Log.e("torrentlistapi", e!!.message)
-            }
-        }
+        Log.e("torrentlist", e.toString())
+        Snackbar.make(view!!, e.toString(), Snackbar.LENGTH_LONG).show()
+        swiperefresh.isRefreshing = false
     }
 
     override fun onDestroyView() {
@@ -84,6 +74,5 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
         super.onDetach()
         presenter.unsubscribe()
     }
-
 
 }

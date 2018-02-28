@@ -15,7 +15,8 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
 import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
 import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
-import cat.pantsu.nyaapantsu.util.Utils
+import cat.pantsu.nyaapantsu.util.download
+import cat.pantsu.nyaapantsu.util.formatDate
 import kotlinx.android.synthetic.main.torrent_item.view.*
 import org.jetbrains.anko.toast
 
@@ -30,7 +31,7 @@ class TorrentListAdapter(var context: Context, private var torrentList: TorrentL
         holder.itemView.name.text = item.name
         holder.itemView.uploader.text = item.uploaderName
         holder.itemView.stats.text = "S: " + item.seeders + " L: " + item.leechers
-        holder.itemView.date.text = item.date
+        holder.itemView.date.text = item.date.formatDate()
 
         holder.itemView.expand.setOnClickListener { _ ->
             holder.itemView.expand.isSelected = !holder.itemView.expand.isSelected
@@ -44,7 +45,7 @@ class TorrentListAdapter(var context: Context, private var torrentList: TorrentL
 
         holder.itemView.download.setOnClickListener { _ ->
             when {
-                !TextUtils.isEmpty(item.torrent) -> Utils.download(context as Activity, holder.itemView, item.torrent, item.name)
+                !TextUtils.isEmpty(item.torrent) -> download(context as Activity, holder.itemView, item.torrent, item.name)
                 else -> context.toast(context.getString(R.string.torrent_not_available))
             }
         }

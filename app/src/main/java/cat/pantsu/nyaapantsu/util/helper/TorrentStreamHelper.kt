@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.helper
+package cat.pantsu.nyaapantsu.util.helper
 
 import android.os.Environment
 import com.github.se_bastiaan.torrentstream.TorrentOptions

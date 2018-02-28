@@ -5,6 +5,6 @@ import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
 
 interface TorrentView : BaseView {
 
-    fun onItemLoaded(items: TorrentModel)
+    fun onItemsLoaded(items: TorrentModel)
 
 }

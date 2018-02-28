@@ -11,7 +11,7 @@
     <string name="torrents">Torrenty</string>
     <string name="settings">Ustawienia</string>
     <string name="about">O nas</string>
-    <string name="title_activity_search">Szukaj - NyaaPantsu</string>
+    <string name="title_activity_search">Szukaj</string>
     <string name="category">Kategoria</string>
     <string name="status">Status</string>
     <string name="max">Maks</string>
@@ -191,4 +191,6 @@
     <string name="done">Gotowe</string>
     <string name="magnet">Magnet</string>
     <string name="play">Odtwarzaj</string>
+    <string name="downloading">Pobieranie</string>
+    <string name="preparing">Przygotowywnie strumienia...</string>
 </resources>

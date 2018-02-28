@@ -11,7 +11,7 @@
     <string name="torrents">Torrents</string>
     <string name="settings">Ajustes</string>
     <string name="about">Sobre nosotros</string>
-    <string name="title_activity_search">Buscar - NyaaPantsu</string>
+    <string name="title_activity_search">Buscar</string>
     <string name="category">Categoría</string>
     <string name="status">Estado</string>
     <string name="max">Max</string>
@@ -195,4 +195,5 @@
     <string name="done">Listo</string>
     <string name="magnet">Magnet</string>
     <string name="play">Reproducir</string>
+    <string name="megumin">Megumin</string>
 </resources>

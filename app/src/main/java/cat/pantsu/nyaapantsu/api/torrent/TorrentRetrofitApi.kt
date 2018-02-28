@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface TorrentRetrofitApi {
 
     @GET("search")
-    fun getTorrentList(@Query("c") c: List<String>?,
+    fun getTorrentList(@Query("c") c: String?,
                        @Query("q") q: String?,
                        @Query("page") page: Int?,
                        @Query("limit") limit: String?,

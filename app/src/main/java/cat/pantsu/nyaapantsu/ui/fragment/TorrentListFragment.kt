@@ -50,7 +50,7 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
         presenter.loadData()
     }
 
-    override fun onItemLoaded(items: TorrentListResponse<TorrentModel>) {
+    override fun onItemsLoaded(items: TorrentListResponse<TorrentModel>) {
         recyclerView = torrentlist
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = TorrentListAdapter(context!!, items)

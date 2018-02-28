@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/marginBig"
+    android:layout_marginTop="@dimen/marginMedium"
+    android:background="@drawable/layout_bg"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
+
+    <TextView
+        android:id="@+id/torrentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+        android:background="@drawable/borderbottom"
+        android:paddingBottom="@dimen/nav_header_vertical_spacing"
+        android:text="@string/loading"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/colorPinkText" />
+
+
+</LinearLayout>
+

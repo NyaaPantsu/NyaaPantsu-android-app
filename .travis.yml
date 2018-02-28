@@ -23,6 +23,9 @@ before_install:
 - chmod +x gradlew
 
 before_script:
+- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+- emulator -avd test -no-skin -no-audio -no-window
+- android-wait-for-emulator
 - (while sleep 3; do echo "y"; done) | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" "extras;android;m2repository" "extras;google;m2repository" "build-tools;27.0.2" "platforms;android-27"
 
 script:

@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways" />
 
-
     </android.support.design.widget.AppBarLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -36,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/renchon" />
 
-        <include layout="@layout/content_torrent_view" />
+        <include layout="@layout/fragment_search_torrent_list" />
 
     </android.support.constraint.ConstraintLayout>
 

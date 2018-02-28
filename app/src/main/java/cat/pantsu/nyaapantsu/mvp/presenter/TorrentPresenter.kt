@@ -15,7 +15,7 @@ class TorrentPresenter(val schedulers: Schedulers, val torrentApi: TorrentApi) :
                         .observeOn(schedulers.mainThread())
                         .subscribeOn(schedulers.backgroundThread())
                         .subscribe(
-                                { view?.onItemLoaded(it) },
+                                { view?.onItemsLoaded(it) },
                                 { view?.onError(it) })
         )
     }

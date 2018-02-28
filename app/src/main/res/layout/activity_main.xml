@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="cat.pantsu.nyaapantsu.ui.activity.SplashActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +40,8 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
             android:text="@string/welcome_mess"
             android:textColor="@color/colorWhite" />
 
@@ -53,7 +53,6 @@
         android:layout_height="201dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/megumin"
         app:layout_constraintBottom_toBottomOf="parent"

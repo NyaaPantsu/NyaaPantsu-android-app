@@ -45,6 +45,14 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_search">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
         <!--<activity-->
         <!--android:name=".ui.activity.LoginActivity"-->
         <!--android:configChanges="keyboardHidden|orientation|screenSize"-->

@@ -7,7 +7,6 @@ import cat.pantsu.nyaapantsu.mvp.view.SearchTorrentListView
 
 
 class SearchTorrentListPresenter(val schedulers: Schedulers, val torrentApi: TorrentApi) : BasePresenter<SearchTorrentListView>() {
-
     fun loadData(c: String?,
                  q: String?,
                  limit: String?,
@@ -19,7 +18,7 @@ class SearchTorrentListPresenter(val schedulers: Schedulers, val torrentApi: Tor
                  sizeType: String?) {
         compositeObservable.add(
                 torrentApi
-                        .getSearchTorrentList(c, q, limit, s, toDate, fromDate,
+                        .searchTorrentList(c, q, limit, s, toDate, fromDate,
                                 minSize, maxSize, sizeType)
                         .observeOn(schedulers.mainThread())
                         .subscribeOn(schedulers.backgroundThread())

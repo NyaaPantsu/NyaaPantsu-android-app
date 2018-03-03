@@ -33,16 +33,6 @@ class TorrentListAdapter(var context: Context, private var torrentList: TorrentL
         holder.itemView.stats.text = "S: " + item.seeders + " L: " + item.leechers
         holder.itemView.date.text = item.date.formatDate()
 
-        holder.itemView.expand.setOnClickListener { _ ->
-            holder.itemView.expand.isSelected = !holder.itemView.expand.isSelected
-            val visibility = when {
-                holder.itemView.expand.isSelected -> View.VISIBLE
-                else -> View.GONE
-            }
-            holder.itemView.download.visibility = visibility
-            holder.itemView.copy.visibility = visibility
-        }
-
         holder.itemView.download.setOnClickListener { _ ->
             when {
                 !TextUtils.isEmpty(item.torrent) -> download(context as Activity, holder.itemView, item.torrent, item.name)
@@ -64,28 +54,29 @@ class TorrentListAdapter(var context: Context, private var torrentList: TorrentL
         when (item.status) {
             2 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorRemake, null))
+                    holder.itemView.statusLine.setBackgroundColor(context.resources.getColor(R.color.colorRemake, null))
                 } else {
-                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorRemake))
+                    holder.itemView.statusLine.setBackgroundColor(context.resources.getColor(R.color.colorRemake))
                 }
 
             }
             3 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorTrusted, null))
+                    holder.itemView.statusLine.setBackgroundColor(context.resources.getColor(R.color.colorTrusted, null))
                 } else {
-                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorTrusted))
+                    holder.itemView.statusLine.setBackgroundColor(context.resources.getColor(R.color.colorTrusted))
                 }
 
             }
             4 -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorAPlus, null))
+                    holder.itemView.statusLine.setBackgroundColor(context.resources.getColor(R.color.colorAPlus, null))
                 } else {
-                    holder.itemView.cardview.setCardBackgroundColor(context.resources.getColorStateList(R.color.colorAPlus))
+                    holder.itemView.statusLine.setBackgroundColor(context.resources.getColor(R.color.colorAPlus))
                 }
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TorrentListViewHolder {

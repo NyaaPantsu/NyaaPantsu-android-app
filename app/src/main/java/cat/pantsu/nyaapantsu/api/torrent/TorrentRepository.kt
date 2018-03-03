@@ -16,15 +16,15 @@ class TorrentRepository(val retrofit: Retrofit) : TorrentApi {
             null, null, null,
             null, null, null, null)
 
-    override fun getSearchTorrentList(c: String?,
-                                      q: String?,
-                                      limit: String?,
-                                      s: String?,
-                                      toDate: String?,
-                                      fromDate: String?,
-                                      minSize: String?,
-                                      maxSize: String?,
-                                      sizeType: String?
+    override fun searchTorrentList(c: String?,
+                                   q: String?,
+                                   limit: String?,
+                                   s: String?,
+                                   toDate: String?,
+                                   fromDate: String?,
+                                   minSize: String?,
+                                   maxSize: String?,
+                                   sizeType: String?
     ): Single<TorrentListResponse<TorrentModel>> = torrentApi.getTorrentList(
             c, q, 1, limit,
             null, null, s,

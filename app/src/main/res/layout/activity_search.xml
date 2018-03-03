@@ -25,18 +25,31 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_scrollFlags="scroll">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:contentDescription="@string/renchon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/renchon" />
+            android:orientation="vertical">
 
-        <include layout="@layout/fragment_search_torrent_list" />
+            <include
+                android:id="@+id/filterLayout"
+                layout="@layout/search_filter_layout"
+                android:visibility="gone" />
+
+            <include layout="@layout/fragment_search_torrent_list" />
+
+        </LinearLayout>
+
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filterFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_filter_list_white_24dp"
+        app:layout_anchorGravity="bottom|right|end" />
+
 
 </android.support.design.widget.CoordinatorLayout>

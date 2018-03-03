@@ -42,8 +42,8 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
         super.onViewCreated(view, savedInstanceState)
         activity!!.title = getString(R.string.title_activity_home)
         swiperefresh.setOnRefreshListener {
-            presenter.subscribe(this)
             swiperefresh.isRefreshing = true
+            presenter.subscribe(this)
             presenter.loadData()
         }
         presenter.subscribe(this)
@@ -53,7 +53,11 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
     override fun onItemsLoaded(items: TorrentListResponse<TorrentModel>) {
         recyclerView = torrentlist
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setItemViewCacheSize(20)
+        recyclerView.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
+        recyclerView.isDrawingCacheEnabled = true
         adapter = TorrentListAdapter(context!!, items)
+        adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
 
         swiperefresh.isRefreshing = false

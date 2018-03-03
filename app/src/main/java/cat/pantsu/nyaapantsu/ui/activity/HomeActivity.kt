@@ -11,7 +11,6 @@ import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
 import cat.pantsu.nyaapantsu.ui.fragment.RecentFragment
 import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.startActivity
 
 
@@ -29,6 +28,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+
         supportFragmentManager.beginTransaction().replace(R.id.main_fragment, TorrentListFragment.newInstance()).commit()
 
         drawer_layout.addDrawerListener(toggle)

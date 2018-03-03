@@ -12,16 +12,6 @@
         android:background="@color/colorBluePastel"
         tools:showIn="@layout/fragment_recent">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="224dp"
-            android:layout_height="341dp"
-            android:layout_marginEnd="0dp"
-            android:contentDescription="@string/renchon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/renchon" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/torrentlist"
             android:layout_width="match_parent"

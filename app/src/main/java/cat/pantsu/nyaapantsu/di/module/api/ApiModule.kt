@@ -17,6 +17,7 @@ import javax.inject.Singleton
 class ApiModule {
 
     @Provides
+    @Singleton
     fun provideTorrentApi(retrofit: Retrofit): TorrentApi = TorrentRepository(retrofit)
 
     @Provides

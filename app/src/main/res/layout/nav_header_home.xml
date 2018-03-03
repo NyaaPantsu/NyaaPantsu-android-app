@@ -10,8 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:tileMode="repeat"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:tileMode="repeat">
 
     <ImageView
         android:id="@+id/avatarUser"

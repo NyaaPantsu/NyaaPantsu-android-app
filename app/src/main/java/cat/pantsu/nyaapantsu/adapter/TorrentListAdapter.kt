@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
 import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
@@ -18,7 +19,6 @@ import cat.pantsu.nyaapantsu.ui.activity.TorrentActivity
 import cat.pantsu.nyaapantsu.util.download
 import cat.pantsu.nyaapantsu.util.formatDate
 import kotlinx.android.synthetic.main.torrent_item.view.*
-import org.jetbrains.anko.toast
 
 
 class TorrentListAdapter(var context: Context, private var torrentList: TorrentListResponse<TorrentModel>) : RecyclerView.Adapter<TorrentListAdapter.TorrentListViewHolder>() {
@@ -33,21 +33,21 @@ class TorrentListAdapter(var context: Context, private var torrentList: TorrentL
         holder.itemView.stats.text = "S: " + item.seeders + " L: " + item.leechers
         holder.itemView.date.text = item.date.formatDate()
 
-        holder.itemView.download.setOnClickListener { _ ->
+        holder.itemView.download.setOnClickListener {
             when {
                 !TextUtils.isEmpty(item.torrent) -> download(context as Activity, holder.itemView, item.torrent, item.name)
-                else -> context.toast(context.getString(R.string.torrent_not_available))
+                else -> Toast.makeText(context, R.string.torrent_not_available, Toast.LENGTH_SHORT).show()
             }
         }
 
-        holder.itemView.copy.setOnClickListener { _ ->
+        holder.itemView.copy.setOnClickListener {
             val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(item.name, item.magnet)
             clipboard.primaryClip = clipData
-            context.toast(context.getString(R.string.magnet_copied))
+            Toast.makeText(context, R.string.magnet_copied, Toast.LENGTH_SHORT).show()
         }
 
-        holder.itemView.cardview.setOnClickListener { _ ->
+        holder.itemView.cardview.setOnClickListener {
             context.startActivity(TorrentActivity.createIntent(context, item.id, item.name))
         }
 

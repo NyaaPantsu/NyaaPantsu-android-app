@@ -19,7 +19,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -28,6 +28,6 @@
 
         <include layout="@layout/content_torrent_view" />
 
-    </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

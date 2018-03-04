@@ -8,7 +8,7 @@ import android.view.MenuItem
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.base.BaseActivity
 import cat.pantsu.nyaapantsu.ui.fragment.AboutFragment
-import cat.pantsu.nyaapantsu.ui.fragment.RecentFragment
+import cat.pantsu.nyaapantsu.ui.fragment.FavoritesFragment
 import cat.pantsu.nyaapantsu.ui.fragment.TorrentListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.startActivity
@@ -58,8 +58,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_search -> {
                 startActivity<SearchActivity>()
             }
-            R.id.nav_recent -> {
-                val fragment = RecentFragment.newInstance()
+            R.id.nav_favorites -> {
+                val fragment = FavoritesFragment.newInstance()
                 supportFragmentManager.beginTransaction().replace(R.id.main_fragment, fragment).commit()
             }
             R.id.nav_about -> {

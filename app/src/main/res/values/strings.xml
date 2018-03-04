@@ -202,4 +202,8 @@
     <string name="done">Done</string>
     <string name="magnet">Magnet</string>
     <string name="play">Play</string>
+    <string name="dateFormat">yyyy/mm/dd</string>
+    <string name="favorites">Favorites</string>
+    <string name="seeders">Seeders</string>
+    <string name="leechers">Leechers</string>
 </resources>

@@ -1,7 +1,7 @@
 package cat.pantsu.nyaapantsu.di.module
 
 import cat.pantsu.nyaapantsu.di.module.about.AboutFragmentProvider
-import cat.pantsu.nyaapantsu.di.module.recent.RecentFragmentProvider
+import cat.pantsu.nyaapantsu.di.module.favorite.FavoritesFragmentProvider
 import cat.pantsu.nyaapantsu.di.module.search.SearchTorrentListModule
 import cat.pantsu.nyaapantsu.di.module.torrent.TorrentListFragmentProvider
 import cat.pantsu.nyaapantsu.di.module.torrent.TorrentListModule
@@ -19,7 +19,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [
         TorrentListModule::class, TorrentListFragmentProvider::class,
-        AboutFragmentProvider::class, RecentFragmentProvider::class
+        AboutFragmentProvider::class, FavoritesFragmentProvider::class
     ])
 
     abstract fun bindHomeActivity(): HomeActivity

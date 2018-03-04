@@ -8,18 +8,18 @@ import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.base.BaseFragment
 
 
-class RecentFragment : BaseFragment() {
+class FavoritesFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(): RecentFragment {
-            return RecentFragment()
+        fun newInstance(): FavoritesFragment {
+            return FavoritesFragment()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity!!.title = getString(R.string.recent)
+        activity!!.title = getString(R.string.favorites)
 
-        return inflater.inflate(R.layout.fragment_recent, container, false)
+        return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
 
 

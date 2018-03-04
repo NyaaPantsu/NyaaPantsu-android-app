@@ -12,9 +12,9 @@
             android:icon="@drawable/ic_action_upload"
             android:title="@string/upload" />
         <item
-            android:id="@+id/nav_recent"
+            android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_replay_black"
-            android:title="@string/recent" />
+            android:title="@string/favorites" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_action_search"

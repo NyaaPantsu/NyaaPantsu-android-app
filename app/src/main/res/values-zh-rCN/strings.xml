@@ -194,4 +194,7 @@
     <string name="done">完成</string>
     <string name="magnet">磁链</string>
     <string name="play">来一发</string>
+    <string name="dateFormat">yyyy/mm/dd</string>
+    <string name="seeders">Seeders</string>
+    <string name="leechers">Leechers</string>
 </resources>

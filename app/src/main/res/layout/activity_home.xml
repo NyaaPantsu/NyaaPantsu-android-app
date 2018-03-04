@@ -61,6 +61,6 @@
         app:headerLayout="@layout/nav_header_home"
         app:itemBackground="@color/colorPrimary"
         app:itemTextColor="@color/colorAccent"
-        app:menu="@menu/activity_home_drawer" />
+        app:menu="@menu/home_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -193,4 +193,7 @@
     <string name="play">Odtwarzaj</string>
     <string name="downloading">Pobieranie</string>
     <string name="preparing">Przygotowywnie strumienia...</string>
+    <string name="dateFormat">yyyy/mm/dd</string>
+    <string name="seeders">Seeders</string>
+    <string name="leechers">Leechers</string>
 </resources>

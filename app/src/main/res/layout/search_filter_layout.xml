@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp">
+
+        <EditText
+            android:id="@+id/filterQuery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:textSize="14sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,7 +28,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/category" />
+                android:text="@string/category"
+                android:textSize="14sp" />
 
             <Spinner
                 android:id="@+id/catSpinner"
@@ -35,7 +46,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/status" />
+                android:text="@string/status"
+                android:textSize="14sp" />
 
             <Spinner
                 android:id="@+id/statusSpinner"
@@ -54,14 +66,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:labelFor="@+id/maxNumber"
-                android:text="@string/max" />
+                android:text="@string/max"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/maxNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="numberSigned" />
+                android:inputType="numberSigned"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
@@ -69,7 +83,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/size"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp" />
 
         <Spinner
             android:id="@+id/sizeFormat"
@@ -87,14 +102,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:labelFor="@+id/fromSize"
-                android:text="@string/from" />
+                android:text="@string/from"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/fromSize"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="numberSigned" />
+                android:inputType="numberSigned"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -107,21 +124,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:labelFor="@+id/toSize"
-                android:text="@string/to" />
+                android:text="@string/to"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/toSize"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="numberSigned" />
+                android:inputType="numberSigned"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/date"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,16 +153,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:labelFor="@+id/fromDate"
-                android:text="@string/from" />
+                android:text="@string/from"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/fromDate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:focusable="false"
-                android:longClickable="false"
-                android:inputType="date" />
+                android:hint="@string/dateFormat"
+                android:inputType="date"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -156,16 +177,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:labelFor="@+id/toDate"
-                android:text="@string/to" />
+                android:text="@string/to"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/toDate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:focusable="false"
-                android:longClickable="false"
-                android:inputType="date" />
+                android:hint="@string/dateFormat"
+                android:inputType="date"
+                android:textSize="14sp" />
 
         </LinearLayout>
 

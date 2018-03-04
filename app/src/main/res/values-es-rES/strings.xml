@@ -196,4 +196,7 @@
     <string name="magnet">Magnet</string>
     <string name="play">Reproducir</string>
     <string name="megumin">Megumin</string>
+    <string name="dateFormat">yyyy/mm/dd</string>
+    <string name="seeders">Seeders</string>
+    <string name="leechers">Leechers</string>
 </resources>

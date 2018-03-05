@@ -21,10 +21,10 @@ import javax.inject.Inject
 
 class TorrentListFragment : BaseFragment(), TorrentListView {
 
-    lateinit var adapter: TorrentListAdapter
-
     @Inject
     lateinit var presenter: TorrentListPresenter
+
+    lateinit var adapter: TorrentListAdapter
 
     lateinit var recyclerView: RecyclerView
 

@@ -6,9 +6,9 @@ import com.github.se_bastiaan.torrentstream.TorrentStream
 import com.github.se_bastiaan.torrentstream.listeners.TorrentListener
 
 
-class TorrentStreamHelper private constructor() {
+class TorrentStreamHelper private constructor() : ITorrentStreamHelper {
     private val stream: TorrentStream = newInstance()
-    private var listener: TorrentListener ?= null
+    private var listener: TorrentListener? = null
 
     private object Holder {
         val INSTANCE = TorrentStreamHelper()
@@ -27,19 +27,19 @@ class TorrentStreamHelper private constructor() {
         return TorrentStream.init(options)
     }
 
-    fun isStreaming(): Boolean {
+    override fun isStreaming(): Boolean {
         return stream.isStreaming
     }
 
-    fun start(torrentUrl: String) {
+    override fun start(torrentUrl: String) {
         stream.startStream(torrentUrl)
     }
 
-    fun stop() {
+    override fun stop() {
         stream.stopStream()
     }
 
-    fun setListener(l: TorrentListener?) {
+    override fun setListener(l: TorrentListener?) {
         stream.removeListener(listener)
         stream.addListener(l)
         listener = l

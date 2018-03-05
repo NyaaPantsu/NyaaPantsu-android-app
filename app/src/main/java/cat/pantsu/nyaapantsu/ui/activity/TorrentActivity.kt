@@ -13,6 +13,7 @@ import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import cat.pantsu.nyaapantsu.R
 import cat.pantsu.nyaapantsu.base.BaseActivity
@@ -57,13 +58,18 @@ class TorrentActivity : BaseActivity(), TorrentView {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = torrentTitle
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
         presenter.subscribe(this)
         presenter.loadData(torrentId)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         super.onBackPressed()
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_torrent, menu)
         return true
     }
 

@@ -98,6 +98,7 @@ class SearchActivity : BaseActivity(), SearchTorrentListView {
                     toSize.text.toString(),
                     selectedSize
             )
+            filterLayout.visibility = View.GONE
         }
 
         filterFab.setOnClickListener {

@@ -14,19 +14,38 @@ cache:
 
 env:
   global:
+  - ANDROID_API=27
+  - EMULATOR_API=21
+  - ANDROID_BUILD_TOOLS=27.0.2
+  - ADB_INSTALL_TIMEOUT=5 # minutes
   - secure: "Q69n6Io0RWFsXJvWjPPwkjXYftSKFSDSPVRwC/6nJuB4PquQ3MV2A5PuyAzWIgNXYMbOcNC/N5MNyPbm6MURot2U0yCYPg1L82ShVeEqSBpqTia+AZgzDh1ePeJY7BXtesnJ1c1XkumyhyLAf11m0YEyeP1/Lg26cdOhOavtK8nriis0a0Hycar7V1S/oG0s/7HKzFWv9eoNyD3dPm8WfJNoz2nYzykz+3sS8dec9nXJVj6eUu25rRKpePZ7J/jZqhsKSF8j4cecDe4ZHKKh3QjyNWy/TbtNyT4FnkJjTJky11mlq0//wt1JMU3kBjUjnrgs/iGMW3N1ANo36XhkuwMrECC9YvP0p+MmhHL8ApMzPOh091sEPzQLZgxo4Y5EI5flG8mPRNmmRK/3FfmYtyvOdbFT7d7JgPJksVgPggZ+5+iSfaTzRmxKPZLmnpamFe9HbbFPmaW6Q1ag72caX/IC2BmxwEjoHP261e3ruDVP2uTXWTKQAiI3FyVAhtaB3LiXUxF/pQGJ4Kq1ZjmvF28O5VZXIQMdIfg3Lj4zxEMCBuZpRfKebuhZe9lVj/lLIRMr0ahTLBA4r6ub3tPlfTfjrsxbIfTn8EqhLzDX7n0V2AC4vVj7iyUG5q8ma9tkZGgJcZGuZiG2jtGDkwmYQ37c4p5VJP7Ozy1yTtneCTQ="
   - secure: "NwZUziNYooHs0wO9z+Nqw1UgF4XARVWZOV+PGxPp2LjqCkONFI38GWGS/JaeX/Rvf0p/TWBlyphaMBH5iTUem8EWR/AqvAtgNYy2H3BQJxhwgldTpDoQvBnv7j1B1jwd81Mif4s8SRBrfHm1nPKWidZQCJ/ASQVyaauiQonPRiYfc8qG3NeX6mKNke8mAwf84oF2Fv2WQD3asIqxH4b0L3icGSWwr5Gh7mRTjvyM78CdKDBggUNNKowP+9CXV/JAyKH+EHlKy5vsr+VWlFy1K4RX7RW7UqlHF69JM39lc+hNzua5j+OtwSYlEwBLc6xSBgu8Gnj2iHWg8rlZ5u4HdAPG2WnKlu39yU2t+xYXkAzgmI+pRgidNZi+D4TMdpSyKCsz7r0WjmwKRlzMzW+Gm+WA8Op2WJiOWW5aBYINPA157yLyTmkQgSkYh3UtonjMgsXavUC/ffCdaEEReypEccQaqjQORk7ol292KyYcQnTG0UaLK6m4jjcUFOrhcS/mW5TptnqEFDTl/hY3NBdgWyjrmj/gxK+CwXc/lwwn7zBv530KuXHgI8sAA6a7zJIIhidwT+PzvLkMKV5GQVhpsIArMdMawiZG6BU/SrEqn87Kb572+EIoIticV17dg/8Pv37j8gxkFKhUEK2UtQnKqbWHAI6vysEGjy8O1VZ7tfk="
 
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-$ANDROID_BUILD_TOOLS
+  - android-$ANDROID_API
+  - extra-android-m2repository
+licenses:
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
 
 before_install:
 - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then openssl aes-256-cbc -K $encrypted_7045a360e0b4_key -iv $encrypted_7045a360e0b4_iv -in keystore.jks.enc -out keystore.jks -d; fi'
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 - chmod +x gradlew
+- ./gradlew dependencies || true
 
 before_script:
-- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-- emulator -avd test -no-skin -no-audio -no-window
+- echo no | android create avd --force -n test -t android-21 --abi google_apis/armeabi-v7a
+- emulator -avd test -no-skin -no-audio -no-window &
 - android-wait-for-emulator
-- (while sleep 3; do echo "y"; done) | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" "extras;android;m2repository" "extras;google;m2repository" "build-tools;27.0.2" "platforms;android-27"
+- adb shell input keyevent 82 &
 
 script:
 - "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"

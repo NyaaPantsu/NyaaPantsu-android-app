@@ -2,6 +2,9 @@
 
 Android app built for NyaaPantsu
 
+<a href="https://www.f-droid.org/packages/cat.pantsu.nyaapantsu/" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a>
+
 ## Build
 Clone the git repo
 `git clone https://github.com/NyaaPantsu/NyaaPantsu-android-app.git`

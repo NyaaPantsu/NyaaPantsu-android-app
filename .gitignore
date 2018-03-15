@@ -7,7 +7,7 @@
 
 # Java class files
 *.class
-
+Thumbs.db
 # Generated files
 bin/
 gen/

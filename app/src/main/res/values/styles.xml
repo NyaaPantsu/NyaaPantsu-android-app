@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerIconStyle</item>
+        <item name="popupTheme">@style/AppTheme.PopupOverlay</item>
     </style>
 
     <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.NoActionBar">
@@ -30,7 +31,7 @@
         <item name="android:actionMenuTextColor">@color/black</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"></style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <!-- You can also inherit from NNF_BaseTheme.Light -->
     <style name="FilePickerTheme" parent="NNF_BaseTheme">
         <!-- Set these to match your theme -->

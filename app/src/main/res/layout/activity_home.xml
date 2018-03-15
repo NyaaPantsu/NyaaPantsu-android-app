@@ -15,7 +15,8 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -60,7 +61,8 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_home"
         app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@color/colorAccent"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/colorAccent"
         app:menu="@menu/home_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

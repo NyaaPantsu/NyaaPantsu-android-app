@@ -14,8 +14,8 @@ import android.os.Environment
 import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import cat.pantsu.nyaapantsu.R
-import org.jetbrains.anko.toast
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,22 +24,21 @@ import java.util.*
 fun download(context: Activity, parent: View, url: String, name: String) {
     if (!mayRequestPermission(context, parent, Manifest.permission.WRITE_EXTERNAL_STORAGE, 10)) {
         if (isExternalStorageWritable()) {
-            Log.d("download", "URL: " + url)
+            Log.d("download", "URL: $url")
             val request = DownloadManager.Request(Uri.parse(url))
             request.setDescription("Download a torrent file")
-            request.setTitle(name + " - NyaaPantsu")
+            request.setTitle("$name - NyaaPantsu")
             // in order for this if to run, you must use the android 3.2 to compile your app
             request.allowScanningByMediaScanner()
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name + ".torrent")
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "$name.torrent")
             Log.d("download", "request")
             // get download service and enqueue file
 
             val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             manager.enqueue(request)
         } else {
-            context.toast(context.getString(R.string.external_storage_not_available))
-
+            Toast.makeText(context, R.string.external_storage_not_available, Toast.LENGTH_SHORT).show()
         }
     }
 }

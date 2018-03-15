@@ -6,18 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_torrents"
+            android:icon="@drawable/ic_list_black_24px"
             android:title="@string/torrents" />
         <item
             android:id="@+id/nav_upload"
-            android:icon="@drawable/ic_action_upload"
+            android:icon="@drawable/ic_file_upload_black_24px"
             android:title="@string/upload" />
         <item
             android:id="@+id/nav_favorites"
-            android:icon="@drawable/ic_replay_black"
+            android:icon="@drawable/ic_favorite_black_24px"
             android:title="@string/favorites" />
         <item
             android:id="@+id/nav_search"
-            android:icon="@drawable/ic_action_search"
+            android:icon="@drawable/ic_search_black_24px"
             android:title="@string/search" />
     </group>
 
@@ -30,11 +31,11 @@
                 android:visible="false" />
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_action_name"
+                android:icon="@drawable/ic_settings_black_24px"
                 android:title="@string/settings" />
             <item
                 android:id="@+id/nav_about"
-                android:icon="@drawable/ic_action_about"
+                android:icon="@drawable/ic_help_outline_black_24px"
                 android:title="@string/about" />
         </menu>
     </item>

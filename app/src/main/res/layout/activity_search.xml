@@ -7,7 +7,8 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <include
             layout="@layout/toolbar"
@@ -47,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_filter_list_white_24dp"
+        android:src="@drawable/ic_filter_list_white_24px"
         app:layout_anchorGravity="bottom|right|end" />
 
 

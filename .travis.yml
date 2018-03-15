@@ -45,7 +45,7 @@ before_script:
   - yes | sdkmanager "platforms;android-$ANDROID_API"
 
 script:
-- "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
+  - './gradlew assembleRelease'
 
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/keystore.jks $HOME

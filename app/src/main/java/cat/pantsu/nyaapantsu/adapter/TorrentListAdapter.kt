@@ -12,14 +12,13 @@ import javax.inject.Inject
 
 
 class TorrentListAdapter @Inject constructor(var context: Context, private var torrentList: TorrentListResponse<TorrentModel>) : RecyclerView.Adapter<TorrentListViewHolder>() {
-    override fun onBindViewHolder(holder: TorrentListViewHolder?, position: Int) {
-        if (holder == null) return
+    override fun onBindViewHolder(holder: TorrentListViewHolder, position: Int) {
         holder.bindView(torrentList.torrents[position])
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TorrentListViewHolder {
-        val layoutInflater = LayoutInflater.from(parent?.context)
-        return TorrentListViewHolder(layoutInflater.inflate(R.layout.torrent_item, parent, false), parent!!.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TorrentListViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return TorrentListViewHolder(layoutInflater.inflate(R.layout.torrent_item, parent, false), parent.context)
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -42,7 +42,7 @@ before_install:
 - ./gradlew dependencies || true
 
 before_script:
-  - yes | sdkmanager "platforms;android-$ANDROID_API"
+  - yes | sdkmanager --licenses "platforms;android-$ANDROID_API"
 
 script:
   - './gradlew assembleRelease'

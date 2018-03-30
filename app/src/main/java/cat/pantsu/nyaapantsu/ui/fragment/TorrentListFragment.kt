@@ -9,12 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.base.BaseFragment
-import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
-import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
+import cat.pantsu.nyaapantsu.mvp.model.response.TorrentListResponse
 import cat.pantsu.nyaapantsu.mvp.presenter.TorrentListPresenter
 import cat.pantsu.nyaapantsu.mvp.view.TorrentListView
+import cat.pantsu.nyaapantsu.ui.adapter.TorrentListAdapter
 import kotlinx.android.synthetic.main.fragment_torrent_list.*
 import javax.inject.Inject
 
@@ -50,7 +49,7 @@ class TorrentListFragment : BaseFragment(), TorrentListView {
         presenter.loadData()
     }
 
-    override fun onItemsLoaded(items: TorrentListResponse<TorrentModel>) {
+    override fun onItemsLoaded(items: TorrentListResponse) {
         recyclerView = torrentlist
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setItemViewCacheSize(20)

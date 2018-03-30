@@ -53,10 +53,10 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <!--<activity-->
-        <!--android:name=".ui.activity.LoginActivity"-->
-        <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-        <!--android:label="@string/title_activity_login" />-->
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_login" />
         <!--<activity-->
         <!--android:name="com.nononsenseapps.filepicker.FilePickerActivity"-->
         <!--android:configChanges="keyboardHidden|orientation|screenSize"-->

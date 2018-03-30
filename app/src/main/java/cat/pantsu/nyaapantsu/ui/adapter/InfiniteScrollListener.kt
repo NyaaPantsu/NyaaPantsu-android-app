@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.adapter
+package cat.pantsu.nyaapantsu.ui.adapter
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

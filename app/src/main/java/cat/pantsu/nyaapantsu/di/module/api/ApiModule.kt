@@ -3,6 +3,8 @@ package cat.pantsu.nyaapantsu.di.module.api
 import cat.pantsu.nyaapantsu.api.ApiConstants
 import cat.pantsu.nyaapantsu.api.torrent.TorrentApi
 import cat.pantsu.nyaapantsu.api.torrent.TorrentRepository
+import cat.pantsu.nyaapantsu.api.user.UserApi
+import cat.pantsu.nyaapantsu.api.user.UserRepository
 import cat.pantsu.nyaapantsu.base.MainAppSchedulers
 import cat.pantsu.nyaapantsu.base.Schedulers
 import dagger.Module
@@ -19,6 +21,10 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideTorrentApi(retrofit: Retrofit): TorrentApi = TorrentRepository(retrofit)
+
+    @Provides
+    @Singleton
+    fun provideUserApi(retrofit: Retrofit): UserApi = UserRepository(retrofit)
 
     @Provides
     @Singleton

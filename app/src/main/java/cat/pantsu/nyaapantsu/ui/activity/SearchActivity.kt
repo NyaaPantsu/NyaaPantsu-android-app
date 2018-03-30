@@ -11,12 +11,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import cat.pantsu.nyaapantsu.R
-import cat.pantsu.nyaapantsu.adapter.TorrentListAdapter
 import cat.pantsu.nyaapantsu.base.BaseActivity
-import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
-import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
+import cat.pantsu.nyaapantsu.mvp.model.response.TorrentListResponse
 import cat.pantsu.nyaapantsu.mvp.presenter.SearchTorrentListPresenter
 import cat.pantsu.nyaapantsu.mvp.view.SearchTorrentListView
+import cat.pantsu.nyaapantsu.ui.adapter.TorrentListAdapter
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_search_torrent_list.*
 import kotlinx.android.synthetic.main.search_filter_layout.*
@@ -148,7 +147,7 @@ class SearchActivity : BaseActivity(), SearchTorrentListView {
         return true
     }
 
-    override fun onItemsLoaded(items: TorrentListResponse<TorrentModel>) {
+    override fun onItemsLoaded(items: TorrentListResponse) {
         recyclerView = storrentlist
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setItemViewCacheSize(20)

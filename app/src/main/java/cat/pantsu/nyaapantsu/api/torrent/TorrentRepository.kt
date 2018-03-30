@@ -1,7 +1,7 @@
 package cat.pantsu.nyaapantsu.api.torrent
 
-import cat.pantsu.nyaapantsu.mvp.model.TorrentListResponse
 import cat.pantsu.nyaapantsu.mvp.model.TorrentModel
+import cat.pantsu.nyaapantsu.mvp.model.response.TorrentListResponse
 import io.reactivex.Single
 import retrofit2.Retrofit
 
@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 class TorrentRepository(val retrofit: Retrofit) : TorrentApi {
     private val torrentApi by lazy { retrofit.create(TorrentRetrofitApi::class.java) }
 
-    override fun getTorrentList(): Single<TorrentListResponse<TorrentModel>> = torrentApi.getTorrentList(
+    override fun getTorrentList(): Single<TorrentListResponse> = torrentApi.getTorrentList(
             null, null, 1, null,
             null, null, null,
             null, null, null,
@@ -25,7 +25,7 @@ class TorrentRepository(val retrofit: Retrofit) : TorrentApi {
                                    minSize: String?,
                                    maxSize: String?,
                                    sizeType: String?
-    ): Single<TorrentListResponse<TorrentModel>> = torrentApi.getTorrentList(
+    ): Single<TorrentListResponse> = torrentApi.getTorrentList(
             c, q, 1, limit,
             null, null, s,
             null, toDate, fromDate,

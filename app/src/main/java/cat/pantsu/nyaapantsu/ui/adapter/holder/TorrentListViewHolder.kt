@@ -1,4 +1,4 @@
-package cat.pantsu.nyaapantsu.adapter.holder
+package cat.pantsu.nyaapantsu.ui.adapter.holder
 
 import android.annotation.SuppressLint
 import android.app.Activity
